@@ -1,5 +1,5 @@
-import { defineComponent as D, useAttrs as R, inject as O, computed as p, openBlock as l, createBlock as u, unref as r, normalizeProps as I, mergeProps as C, resolveDynamicComponent as $, normalizeClass as h, normalizeStyle as J, withCtx as M, createCommentVNode as q, ref as g, watch as S, onMounted as Q, onUnmounted as X, createElementBlock as _, Fragment as Y, renderList as Z, createElementVNode as x, toDisplayString as K, h as ee } from "vue";
-import { componentProperties as G, componentClassNames as L, AllowedComponentsContainer as te, ResponsiveGrid as ne, Container as ae, ContainerPlaceholder as B, ComponentMapping as se, Utils as oe } from "aem-vue-3-editable-components";
+import { defineComponent as D, useAttrs as R, inject as O, computed as p, openBlock as l, createBlock as u, unref as r, normalizeProps as I, mergeProps as C, resolveDynamicComponent as $, normalizeClass as h, normalizeStyle as J, withCtx as M, createCommentVNode as _, ref as q, watch as S, onMounted as Q, onUnmounted as X, createElementBlock as g, Fragment as Y, renderList as Z, createElementVNode as x, toDisplayString as K, h as ee } from "vue";
+import { componentProperties as G, componentClassNames as L, AllowedComponentsContainer as te, ResponsiveGrid as ne, Container as ae, ContainerPlaceholder as B, ComponentMapping as oe, Utils as se } from "aem-vue-3-editable-components";
 import { AuthoringUtils as j } from "@adobe/aem-spa-page-model-manager";
 const me = {
   emptyLabel: "Accordion",
@@ -43,7 +43,7 @@ const me = {
     ...G("cmp-container")
   },
   setup(c) {
-    const e = c, s = R(), d = O("isInEditor", j.isInEditor()), v = p(
+    const e = c, o = R(), d = O("isInEditor", j.isInEditor()), v = p(
       () => L(
         e.baseCssClass,
         e.appliedCssClassNames,
@@ -56,10 +56,10 @@ const me = {
     })), m = p(
       () => {
         var f;
-        return d && (s == null ? void 0 : s.allowedComponents) && ((f = s == null ? void 0 : s.allowedComponents) == null ? void 0 : f.applicable);
+        return d && (o == null ? void 0 : o.allowedComponents) && ((f = o == null ? void 0 : o.allowedComponents) == null ? void 0 : f.applicable);
       }
     );
-    return (f, i) => m.value ? (l(), u(r(te), I(C({ key: 0 }, { ...e, ...r(s) })), null, 16)) : (l(), u($(e.styleSystemElement || "div"), {
+    return (f, i) => m.value ? (l(), u(r(te), I(C({ key: 0 }, { ...e, ...r(o) })), null, 16)) : (l(), u($(e.styleSystemElement || "div"), {
       key: 1,
       id: e.id,
       "aria-label": e.accessibilityLabel,
@@ -70,12 +70,12 @@ const me = {
       default: M(() => [
         c.layout === "RESPONSIVE_GRID" ? (l(), u(r(ne), I(C({ key: 0 }, {
           ...e,
-          ...r(s),
+          ...r(o),
           allowedComponents: { applicable: !1, components: [] },
           isInEditor: !1,
           title: ""
-        })), null, 16)) : (l(), u(r(ae), I(C({ key: 1 }, { ...e, ...r(s), isInEditor: !1 })), null, 16)),
-        r(d) ? (l(), u(r(B), I(C({ key: 2 }, w.value)), null, 16)) : q("", !0)
+        })), null, 16)) : (l(), u(r(ae), I(C({ key: 1 }, { ...e, ...r(o), isInEditor: !1 })), null, 16)),
+        r(d) ? (l(), u(r(B), I(C({ key: 2 }, w.value)), null, 16)) : _("", !0)
       ]),
       _: 1
     }, 8, ["id", "aria-label", "class", "role", "style"]));
@@ -107,13 +107,13 @@ const me = {
     ...G("cmp-accordion")
   },
   setup(c) {
-    const e = c, s = R(), d = O("isInEditor", j.isInEditor()), v = O("componentMapping", new se()), w = (() => {
+    const e = c, o = R(), d = O("isInEditor", j.isInEditor()), v = O("componentMapping", new oe()), w = (() => {
       try {
         return typeof window < "u";
       } catch {
         return !1;
       }
-    })(), m = g(null), f = g(-1), i = g(e.expandedItems), P = g(null), E = p(() => (s == null ? void 0 : s.singleExpansion) === !0);
+    })(), m = q(null), f = q(-1), i = q(e.expandedItems), P = q(null), E = p(() => (o == null ? void 0 : o.singleExpansion) === !0);
     w && window.Granite && // @ts-ignore
     window.Granite.author && // @ts-ignore
     window.Granite.author.MessageChannel && (m.value = new window.Granite.author.MessageChannel(
@@ -129,22 +129,22 @@ const me = {
       var n;
       return ((n = e.cqPath) == null ? void 0 : n.length) > 0 ? `${e.cqPath}/${t}` : t;
     }, U = (t, n, a) => {
-      const o = T(a);
+      const s = T(a);
       return ee(t, {
         ...n,
-        cqPath: o,
+        cqPath: s,
         containerProps: {}
       });
     }, z = p(() => {
       const t = [];
       return Object.keys(e.cqItems).length > 0 && e.cqItemsOrder.length > 0 && e.cqItemsOrder.forEach((n) => {
-        const a = oe.modelToProps(
+        const a = se.modelToProps(
           e.cqItems[n]
         );
         if (a && typeof a.cqType < "u") {
-          const o = v.get(a.cqType);
-          o && t.push(
-            U(o, a, n)
+          const s = v.get(a.cqType);
+          s && t.push(
+            U(s, a, n)
           );
         }
       }), t;
@@ -165,13 +165,13 @@ const me = {
       if (E.value)
         i.value = a ? [] : [t];
       else if (a) {
-        const o = i.value.indexOf(t);
-        i.value.splice(o, 1);
+        const s = i.value.indexOf(t);
+        i.value.splice(s, 1);
       } else
         i.value.push(t);
       n.target.focus();
     }, H = (t, n, a) => {
-      const o = P.value.querySelectorAll("button").length - 1;
+      const s = P.value.querySelectorAll("button").length - 1;
       switch (n.code) {
         case "ArrowLeft":
         case "ArrowUp":
@@ -179,13 +179,13 @@ const me = {
           break;
         case "ArrowRight":
         case "ArrowDown":
-          n.preventDefault(), a < o && b(a + 1);
+          n.preventDefault(), a < s && b(a + 1);
           break;
         case "Home":
           n.preventDefault(), b(0);
           break;
         case "End":
-          n.preventDefault(), b(o);
+          n.preventDefault(), b(s);
           break;
         case "Enter":
         case "Space":
@@ -212,16 +212,16 @@ const me = {
         "cmp.panelcontainer",
         N
       );
-    }), (t, n) => (l(), _("div", C({
+    }), (t, n) => (l(), g("div", C({
       id: e.id,
       ref_key: "accordion",
       ref: P,
       class: F.value,
       "data-cmp-single-expansion": E.value === !0 ? !0 : void 0
     }, V.value), [
-      e.cqItemsOrder && (e == null ? void 0 : e.cqItemsOrder.length) > 0 && e.cqItems ? (l(!0), _(Y, { key: 0 }, Z(e.cqItemsOrder, (a, o) => (l(), _("div", {
+      e.cqItemsOrder && (e == null ? void 0 : e.cqItemsOrder.length) > 0 && e.cqItems ? (l(!0), g(Y, { key: 0 }, Z(e.cqItemsOrder, (a, s) => (l(), g("div", {
         id: `accordion-${e.cqItems[a].id}`,
-        key: `accordion-index-${o}`,
+        key: `accordion-index-${s}`,
         class: h(`${e.baseCssClass}__item`),
         "data-cmp-expanded": y(a) ? !0 : void 0
       }, [
@@ -238,9 +238,9 @@ const me = {
                   [`${e.baseCssClass}__button--expanded`]: y(a)
                 }
               ]),
-              "data-cmp-button-id": o,
+              "data-cmp-button-id": s,
               onClick: (A) => k(a, A),
-              onKeydown: (A) => H(a, A, o)
+              onKeydown: (A) => H(a, A, s)
             }, [
               x("span", {
                 class: h(`${e.baseCssClass}__title`)
@@ -252,17 +252,17 @@ const me = {
           ]),
           _: 2
         }, 1032, ["class"])),
-        r(d) || y(a) ? (l(), _("div", {
+        r(d) || y(a) ? (l(), g("div", {
           key: 0,
           id: `accordion-${e.cqItems[a].id}-panel`,
           "aria-labelledby": `accordion-${e.cqItems[a].id}-button`,
           class: h(`${e.baseCssClass}__panel ${y(a) ? " " + e.baseCssClass + "__panel--expanded" : " " + e.baseCssClass + "__panel--hidden"}`),
           role: "region"
         }, [
-          e.cqItemsOrder ? (l(), u($(z.value[c.cqItemsOrder.indexOf(a)]), { key: 0 })) : q("", !0)
-        ], 10, ie)) : q("", !0)
-      ], 10, le))), 128)) : q("", !0),
-      r(d) ? (l(), u(r(B), I(C({ key: 1 }, W.value)), null, 16)) : q("", !0)
+          e.cqItemsOrder ? (l(), u($(z.value[c.cqItemsOrder.indexOf(a)]), { key: 0 })) : _("", !0)
+        ], 10, ie)) : _("", !0)
+      ], 10, le))), 128)) : _("", !0),
+      r(d) ? (l(), u(r(B), I(C({ key: 1 }, W.value)), null, 16)) : _("", !0)
     ], 16, ce));
   }
 });

@@ -365,3 +365,57 @@
     <ContainerPlaceholder v-if="isInEditor" v-bind="placeholderProps" />
   </div>
 </template>
+
+<style>
+  :root {
+    --color-dark-grey: #4c4d51;
+    --text-color-base: var(--color-dark-grey);
+  }
+
+  .cmp-accordion {
+    display: block;
+    margin-block: 0;
+    margin-inline: 0;
+    padding-block: 0;
+    padding-inline: 0;
+  }
+
+  .cmp-accordion__title {
+    color: var(--text-color-base);
+    font-size: inherit;
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .cmp-accordion__button {
+    align-items: center;
+    appearance: none;
+    background: none;
+    border: none;
+    border-block-end: 1px solid currentcolor;
+    color: inherit;
+    cursor: pointer;
+    display: flex;
+    flex-flow: row nowrap;
+    font: inherit;
+    justify-content: space-between;
+    padding-block: 0.5rem;
+    padding-inline: 0;
+    position: relative;
+  }
+
+  .cmp-accordion__icon::before {
+    block-size: 18px;
+    content: '\02C7';
+    display: block;
+    font-size: larger;
+    inline-size: 18px;
+    margin-block-start: 5px;
+    text-align: center;
+    transform: rotate(-90deg);
+  }
+
+  .cmp-accordion__button--expanded .cmp-accordion__icon::before {
+    transform: rotate(0deg);
+  }
+</style>
