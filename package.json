@@ -4,6 +4,7 @@
   "license": "MIT",
   "version": "1.0.0",
   "description": "AEM Spa editor - Vue Implementation for the AEM Core Components",
+  "repository": "github:PRFTAdobe/aem-vue-3-core-wcm-components-spa",
   "keywords": [
     "spa",
     "aem",
