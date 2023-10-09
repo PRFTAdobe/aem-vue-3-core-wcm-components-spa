@@ -21,6 +21,10 @@
     ".": {
       "import": "./dist/aem-vue-3-core-wcm-components-spa.es.js",
       "require": "./dist/aem-vue-3-core-wcm-components-spa.umd.js"
+    },
+    "./dist/aem-vue-3-core-wcm-components-spa.css": {
+      "import": "./dist/aem-vue-3-core-wcm-components-spa.css",
+      "require": "./dist/aem-vue-3-core-wcm-components-spa.css"
     }
   },
   "scripts": {
