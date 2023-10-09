@@ -14,9 +14,9 @@
   "files": [
     "dist"
   ],
-  "type": "module",
-  "main": "./dist/aem-vue-3-core-wcm-components-spa.es.js",
+  "main": "./dist/aem-vue-3-core-wcm-components-spa.umd.js",
   "module": "./dist/aem-vue-3-core-wcm-components-spa.es.js",
+  "types": "./dist/aem-vue-3-core-wcm-components-spa.es.d.ts",
   "exports": {
     ".": {
       "import": "./dist/aem-vue-3-core-wcm-components-spa.es.js",
@@ -54,7 +54,7 @@
     "cssnano": "6.0.1",
     "eslint": "8.50.0",
     "eslint-config-airbnb": "19.0.4",
-    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-config-airbnb-spa": "15.0.0",
     "eslint-config-airbnb-typescript": "17.1.0",
     "eslint-config-prettier": "9.0.0",
     "eslint-import-resolver-typescript": "3.6.1",
