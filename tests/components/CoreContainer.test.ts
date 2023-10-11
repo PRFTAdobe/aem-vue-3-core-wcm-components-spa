@@ -69,6 +69,7 @@ const DummyCoreComponent = defineComponent({
           undefined,
           this.containerProps,
           false,
+          true,
         ),
       },
       this.value,
@@ -90,6 +91,7 @@ const defaultProps = {
   },
   gridClassNames: GRID_CLASS_NAMES,
   allowedComponents,
+  aemNoDecoration: true,
 };
 
 let ComponentMappingSpy: jest.SpyInstance;

@@ -1,4 +1,8 @@
 declare const _default: import("vue").DefineComponent<{
+    aemNoDecoration: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
     appliedCssClassNames: {
         type: StringConstructor;
     };
@@ -17,10 +21,6 @@ declare const _default: import("vue").DefineComponent<{
     };
     accessibilityLabel: {
         type: StringConstructor;
-    };
-    aemNoDecoration: {
-        type: BooleanConstructor;
-        default: boolean;
     };
     backgroundStyle: {
         type: StringConstructor;
@@ -46,6 +46,10 @@ declare const _default: import("vue").DefineComponent<{
         default: string;
     };
 }, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+    aemNoDecoration: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
     appliedCssClassNames: {
         type: StringConstructor;
     };
@@ -64,10 +68,6 @@ declare const _default: import("vue").DefineComponent<{
     };
     accessibilityLabel: {
         type: StringConstructor;
-    };
-    aemNoDecoration: {
-        type: BooleanConstructor;
-        default: boolean;
     };
     backgroundStyle: {
         type: StringConstructor;
@@ -94,12 +94,12 @@ declare const _default: import("vue").DefineComponent<{
     };
 }>>, {
     cqPath: string;
+    aemNoDecoration: boolean;
     baseCssClass: string;
     containerProps: {
         [key: string]: string;
     };
     isInEditor: boolean;
-    aemNoDecoration: boolean;
     layout: string;
     styleSystemElement: string;
 }, {}>;

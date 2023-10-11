@@ -28,10 +28,6 @@
     accessibilityLabel: {
       type: String,
     },
-    aemNoDecoration: {
-      type: Boolean,
-      default: false,
-    },
     // eslint-disable-next-line vue/require-default-prop
     backgroundStyle: {
       type: String,
@@ -72,6 +68,7 @@
       props.appliedCssClassNames,
       props.containerProps,
       computedIsInEditor,
+      props.aemNoDecoration,
     ),
   );
 
