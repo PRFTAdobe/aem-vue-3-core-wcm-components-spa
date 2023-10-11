@@ -3,4 +3,8 @@ interface AccordionComponentProperties extends MappedComponentProperties {
     cqItemsOrder: string[] | undefined;
 }
 export declare const AccordionEditConfig: EditConfig<AccordionComponentProperties>;
+interface ContainerComponentProperties extends MappedComponentProperties {
+    cqItemsOrder: string[] | undefined;
+}
+export declare const ContainerEditConfig: EditConfig<ContainerComponentProperties>;
 export {};
