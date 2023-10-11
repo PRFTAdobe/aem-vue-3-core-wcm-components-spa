@@ -30,7 +30,7 @@
     },
     aemNoDecoration: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     // eslint-disable-next-line vue/require-default-prop
     backgroundStyle: {
