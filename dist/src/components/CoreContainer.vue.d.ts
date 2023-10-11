@@ -29,6 +29,10 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
+    isInEditor: {
+        type: BooleanConstructor;
+        default: undefined;
+    };
     layout: {
         type: StringConstructor;
         default: string;
@@ -72,6 +76,10 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
+    isInEditor: {
+        type: BooleanConstructor;
+        default: undefined;
+    };
     layout: {
         type: StringConstructor;
         default: string;
@@ -90,6 +98,7 @@ declare const _default: import("vue").DefineComponent<{
     containerProps: {
         [key: string]: string;
     };
+    isInEditor: boolean;
     aemNoDecoration: boolean;
     layout: string;
     styleSystemElement: string;

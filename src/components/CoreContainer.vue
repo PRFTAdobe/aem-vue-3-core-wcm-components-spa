@@ -40,6 +40,10 @@
       type: String,
       default: '',
     },
+    isInEditor: {
+      type: Boolean,
+      default: undefined,
+    },
     layout: {
       type: String,
       default: 'RESPONSIVE_GRID',
@@ -57,14 +61,17 @@
   });
 
   const attrs = useAttrs();
-  const isInEditor = inject('isInEditor', AuthoringUtils.isInEditor());
+  const computedIsInEditor =
+    typeof props.isInEditor !== 'undefined'
+      ? props.isInEditor
+      : inject('isInEditor', AuthoringUtils.isInEditor());
 
   const className = computed(() =>
     componentClassNames(
       props.baseCssClass,
       props.appliedCssClassNames,
       props.containerProps,
-      isInEditor,
+      computedIsInEditor,
     ),
   );
 
@@ -75,7 +82,7 @@
 
   const showAllowedComponentPlaceholderList = computed(
     () =>
-      isInEditor &&
+      computedIsInEditor &&
       attrs?.allowedComponents &&
       (attrs?.allowedComponents as AllowedComponents)?.applicable,
   );
