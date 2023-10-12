@@ -1,7 +1,6 @@
 <script lang="ts" setup>
   import {
     computed,
-    h,
     inject,
     onMounted,
     onUnmounted,
@@ -29,10 +28,6 @@
   interface AccordionModel extends Model {
     'cq:panelTitle'?: string;
     id?: string;
-  }
-
-  interface ChildProperties {
-    cqType?: string;
   }
 
   const props = defineProps({
@@ -118,7 +113,6 @@
     },
     cqPath = props.cqPath,
   ) => {
-    console.log('CqPath: ', cqPath);
     if (message.data && message.data.id === cqPath) {
       if (message.data.operation === 'navigate') {
         activeIndexFromAuthorPanel.value = message.data.index;
@@ -126,49 +120,19 @@
     }
   };
 
-  const getItemPath = (itemKey: string) =>
-    props.cqPath?.length > 0 ? `${props.cqPath}/${itemKey}` : itemKey;
-
-  const connectComponentWithItem = (
-    itemComponent: VNode,
-    itemProps: ChildProperties,
-    itemKey: string,
-  ) => {
-    const itemPath = getItemPath(itemKey);
-
-    return h(itemComponent, {
-      ...itemProps,
-      cqPath: itemPath,
-      containerProps: {},
-    });
-  };
-
-  const childComponents = computed((): VNode[] => {
-    const childComponentNodes: VNode[] = [];
-
-    if (
-      Object.keys(props.cqItems!).length > 0 &&
-      props.cqItemsOrder!.length > 0
-    ) {
-      props.cqItemsOrder!.forEach((itemKey) => {
-        const itemProps = Utils.modelToProps(
-          props.cqItems![itemKey],
-        ) as ChildProperties;
-
-        if (itemProps && typeof itemProps.cqType !== 'undefined') {
-          const itemComponent = componentMapping.get(itemProps.cqType) as VNode;
-
-          if (itemComponent) {
-            childComponentNodes.push(
-              connectComponentWithItem(itemComponent, itemProps, itemKey),
-            );
-          }
-        }
-      });
-    }
-
-    return childComponentNodes;
-  });
+  const childComponents = computed((): VNode[] =>
+    Utils.getChildComponents(
+      props.cqPath as string,
+      props.cqItems as {
+        [key: string]: Model;
+      },
+      props.cqItemsOrder as string[],
+      true,
+      () => ({}),
+      false,
+      componentMapping,
+    ),
+  );
 
   const className = computed(() =>
     componentClassNames(
