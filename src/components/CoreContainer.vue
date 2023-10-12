@@ -4,7 +4,6 @@
     componentClassNames,
     componentProperties,
     Container,
-    ContainerPlaceholder,
     ResponsiveGrid,
   } from 'aem-vue-3-editable-components';
   import { computed, inject, useAttrs } from 'vue';
@@ -72,11 +71,6 @@
     ),
   );
 
-  const placeholderProps = computed(() => ({
-    cqPath: props.cqPath!,
-    placeholderClassNames: ['new', 'section'].join(' '),
-  }));
-
   const showAllowedComponentPlaceholderList = computed(
     () =>
       computedIsInEditor &&
@@ -112,6 +106,5 @@
       }"
     />
     <Container v-else v-bind="{ ...props, ...attrs }" />
-    <ContainerPlaceholder v-if="isInEditor" v-bind="placeholderProps" />
   </component>
 </template>
