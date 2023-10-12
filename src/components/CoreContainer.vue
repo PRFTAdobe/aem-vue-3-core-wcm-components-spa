@@ -65,6 +65,7 @@
     componentClassNames(
       props.baseCssClass,
       props.appliedCssClassNames,
+      props.cssClassNames,
       props.containerProps,
       computedIsInEditor,
       props.aemNoDecoration,

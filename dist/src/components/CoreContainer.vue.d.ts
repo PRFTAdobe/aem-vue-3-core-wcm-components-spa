@@ -5,7 +5,9 @@ declare const _default: import("vue").DefineComponent<{
     };
     appliedCssClassNames: {
         type: StringConstructor;
-    };
+    }; /**
+     * Should AllowedComponents list be applied.
+     */
     baseCssClass: {
         type: StringConstructor;
         default: string;
@@ -15,6 +17,9 @@ declare const _default: import("vue").DefineComponent<{
             [key: string]: string;
         }>;
         default: () => void;
+    };
+    cssClassNames: {
+        type: StringConstructor;
     };
     id: {
         type: StringConstructor;
@@ -52,7 +57,9 @@ declare const _default: import("vue").DefineComponent<{
     };
     appliedCssClassNames: {
         type: StringConstructor;
-    };
+    }; /**
+     * Should AllowedComponents list be applied.
+     */
     baseCssClass: {
         type: StringConstructor;
         default: string;
@@ -62,6 +69,9 @@ declare const _default: import("vue").DefineComponent<{
             [key: string]: string;
         }>;
         default: () => void;
+    };
+    cssClassNames: {
+        type: StringConstructor;
     };
     id: {
         type: StringConstructor;
