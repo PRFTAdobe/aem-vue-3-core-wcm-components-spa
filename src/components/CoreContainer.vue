@@ -108,11 +108,10 @@
         ...props,
         ...attrs,
         allowedComponents: { applicable: false, components: [] },
-        isInEditor: false,
         title: '',
       }"
     />
-    <Container v-else v-bind="{ ...props, ...attrs, isInEditor: false }" />
+    <Container v-else v-bind="{ ...props, ...attrs }" />
     <ContainerPlaceholder v-if="isInEditor" v-bind="placeholderProps" />
   </component>
 </template>
