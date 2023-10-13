@@ -26,3 +26,17 @@ export const ContainerEditConfig: EditConfig<ContainerComponentProperties> = {
     return !props.cqItemsOrder || props?.cqItemsOrder.length === 0;
   },
 };
+
+interface ExperienceFragmentComponentProperties
+  extends MappedComponentProperties {
+  cqItemsOrder: string[] | undefined;
+}
+
+export const ExperienceFragmentEditConfig: EditConfig<ExperienceFragmentComponentProperties> =
+  {
+    emptyLabel: 'Experience Fragment',
+    // eslint-disable-next-line no-shadow
+    isEmpty(props: { cqItemsOrder: string[] | undefined }) {
+      return !props.cqItemsOrder || props?.cqItemsOrder.length === 0;
+    },
+  };

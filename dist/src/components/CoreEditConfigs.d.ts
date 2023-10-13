@@ -7,4 +7,8 @@ interface ContainerComponentProperties extends MappedComponentProperties {
     cqItemsOrder: string[] | undefined;
 }
 export declare const ContainerEditConfig: EditConfig<ContainerComponentProperties>;
+interface ExperienceFragmentComponentProperties extends MappedComponentProperties {
+    cqItemsOrder: string[] | undefined;
+}
+export declare const ExperienceFragmentEditConfig: EditConfig<ExperienceFragmentComponentProperties>;
 export {};

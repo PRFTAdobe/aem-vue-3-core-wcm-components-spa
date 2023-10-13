@@ -67,6 +67,7 @@ const DummyCoreComponent = defineComponent({
         class: componentClassNames(
           'dummyCmp',
           undefined,
+          undefined,
           this.containerProps,
           false,
           true,
@@ -79,12 +80,10 @@ const DummyCoreComponent = defineComponent({
 
 const defaultProps = {
   id: 'myid',
-  title: 'The Container',
   cqItems: dummyItems,
   cqItemsOrder: ['test', 'test2'],
   layout: 'RESPONSIVE_GRID',
   backgroundStyle: 'background-color:red',
-  cqPath: '/content/accordion-path',
   columnClassNames: {
     test: COLUMN_1_CLASS_NAMES,
     test2: COLUMN_2_CLASS_NAMES,
