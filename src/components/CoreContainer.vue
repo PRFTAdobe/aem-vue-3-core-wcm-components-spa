@@ -6,7 +6,7 @@
     Container,
     ResponsiveGrid,
   } from 'aem-vue-3-editable-components';
-  import { computed, inject, useAttrs } from 'vue';
+  import { computed, inject, onMounted, useAttrs } from "vue";
   import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 
   interface AllowedComponent {
@@ -78,6 +78,10 @@
       attrs?.allowedComponents &&
       (attrs?.allowedComponents as AllowedComponents)?.applicable,
   );
+
+  onMounted(() => {
+    console.log(JSON.stringify(props, null, 2));
+  });
 
   defineOptions({
     inheritAttrs: false,

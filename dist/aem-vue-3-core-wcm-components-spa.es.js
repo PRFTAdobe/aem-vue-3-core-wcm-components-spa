@@ -1,6 +1,6 @@
-import { defineComponent as $, useAttrs as L, inject as P, computed as C, openBlock as c, createBlock as u, unref as l, normalizeProps as g, mergeProps as _, resolveDynamicComponent as N, normalizeClass as p, normalizeStyle as H, withCtx as R, ref as b, watch as S, onMounted as T, onUnmounted as J, createElementBlock as I, Fragment as K, renderList as Q, createElementVNode as O, toDisplayString as W, createCommentVNode as y } from "vue";
-import { componentProperties as M, componentClassNames as G, AllowedComponentsContainer as X, ResponsiveGrid as Y, Container as Z, ComponentMapping as ee, Utils as te, ContainerPlaceholder as ne } from "aem-vue-3-editable-components";
-import { AuthoringUtils as F } from "@adobe/aem-spa-page-model-manager";
+import { defineComponent as $, useAttrs as L, inject as P, computed as C, onMounted as R, openBlock as c, createBlock as u, unref as l, normalizeProps as g, mergeProps as _, resolveDynamicComponent as N, normalizeClass as p, normalizeStyle as J, withCtx as M, ref as b, watch as S, onUnmounted as T, createElementBlock as y, Fragment as K, renderList as Q, createElementVNode as O, toDisplayString as W, createCommentVNode as I } from "vue";
+import { componentProperties as G, componentClassNames as F, AllowedComponentsContainer as X, ResponsiveGrid as Y, Container as Z, ComponentMapping as ee, Utils as te, ContainerPlaceholder as ne } from "aem-vue-3-editable-components";
+import { AuthoringUtils as B } from "@adobe/aem-spa-page-model-manager";
 const ue = {
   emptyLabel: "Accordion",
   // eslint-disable-next-line no-shadow
@@ -52,11 +52,11 @@ const ue = {
       type: String,
       default: "div"
     },
-    ...M("cmp-container")
+    ...G("cmp-container")
   },
   setup(n) {
-    const e = n, o = L(), m = typeof e.isInEditor < "u" ? e.isInEditor : P("isInEditor", F.isInEditor()), v = C(
-      () => G(
+    const e = n, o = L(), m = typeof e.isInEditor < "u" ? e.isInEditor : P("isInEditor", B.isInEditor()), v = C(
+      () => F(
         e.baseCssClass,
         e.appliedCssClassNames,
         e.cssClassNames,
@@ -70,15 +70,17 @@ const ue = {
         return m && (o == null ? void 0 : o.allowedComponents) && ((r = o == null ? void 0 : o.allowedComponents) == null ? void 0 : r.applicable);
       }
     );
-    return (r, q) => E.value ? (c(), u(l(X), g(_({ key: 0 }, { ...e, ...l(o) })), null, 16)) : (c(), u(N(e.styleSystemElement || "div"), {
+    return R(() => {
+      console.log(JSON.stringify(e, null, 2));
+    }), (r, q) => E.value ? (c(), u(l(X), g(_({ key: 0 }, { ...e, ...l(o) })), null, 16)) : (c(), u(N(e.styleSystemElement || "div"), {
       key: 1,
       id: e.id,
       "aria-label": e.accessibilityLabel,
       class: p(v.value),
       role: e.roleAttribute,
-      style: H(e.backgroundStyle)
+      style: J(e.backgroundStyle)
     }, {
-      default: R(() => [
+      default: M(() => [
         n.layout === "RESPONSIVE_GRID" ? (c(), u(l(Y), g(_({ key: 0 }, {
           ...e,
           ...l(o),
@@ -113,10 +115,10 @@ const ue = {
       type: String,
       default: "h3"
     },
-    ...M("cmp-accordion")
+    ...G("cmp-accordion")
   },
   setup(n) {
-    const e = n, o = L(), m = P("isInEditor", F.isInEditor()), v = P("componentMapping", new ee()), E = (() => {
+    const e = n, o = L(), m = P("isInEditor", B.isInEditor()), v = P("componentMapping", new ee()), E = (() => {
       try {
         return typeof window < "u";
       } catch {
@@ -129,12 +131,12 @@ const ue = {
       "cqauthor",
       window
     ));
-    const B = C(() => {
+    const V = C(() => {
       const t = {};
       return m && (t["data-panelcontainer"] = "accordion", t["data-cq-data-path"] = e.cqPath || "", t["data-placeholder-text"] = "Please drag Accordion item components here"), t;
     }), D = (t, a = e.cqPath) => {
       t.data && t.data.id === a && t.data.operation === "navigate" && (q.value = t.data.index);
-    }, V = C(
+    }, U = C(
       () => te.getChildComponents(
         e.cqPath,
         e.cqItems,
@@ -144,8 +146,8 @@ const ue = {
         !1,
         v
       )
-    ), U = C(
-      () => G(
+    ), j = C(
+      () => F(
         e.baseCssClass,
         e.appliedCssClassNames,
         e.cssClassNames,
@@ -168,7 +170,7 @@ const ue = {
       } else
         i.value.push(t);
       a.target.focus();
-    }, j = (t, a, s) => {
+    }, z = (t, a, s) => {
       const d = w.value.querySelectorAll("button").length - 1;
       switch (a.code) {
         case "ArrowLeft":
@@ -190,7 +192,7 @@ const ue = {
           a.preventDefault(), k(t, a), f(s);
           break;
       }
-    }, h = (t) => i.value.indexOf(t) > -1, z = C(() => ({
+    }, h = (t) => i.value.indexOf(t) > -1, H = C(() => ({
       cqPath: e.cqPath,
       placeholderClassNames: ["new", "section"].join(" ")
     }));
@@ -200,24 +202,24 @@ const ue = {
       t !== a && (i.value = t);
     }), S(q, async (t, a) => {
       t !== -1 && typeof t < "u" && a !== t && e.cqItemsOrder && (i.value = [e.cqItemsOrder[a]]);
-    }), T(() => {
+    }), R(() => {
       r.value && r.value.subscribeRequestMessage(
         "cmp.panelcontainer",
         D
       );
-    }), J(() => {
+    }), T(() => {
       r.value && r.value.unsubscribeRequestMessage(
         "cmp.panelcontainer",
         D
       );
-    }), (t, a) => (c(), I("div", _({
+    }), (t, a) => (c(), y("div", _({
       id: e.id,
       ref_key: "accordion",
       ref: w,
-      class: U.value,
+      class: j.value,
       "data-cmp-single-expansion": x.value === !0 ? !0 : void 0
-    }, B.value), [
-      e.cqItemsOrder && (e == null ? void 0 : e.cqItemsOrder.length) > 0 && e.cqItems ? (c(!0), I(K, { key: 0 }, Q(e.cqItemsOrder, (s, d) => (c(), I("div", {
+    }, V.value), [
+      e.cqItemsOrder && (e == null ? void 0 : e.cqItemsOrder.length) > 0 && e.cqItems ? (c(!0), y(K, { key: 0 }, Q(e.cqItemsOrder, (s, d) => (c(), y("div", {
         id: `accordion-${e.cqItems[s].id}`,
         key: `accordion-index-${d}`,
         class: p(`${e.baseCssClass}__item`),
@@ -226,7 +228,7 @@ const ue = {
         (c(), u(N(e.headingElement), {
           class: p(`${e.baseCssClass}__header`)
         }, {
-          default: R(() => [
+          default: M(() => [
             O("button", {
               id: `accordion-${e.cqItems[s].id}-button`,
               "aria-controls": `accordion-${e.cqItems[s].id}-panel`,
@@ -238,7 +240,7 @@ const ue = {
               ]),
               "data-cmp-button-id": d,
               onClick: (A) => k(s, A),
-              onKeydown: (A) => j(s, A, d)
+              onKeydown: (A) => z(s, A, d)
             }, [
               O("span", {
                 class: p(`${e.baseCssClass}__title`)
@@ -250,17 +252,17 @@ const ue = {
           ]),
           _: 2
         }, 1032, ["class"])),
-        l(m) || h(s) ? (c(), I("div", {
+        l(m) || h(s) ? (c(), y("div", {
           key: 0,
           id: `accordion-${e.cqItems[s].id}-panel`,
           "aria-labelledby": `accordion-${e.cqItems[s].id}-button`,
           class: p(`${e.baseCssClass}__panel ${h(s) ? " " + e.baseCssClass + "__panel--expanded" : " " + e.baseCssClass + "__panel--hidden"}`),
           role: "region"
         }, [
-          e.cqItemsOrder ? (c(), u(N(V.value[n.cqItemsOrder.indexOf(s)]), { key: 0 })) : y("", !0)
-        ], 10, re)) : y("", !0)
-      ], 10, oe))), 128)) : y("", !0),
-      l(m) ? (c(), u(l(ne), g(_({ key: 1 }, z.value)), null, 16)) : y("", !0)
+          e.cqItemsOrder ? (c(), u(N(U.value[n.cqItemsOrder.indexOf(s)]), { key: 0 })) : I("", !0)
+        ], 10, re)) : I("", !0)
+      ], 10, oe))), 128)) : I("", !0),
+      l(m) ? (c(), u(l(ne), g(_({ key: 1 }, H.value)), null, 16)) : I("", !0)
     ], 16, se));
   }
 });
