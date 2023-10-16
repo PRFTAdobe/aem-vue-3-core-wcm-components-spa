@@ -6,7 +6,7 @@
     Container,
     ResponsiveGrid,
   } from 'aem-vue-3-editable-components';
-  import { computed, inject, onMounted, useAttrs } from 'vue';
+  import { computed, inject, useAttrs } from 'vue';
   import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 
   interface AllowedComponent {
@@ -79,10 +79,6 @@
       (attrs?.allowedComponents as AllowedComponents)?.applicable,
   );
 
-  onMounted(() => {
-    console.log(JSON.stringify(props, null, 2));
-  });
-
   defineOptions({
     inheritAttrs: false,
   });
@@ -99,7 +95,7 @@
     :aria-label="props.accessibilityLabel"
     :class="className"
     :role="props.roleAttribute"
-    :style="backgroundStyle"
+    :style="props.backgroundStyle"
   >
     <ResponsiveGrid
       v-if="layout === 'RESPONSIVE_GRID'"
