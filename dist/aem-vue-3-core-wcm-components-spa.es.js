@@ -66,19 +66,19 @@ const ue = {
       )
     ), E = C(
       () => {
-        var r;
-        return m && (o == null ? void 0 : o.allowedComponents) && ((r = o == null ? void 0 : o.allowedComponents) == null ? void 0 : r.applicable);
+        var i;
+        return m && (o == null ? void 0 : o.allowedComponents) && ((i = o == null ? void 0 : o.allowedComponents) == null ? void 0 : i.applicable);
       }
     );
     return R(() => {
       console.log(JSON.stringify(e, null, 2));
-    }), (r, q) => E.value ? (c(), u(l(X), g(_({ key: 0 }, { ...e, ...l(o) })), null, 16)) : (c(), u(N(e.styleSystemElement || "div"), {
+    }), (i, q) => E.value ? (c(), u(l(X), g(_({ key: 0 }, { ...e, ...l(o) })), null, 16)) : (c(), u(N(e.styleSystemElement || "div"), {
       key: 1,
       id: e.id,
       "aria-label": e.accessibilityLabel,
       class: p(v.value),
       role: e.roleAttribute,
-      style: J(e.backgroundStyle)
+      style: J(n.backgroundStyle)
     }, {
       default: M(() => [
         n.layout === "RESPONSIVE_GRID" ? (c(), u(l(Y), g(_({ key: 0 }, {
@@ -91,7 +91,7 @@ const ue = {
       _: 1
     }, 8, ["id", "aria-label", "class", "role", "style"]));
   }
-}), se = ["id", "data-cmp-single-expansion"], oe = ["id", "data-cmp-expanded"], ce = ["id", "aria-controls", "data-cmp-button-id", "onClick", "onKeydown"], re = ["id", "aria-labelledby"], Ce = /* @__PURE__ */ $({
+}), se = ["id", "data-cmp-single-expansion"], oe = ["id", "data-cmp-expanded"], ce = ["id", "aria-controls", "data-cmp-button-id", "onClick", "onKeydown"], ie = ["id", "aria-labelledby"], Ce = /* @__PURE__ */ $({
   inheritAttrs: !1,
   __name: "CoreAccordion",
   props: {
@@ -124,10 +124,10 @@ const ue = {
       } catch {
         return !1;
       }
-    })(), r = b(null), q = b(-1), i = b(e.expandedItems), w = b(null), x = C(() => (o == null ? void 0 : o.singleExpansion) === !0);
+    })(), i = b(null), q = b(-1), r = b(e.expandedItems), w = b(null), x = C(() => (o == null ? void 0 : o.singleExpansion) === !0);
     E && window.Granite && // @ts-ignore
     window.Granite.author && // @ts-ignore
-    window.Granite.author.MessageChannel && (r.value = new window.Granite.author.MessageChannel(
+    window.Granite.author.MessageChannel && (i.value = new window.Granite.author.MessageChannel(
       "cqauthor",
       window
     ));
@@ -161,14 +161,14 @@ const ue = {
       );
       a && a.focus();
     }, k = (t, a) => {
-      const s = i.value.indexOf(t) > -1;
+      const s = r.value.indexOf(t) > -1;
       if (x.value)
-        i.value = s ? [] : [t];
+        r.value = s ? [] : [t];
       else if (s) {
-        const d = i.value.indexOf(t);
-        i.value.splice(d, 1);
+        const d = r.value.indexOf(t);
+        r.value.splice(d, 1);
       } else
-        i.value.push(t);
+        r.value.push(t);
       a.target.focus();
     }, z = (t, a, s) => {
       const d = w.value.querySelectorAll("button").length - 1;
@@ -192,23 +192,23 @@ const ue = {
           a.preventDefault(), k(t, a), f(s);
           break;
       }
-    }, h = (t) => i.value.indexOf(t) > -1, H = C(() => ({
+    }, h = (t) => r.value.indexOf(t) > -1, H = C(() => ({
       cqPath: e.cqPath,
       placeholderClassNames: ["new", "section"].join(" ")
     }));
     return S(x, async (t, a) => {
-      t !== a && (i.value = e.expandedItems);
+      t !== a && (r.value = e.expandedItems);
     }), S(e.expandedItems, async (t, a) => {
-      t !== a && (i.value = t);
+      t !== a && (r.value = t);
     }), S(q, async (t, a) => {
-      t !== -1 && typeof t < "u" && a !== t && e.cqItemsOrder && (i.value = [e.cqItemsOrder[a]]);
+      t !== -1 && typeof t < "u" && a !== t && e.cqItemsOrder && (r.value = [e.cqItemsOrder[a]]);
     }), R(() => {
-      r.value && r.value.subscribeRequestMessage(
+      i.value && i.value.subscribeRequestMessage(
         "cmp.panelcontainer",
         D
       );
     }), T(() => {
-      r.value && r.value.unsubscribeRequestMessage(
+      i.value && i.value.unsubscribeRequestMessage(
         "cmp.panelcontainer",
         D
       );
@@ -260,7 +260,7 @@ const ue = {
           role: "region"
         }, [
           e.cqItemsOrder ? (c(), u(N(U.value[n.cqItemsOrder.indexOf(s)]), { key: 0 })) : I("", !0)
-        ], 10, re)) : I("", !0)
+        ], 10, ie)) : I("", !0)
       ], 10, oe))), 128)) : I("", !0),
       l(m) ? (c(), u(l(ne), g(_({ key: 1 }, H.value)), null, 16)) : I("", !0)
     ], 16, se));
