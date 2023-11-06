@@ -234,10 +234,10 @@
     if (
       current !== -1 &&
       typeof current !== 'undefined' &&
-      previous !== current &&
+      current !== previous &&
       props.cqItemsOrder
     ) {
-      statefulExpandedItems.value = [props.cqItemsOrder[previous]];
+      statefulExpandedItems.value = [props.cqItemsOrder[current]];
     }
   });
 
