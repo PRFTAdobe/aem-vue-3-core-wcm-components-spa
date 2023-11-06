@@ -307,7 +307,16 @@
             <span :class="`${props.baseCssClass}__title`">
               {{ props.cqItems[key]['cq:panelTitle'] }}
             </span>
-            <span :class="`${props.baseCssClass}__icon`"></span>
+            <span :class="`${props.baseCssClass}__icon`"
+              ><svg
+                fill="var(--accordion-heading-color)"
+                height="18"
+                viewBox="0 0 24 24"
+                width="18"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z" /></svg
+            ></span>
           </button>
         </component>
         <div
@@ -333,6 +342,10 @@
 </template>
 
 <style>
+  :root {
+    --accordion-heading-color: #7b7b7b;
+  }
+
   .cmp-accordion {
     display: block;
     margin-block: 0;
@@ -344,7 +357,6 @@
   .cmp-accordion__title {
     font-size: inherit;
     font-style: normal;
-    font-weight: 700;
   }
 
   .cmp-accordion__heading {
@@ -357,7 +369,7 @@
     background: none;
     border: none;
     border-block-end: 1px solid currentcolor;
-    color: inherit;
+    color: var(--accordion-heading-color);
     cursor: pointer;
     display: flex;
     flex-flow: row nowrap;
@@ -368,18 +380,16 @@
     position: relative;
   }
 
-  .cmp-accordion__icon::before {
-    block-size: 18px;
-    content: '\02C7';
-    display: block;
-    font-size: larger;
-    inline-size: 18px;
+  .cmp-accordion__button:hover {
+    --accordion-heading-color: #333;
+  }
+
+  .cmp-accordion__icon {
     margin-block-start: 5px;
-    text-align: center;
     transform: rotate(-90deg);
   }
 
-  .cmp-accordion__button--expanded .cmp-accordion__icon::before {
+  .cmp-accordion__button--expanded .cmp-accordion__icon {
     transform: rotate(0deg);
   }
 </style>
