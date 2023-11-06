@@ -224,7 +224,7 @@ const ue = {
         "data-cmp-expanded": h(a) ? !0 : void 0
       }, [
         (c(), u(N(e.headingElement), {
-          class: p(`${e.baseCssClass}__header`)
+          class: p(`${e.baseCssClass}__heading`)
         }, {
           default: R(() => [
             O("button", {

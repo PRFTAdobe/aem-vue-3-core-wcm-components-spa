@@ -288,7 +288,7 @@
       >
         <component
           :is="props.headingElement"
-          :class="`${props.baseCssClass}__header`"
+          :class="`${props.baseCssClass}__heading`"
         >
           <button
             :id="`accordion-${props.cqItems[key]['id']}-button`"
@@ -333,11 +333,6 @@
 </template>
 
 <style>
-  :root {
-    --color-dark-grey: #4c4d51;
-    --text-color-base: var(--color-dark-grey);
-  }
-
   .cmp-accordion {
     display: block;
     margin-block: 0;
@@ -347,10 +342,13 @@
   }
 
   .cmp-accordion__title {
-    color: var(--text-color-base);
     font-size: inherit;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 700;
+  }
+
+  .cmp-accordion__heading {
+    font: inherit;
   }
 
   .cmp-accordion__button {
