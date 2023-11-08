@@ -351,7 +351,7 @@
             props.accessibility.next
           }}</span>
         </button>
-        <template v-if="statefulAutoplay">
+        <template v-if="attrs?.autoplay === true">
           <button
             :aria-label="props.accessibility!.pause"
             :class="[
@@ -524,5 +524,9 @@
 
   .cmp-carousel__action:hover {
     background-color: #e1e1e1;
+  }
+
+  .cmp-carousel__item .cmp-asset {
+    max-inline-size: 100%;
   }
 </style>
