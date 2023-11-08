@@ -15,6 +15,18 @@ export const AccordionEditConfig: EditConfig<AccordionComponentProperties> = {
   },
 };
 
+interface CarouselComponentProperties extends MappedComponentProperties {
+  cqItemsOrder: string[] | undefined;
+}
+
+export const CarouselEditConfig: EditConfig<CarouselComponentProperties> = {
+  emptyLabel: 'Carousel',
+  // eslint-disable-next-line no-shadow
+  isEmpty(props: { cqItemsOrder: string[] | undefined }) {
+    return !props.cqItemsOrder || props?.cqItemsOrder.length === 0;
+  },
+};
+
 interface ContainerComponentProperties extends MappedComponentProperties {
   cqItemsOrder: string[] | undefined;
 }

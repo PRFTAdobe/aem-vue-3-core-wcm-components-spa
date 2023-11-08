@@ -151,7 +151,9 @@ describe('CoreAccordion ->', () => {
     const dom = render(CoreAccordion, {
       props: { ...defaultProps },
     });
-    expect(dom.container.querySelectorAll('.dummyCmp').length).toEqual(1);
+    expect(
+      (dom.container as HTMLElement).querySelectorAll('.dummyCmp').length,
+    ).toEqual(1);
 
     const button2 = getById(
       dom.container as HTMLElement,
@@ -160,6 +162,8 @@ describe('CoreAccordion ->', () => {
 
     await userEvent.click(button2 as HTMLElement);
 
-    expect(dom.container.querySelectorAll('.dummyCmp').length).toEqual(2);
+    expect(
+      (dom.container as HTMLElement).querySelectorAll('.dummyCmp').length,
+    ).toEqual(2);
   });
 });

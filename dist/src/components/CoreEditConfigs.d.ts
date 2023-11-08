@@ -3,6 +3,10 @@ interface AccordionComponentProperties extends MappedComponentProperties {
     cqItemsOrder: string[] | undefined;
 }
 export declare const AccordionEditConfig: EditConfig<AccordionComponentProperties>;
+interface CarouselComponentProperties extends MappedComponentProperties {
+    cqItemsOrder: string[] | undefined;
+}
+export declare const CarouselEditConfig: EditConfig<CarouselComponentProperties>;
 interface ContainerComponentProperties extends MappedComponentProperties {
     cqItemsOrder: string[] | undefined;
 }
