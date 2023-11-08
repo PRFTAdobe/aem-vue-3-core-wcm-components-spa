@@ -328,7 +328,11 @@
           type="button"
           @click="prevSlide"
         >
-          <span :class="`${props.baseCssClass}__action-icon`"></span>
+          <span :class="`${props.baseCssClass}__action-icon`">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+            </svg>
+          </span>
           <span :class="`${props.baseCssClass}__action-text`">{{
             props.accessibility.previous
           }}</span>
@@ -339,7 +343,10 @@
           type="button"
           @click="nextSlide"
         >
-          <span :class="`${props.baseCssClass}__action-icon`"></span>
+          <span :class="`${props.baseCssClass}__action-icon`"
+            ><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" /></svg
+          ></span>
           <span :class="`${props.baseCssClass}__action-text`">{{
             props.accessibility.next
           }}</span>
@@ -357,7 +364,10 @@
             type="button"
             @click="toggleAutoPlay(false)"
           >
-            <span :class="`${props.baseCssClass}__action-icon`"></span>
+            <span :class="`${props.baseCssClass}__action-icon`"
+              ><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" /></svg
+            ></span>
             <span :class="`${props.baseCssClass}__action-text`">{{
               props.accessibility.pause
             }}</span>
@@ -372,7 +382,10 @@
             type="button"
             @click="toggleAutoPlay(true)"
           >
-            <span :class="`${props.baseCssClass}__action-icon`"></span>
+            <span :class="`${props.baseCssClass}__action-icon`"
+              ><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 5v14l11-7z" /></svg
+            ></span>
             <span :class="`${props.baseCssClass}__action-text`">{{
               props.accessibility.play
             }}</span>
@@ -421,9 +434,20 @@
 
   .cmp-carousel__action {
     appearance: none;
+    background-color: #f5f5f5;
+    block-size: 1.875rem;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    inline-size: 1.875rem;
+    line-height: 1.875rem;
+    padding-block: 0.375rem;
+    padding-inline: 0.375rem;
   }
 
   .cmp-carousel__indicators {
+    align-items: center;
+    block-size: 1.875rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -438,6 +462,7 @@
     background-color: rgb(0 0 0 / 50%);
     block-size: 10px;
     border-radius: 50%;
+    cursor: pointer;
     flex: 0 1 auto;
     font-size: 0;
     inline-size: 10px;
@@ -448,6 +473,56 @@
   }
 
   .cmp-carousel__indicator--active {
+    background-clip: content-box;
     background-color: rgb(0 0 0 / 80%);
+    block-size: 16px;
+    border: 2px solid #232323;
+    inline-size: 16px;
+    padding-block: 2px;
+    padding-inline: 2px;
+  }
+
+  .cmp-carousel {
+    position: relative;
+  }
+
+  .cmp-carousel__actions {
+    display: flex;
+    flex-direction: row;
+    inset-block-end: 0;
+    inset-inline-end: 0;
+    position: absolute;
+  }
+
+  .cmp-carousel__action:first-child {
+    margin-inline-start: 0;
+  }
+
+  .cmp-carousel__action--disabled {
+    display: none;
+  }
+
+  .cmp-carousel__action--previous {
+    order: 1;
+  }
+
+  .cmp-carousel__action--next {
+    order: 4;
+  }
+
+  .cmp-carousel__action--pause {
+    order: 2;
+  }
+
+  .cmp-carousel__action--play {
+    order: 3;
+  }
+
+  .cmp-carousel__action-text {
+    display: none;
+  }
+
+  .cmp-carousel__action:hover {
+    background-color: #e1e1e1;
   }
 </style>
