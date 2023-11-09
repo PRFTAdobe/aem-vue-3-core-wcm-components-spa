@@ -303,23 +303,26 @@
       @mouseenter="handleOnMouseEnter"
       @mouseleave="handleOnMouseLeave"
     >
-      <div
-        v-for="(childComponent, index) of childComponents"
-        :key="`item-${index}`"
-        :aria-label="getItemAriaLabel(index)"
-        :class="[
-          `${props.baseCssClass}__item`,
-          {
-            [`${props.baseCssClass}__item--active`]: index === activeIndex,
-          },
-        ]"
-        data-cmp-hook-carousel="item"
-        role="tabpanel"
-      >
-        <component
-          :is="childComponent"
-          v-if="index === activeIndex || computedIsInEditor"
-        />
+      <div :class="`${props.baseCssClass}__items`">
+        <div
+          v-for="(childComponent, index) of childComponents"
+          :key="`item-${index}`"
+          :aria-label="getItemAriaLabel(index)"
+          :class="[
+            `${props.baseCssClass}__item`,
+            {
+              [`${props.baseCssClass}__item--active`]: index === activeIndex,
+            },
+          ]"
+          data-cmp-hook-carousel="item"
+          role="tabpanel"
+        >
+          <component
+            :is="childComponent"
+            v-if="index === activeIndex || computedIsInEditor"
+            :key="activeIndex"
+          />
+        </div>
       </div>
       <div :class="`${props.baseCssClass}__actions`">
         <button
@@ -421,15 +424,24 @@
 
 <style>
   .cmp-carousel__content {
+    position: static;
+  }
+
+  .cmp-carousel__items {
     position: relative;
   }
 
   .cmp-carousel__item {
-    display: none;
+    display: block;
+    inset: 0;
+    opacity: 0;
+    position: absolute;
+    transition: opacity 0.3s ease-out;
   }
 
   .cmp-carousel__item--active {
     display: block;
+    opacity: 1;
   }
 
   .cmp-carousel__action {
@@ -476,7 +488,7 @@
     background-clip: content-box;
     background-color: rgb(0 0 0 / 80%);
     block-size: 16px;
-    border: 2px solid #232323;
+    border: 2px solid #222;
     inline-size: 16px;
     padding-block: 2px;
     padding-inline: 2px;
@@ -523,7 +535,7 @@
   }
 
   .cmp-carousel__action:hover {
-    background-color: #e1e1e1;
+    background-color: #eee;
   }
 
   .cmp-carousel__item .cmp-asset {
