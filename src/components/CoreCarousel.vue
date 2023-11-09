@@ -317,11 +317,7 @@
           data-cmp-hook-carousel="item"
           role="tabpanel"
         >
-          <component
-            :is="childComponent"
-            v-if="index === activeIndex || computedIsInEditor"
-            :key="activeIndex"
-          />
+          <component :is="childComponent" :key="activeIndex" />
         </div>
       </div>
       <div :class="`${props.baseCssClass}__actions`">
