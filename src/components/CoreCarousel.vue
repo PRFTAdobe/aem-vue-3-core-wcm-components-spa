@@ -303,7 +303,7 @@
       @mouseenter="handleOnMouseEnter"
       @mouseleave="handleOnMouseLeave"
     >
-      <div :class="`${props.baseCssClass}__items`">
+      <div :class="[{ [`${props.baseCssClass}__items`]: !computedIsInEditor }]">
         <div
           v-for="(childComponent, index) of childComponents"
           :key="`item-${index}`"
