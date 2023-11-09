@@ -233,13 +233,17 @@
   };
 
   const handleOnMouseEnter = () => {
+    console.log('Running on mouse enter');
     if (!props.autopauseDisabled && statefulAutoplay.value) {
+      console.log('Clearing Auto Play');
       clearAutoPlay();
     }
   };
 
   const handleOnMouseLeave = () => {
+    console.log('Running on mouse leave');
     if (!props.autopauseDisabled && statefulAutoplay.value) {
+      console.log('Resuming Auto Play');
       autoPlay();
     }
   };
