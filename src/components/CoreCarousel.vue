@@ -423,12 +423,33 @@
     position: relative;
   }
 
+  .cmp-carousel__items {
+    display: grid;
+    grid-template-columns: 1fr;
+    position: relative;
+    z-index: 0;
+  }
+
   .cmp-carousel__item {
     display: none;
   }
 
+  .cmp-carousel__items .cmp-carousel__item {
+    display: block;
+    grid-column-start: 1;
+    grid-row-start: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+    z-index: -1;
+  }
+
   .cmp-carousel__item--active {
     display: block;
+  }
+
+  .cmp-carousel__items .cmp-carousel__item--active {
+    opacity: 1;
+    z-index: 1;
   }
 
   .cmp-carousel__action {
