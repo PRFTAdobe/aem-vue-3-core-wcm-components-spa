@@ -423,6 +423,10 @@
     position: relative;
   }
 
+  .cmp-carousel__items {
+    pointer-events: none;
+  }
+
   html:not(.aem-AuthorLayer-Edit) .cmp-carousel__items {
     display: grid;
     grid-template-columns: 1fr;
@@ -445,6 +449,9 @@
 
   .cmp-carousel__item--active {
     display: block;
+  }
+
+  html:not(.aem-AuthorLayer-Edit) .cmp-carousel__item--active {
     opacity: 1;
     z-index: 1;
   }
