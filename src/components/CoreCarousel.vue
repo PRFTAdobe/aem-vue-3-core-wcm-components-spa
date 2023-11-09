@@ -424,18 +424,19 @@
 
 <style>
   .cmp-carousel__content {
-    position: static;
+    position: relative;
   }
 
   .cmp-carousel__items {
-    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
   }
 
   .cmp-carousel__item {
     display: block;
-    inset: 0;
+    grid-column-start: 1;
+    grid-row-start: 1;
     opacity: 0;
-    position: absolute;
     transition: opacity 0.3s ease-out;
   }
 
