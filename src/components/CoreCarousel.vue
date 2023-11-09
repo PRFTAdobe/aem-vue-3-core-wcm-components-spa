@@ -233,17 +233,13 @@
   };
 
   const handleOnMouseEnter = () => {
-    console.log('Running on mouse enter');
     if (!props.autopauseDisabled && statefulAutoplay.value) {
-      console.log('Clearing Auto Play');
       clearAutoPlay();
     }
   };
 
   const handleOnMouseLeave = () => {
-    console.log('Running on mouse leave');
     if (!props.autopauseDisabled && statefulAutoplay.value) {
-      console.log('Resuming Auto Play');
       autoPlay();
     }
   };
@@ -430,6 +426,7 @@
   .cmp-carousel__items {
     display: grid;
     grid-template-columns: 1fr;
+    z-index: 0;
   }
 
   .cmp-carousel__item {
@@ -438,11 +435,13 @@
     grid-row-start: 1;
     opacity: 0;
     transition: opacity 0.3s ease-out;
+    z-index: -1;
   }
 
   .cmp-carousel__item--active {
     display: block;
     opacity: 1;
+    z-index: 1;
   }
 
   .cmp-carousel__action {
