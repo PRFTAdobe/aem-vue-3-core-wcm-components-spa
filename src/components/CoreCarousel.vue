@@ -423,13 +423,18 @@
     position: relative;
   }
 
-  .cmp-carousel__items {
+  html:not(.aem-AuthorLayer-Edit) .cmp-carousel__items {
     display: grid;
     grid-template-columns: 1fr;
+    position: relative;
     z-index: 0;
   }
 
   .cmp-carousel__item {
+    display: none;
+  }
+
+  html:not(.aem-AuthorLayer-Edit) .cmp-carousel__item {
     display: block;
     grid-column-start: 1;
     grid-row-start: 1;
