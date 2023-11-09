@@ -303,23 +303,25 @@
       @mouseenter="handleOnMouseEnter"
       @mouseleave="handleOnMouseLeave"
     >
-      <div
-        v-for="(childComponent, index) of childComponents"
-        :key="`item-${index}`"
-        :aria-label="getItemAriaLabel(index)"
-        :class="[
-          `${props.baseCssClass}__item`,
-          {
-            [`${props.baseCssClass}__item--active`]: index === activeIndex,
-          },
-        ]"
-        data-cmp-hook-carousel="item"
-        role="tabpanel"
-      >
-        <component
-          :is="childComponent"
-          v-if="index === activeIndex || computedIsInEditor"
-        />
+      <div :class="`${props.baseCssClass}__items`">
+        <div
+          v-for="(childComponent, index) of childComponents"
+          :key="`item-${index}`"
+          :aria-label="getItemAriaLabel(index)"
+          :class="[
+            `${props.baseCssClass}__item`,
+            {
+              [`${props.baseCssClass}__item--active`]: index === activeIndex,
+            },
+          ]"
+          data-cmp-hook-carousel="item"
+          role="tabpanel"
+        >
+          <component
+            :is="childComponent"
+            v-if="index === activeIndex || computedIsInEditor"
+          />
+        </div>
       </div>
       <div :class="`${props.baseCssClass}__actions`">
         <button
