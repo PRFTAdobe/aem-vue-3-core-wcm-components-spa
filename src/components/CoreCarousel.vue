@@ -12,6 +12,7 @@
     onMounted,
     onUnmounted,
     PropType,
+    Ref,
     ref,
     useAttrs,
     VNode,
@@ -94,7 +95,7 @@
       : inject('isInEditor', AuthoringUtils.isInEditor());
   const componentMapping = inject('componentMapping', new ComponentMapping());
 
-  let interval = -1;
+  const interval: Ref<number | ReturnType<typeof setInterval>> = ref(-1);
   const activeIndexFromAuthorPanel = ref(-1);
   const activeIndex = ref(0);
   const messageChannel = ref(null);
@@ -213,13 +214,13 @@
   };
 
   const autoPlay = () => {
-    interval = window.setInterval(() => {
+    interval.value = setInterval(() => {
       autoPlayTick();
     }, props.delay!);
   };
 
   const clearAutoPlay = () => {
-    window.clearInterval(interval);
+    clearInterval(interval.value);
   };
 
   const toggleAutoPlay = (toggle: boolean) => {
@@ -271,7 +272,7 @@
   });
 
   onUnmounted(() => {
-    if (interval >= 0) {
+    if (typeof interval.value === 'number' && interval.value >= 0) {
       clearAutoPlay();
     }
     if (messageChannel.value) {

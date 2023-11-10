@@ -228,4 +228,202 @@ describe('CoreCarousel ->', () => {
       'Component2',
     );
   });
+
+  it('Automatically slides forward', async () => {
+    jest.useFakeTimers();
+    const wrapper = mount(CoreCarousel, {
+      propsData: defaultProps,
+      global: {
+        provide: {
+          isInEditor: false,
+          componentMapping: new ComponentMapping(),
+        },
+      },
+    });
+
+    expect(wrapper.find('.cmp-carousel__item--active').text()).toEqual(
+      'Component1',
+    );
+
+    jest.advanceTimersByTime(150);
+    await nextTick();
+
+    expect(wrapper.find('.cmp-carousel__item--active').text()).toEqual(
+      'Component2',
+    );
+  });
+
+  it('Does NOT Automatically slide forward if we turn it off', async () => {
+    jest.useFakeTimers();
+    const wrapper = mount(CoreCarousel, {
+      propsData: { ...defaultProps, autoplay: false },
+      global: {
+        provide: {
+          isInEditor: false,
+          componentMapping: new ComponentMapping(),
+        },
+      },
+    });
+
+    expect(wrapper.find('.cmp-carousel__action--pause').exists()).toBeFalsy();
+
+    jest.advanceTimersByTime(150);
+    await nextTick();
+
+    expect(wrapper.find('.cmp-carousel__item--active').text()).toEqual(
+      'Component1',
+    );
+  });
+
+  it('Does NOT Automatically slide forward if we click pause, and resumes if we click resume', async () => {
+    jest.useFakeTimers();
+    const wrapper = mount(CoreCarousel, {
+      propsData: defaultProps,
+      global: {
+        provide: {
+          isInEditor: false,
+          componentMapping: new ComponentMapping(),
+        },
+      },
+    });
+
+    expect(wrapper.find('.cmp-carousel__item--active').text()).toEqual(
+      'Component1',
+    );
+
+    const pauseButton = wrapper.find('.cmp-carousel__action--pause').element;
+
+    userEvent.click(pauseButton as HTMLElement);
+
+    await nextTick();
+
+    jest.advanceTimersByTime(150);
+
+    expect(wrapper.find('.cmp-carousel__item--active').text()).toEqual(
+      'Component1',
+    );
+
+    const resumeButton = wrapper.find('.cmp-carousel__action--play').element;
+
+    userEvent.click(resumeButton as HTMLElement);
+    await nextTick();
+
+    jest.advanceTimersByTime(150);
+
+    expect(wrapper.find('.cmp-carousel__item--active').text()).toEqual(
+      'Component2',
+    );
+  });
+
+  it('Temporary stops sliding if we hover over it, and resume once we hover out.', async () => {
+    jest.useFakeTimers();
+    const wrapper = mount(CoreCarousel, {
+      propsData: defaultProps,
+      global: {
+        provide: {
+          isInEditor: false,
+          componentMapping: new ComponentMapping(),
+        },
+      },
+    });
+
+    expect(wrapper.find('.cmp-carousel__item--active').text()).toEqual(
+      'Component1',
+    );
+
+    userEvent.hover(wrapper.find('.cmp-carousel__content').element);
+    await nextTick();
+
+    jest.advanceTimersByTime(150);
+
+    expect(wrapper.find('.cmp-carousel__item--active').text()).toEqual(
+      'Component1',
+    );
+
+    userEvent.unhover(wrapper.find('.cmp-carousel__content').element);
+    await nextTick();
+
+    jest.advanceTimersByTime(150);
+
+    expect(wrapper.find('.cmp-carousel__item--active').text()).toEqual(
+      'Component2',
+    );
+  });
+
+  it('Temporary stops sliding if we hover over it, and resume once we hover out.', async () => {
+    jest.useFakeTimers();
+    const wrapper = mount(CoreCarousel, {
+      propsData: { ...defaultProps, autopauseDisabled: true },
+      global: {
+        provide: {
+          isInEditor: false,
+          componentMapping: new ComponentMapping(),
+        },
+      },
+    });
+
+    expect(wrapper.find('.cmp-carousel__item--active').text()).toEqual(
+      'Component1',
+    );
+
+    userEvent.hover(wrapper.find('.cmp-carousel__content').element);
+    await nextTick();
+
+    jest.advanceTimersByTime(150);
+    await nextTick();
+
+    expect(wrapper.find('.cmp-carousel__item--active').text()).toEqual(
+      'Component2',
+    );
+  });
+
+  it('Renders a basic carousel without autoplay', () => {
+    const wrapper = mount(CoreCarousel, {
+      propsData: { ...defaultProps, autoplay: false },
+      global: {
+        provide: {
+          isInEditor: false,
+          componentMapping: new ComponentMapping(),
+        },
+      },
+    });
+
+    expect(wrapper.find('.cmp-carousel__item--active').text()).toEqual(
+      'Component1',
+    );
+
+    const carouselItems = (wrapper.element as HTMLDivElement).querySelectorAll(
+      '.cmp-carousel__item',
+    );
+
+    const carouselActions = (
+      wrapper.element as HTMLDivElement
+    ).querySelectorAll('.cmp-carousel__action');
+
+    expect(carouselItems[0].getAttribute('aria-label')).toEqual('Slide 1 of 2');
+    expect(
+      carouselItems[carouselItems.length - 1].getAttribute('aria-label'),
+    ).toEqual('Slide 2 of 2');
+
+    expect(carouselActions).toHaveLength(2);
+  });
+
+  it('Renders out all slides in author mode with hidden CSS', () => {
+    // const Wrapped = withComponentMappingContext(AccordionV1);
+    const wrapper = mount(CoreCarousel, {
+      propsData: { ...defaultProps, autoplay: false },
+      global: {
+        provide: {
+          isInEditor: true,
+          componentMapping: new ComponentMapping(),
+        },
+      },
+    });
+
+    const dummyComps = (wrapper.element as HTMLDivElement).querySelectorAll(
+      '.dummyCmp',
+    );
+
+    expect(dummyComps).toHaveLength(2);
+  });
 });
