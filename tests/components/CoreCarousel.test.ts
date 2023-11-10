@@ -251,6 +251,7 @@ describe('CoreCarousel ->', () => {
     expect(wrapper.find('.cmp-carousel__item--active').text()).toEqual(
       'Component2',
     );
+    jest.useRealTimers();
   });
 
   it('Does NOT Automatically slide forward if we turn it off', async () => {
@@ -273,6 +274,7 @@ describe('CoreCarousel ->', () => {
     expect(wrapper.find('.cmp-carousel__item--active').text()).toEqual(
       'Component1',
     );
+    jest.useRealTimers();
   });
 
   it('Does NOT Automatically slide forward if we click pause, and resumes if we click resume', async () => {
@@ -313,6 +315,7 @@ describe('CoreCarousel ->', () => {
     expect(wrapper.find('.cmp-carousel__item--active').text()).toEqual(
       'Component2',
     );
+    jest.useRealTimers();
   });
 
   it('Temporary stops sliding if we hover over it, and resume once we hover out.', async () => {
@@ -348,6 +351,7 @@ describe('CoreCarousel ->', () => {
     expect(wrapper.find('.cmp-carousel__item--active').text()).toEqual(
       'Component2',
     );
+    jest.useRealTimers();
   });
 
   it('Temporary stops sliding if we hover over it, and resume once we hover out.', async () => {
@@ -375,6 +379,7 @@ describe('CoreCarousel ->', () => {
     expect(wrapper.find('.cmp-carousel__item--active').text()).toEqual(
       'Component2',
     );
+    jest.useRealTimers();
   });
 
   it('Renders a basic carousel without autoplay', () => {
