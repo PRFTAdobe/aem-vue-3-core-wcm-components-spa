@@ -237,6 +237,7 @@
 
 <style>
   .cmp-tabs__tablist {
+    border-block-end: 1px solid #eee;
     display: flex;
     flex-wrap: wrap;
     list-style: none;
@@ -244,7 +245,6 @@
   }
 
   .cmp-tabs__tab {
-    border-block-end: 1px solid #eee;
     box-sizing: border-box;
     color: #7b7b7b;
     cursor: pointer;
