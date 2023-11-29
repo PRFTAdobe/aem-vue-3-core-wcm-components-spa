@@ -15,4 +15,8 @@ interface ExperienceFragmentComponentProperties extends MappedComponentPropertie
     cqItemsOrder: string[] | undefined;
 }
 export declare const ExperienceFragmentEditConfig: EditConfig<ExperienceFragmentComponentProperties>;
+interface TabsComponentProperties extends MappedComponentProperties {
+    cqItemsOrder: string[] | undefined;
+}
+export declare const TabsEditConfig: EditConfig<TabsComponentProperties>;
 export {};
