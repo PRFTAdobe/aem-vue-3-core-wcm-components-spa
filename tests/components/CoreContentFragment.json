@@ -1,0 +1,64 @@
+{
+  "id": "contentfragment-4b14405d79",
+  "title": "About Core Components Examples",
+  "description": "",
+  "model": "core-components-examples/models/about",
+  "cqItems": {
+    "par0": {
+      "gridClassNames": "aem-Grid aem-Grid--12 aem-Grid--default--12",
+      "columnClassNames": {
+        "user.cc753810-1701465526478": "aem-GridColumn aem-GridColumn--default--12"
+      },
+      "columnCount": 12,
+      "allowedComponents": {
+        "components": [],
+        "applicable": false
+      },
+      ":items": {
+        "user.cc753810-1701465526478": {
+          ":type": "dam/cfm/components/mmimage",
+          "fileReference": "/content/dam/stanley/user.cc753810.png",
+          "cfmParagraph": 0,
+          "cfmAssetRef": "user.cc753810-1701465526478",
+          "cfmAssetType": "image"
+        }
+      },
+      ":itemsOrder": [
+        "user.cc753810-1701465526478"
+      ],
+      ":type": "dam/cfm/components/grid"
+    }
+  },
+  "cqItemsOrder": [
+    "par0"
+  ],
+  "cqType": "core-components-examples/components/contentfragment",
+  "elements": {
+    "heading": {
+      "value": "<h1 style=\"text-align: center;\"><img src=\"/content/dam/stanley/user.cc753810.png\" data-assetref=\"user.cc753810-1701465526478\"></h1>\n<h1 style=\"text-align: center;\">Hi, I am Stanley!</h1>\n",
+      "title": "Heading",
+      "dataType": "string",
+      "multiValue": false,
+      ":type": "text/html"
+    },
+    "copy": {
+      "value": "<p style=\"text-align: center;\">Hello everybody. I’m Stanley, a handsome Vue application created by Shannon Sumner.<br>\nStanley is a really simple application to showcase my skills in a cute &amp; clean way.</p>\n",
+      "title": "Copy",
+      "dataType": "string",
+      "multiValue": false,
+      ":type": "text/html"
+    },
+    "quote": {
+      "value": "<p style=\"text-align: center;\">&quot;No one is perfect - that’s why pencils have erasers.&quot;<br>\n<b>Wolfgang Riebe<br>\n Keynote Speaker/Magician</b></p>\n",
+      "title": "Quote",
+      "dataType": "string",
+      "multiValue": false,
+      ":type": "text/html"
+    }
+  },
+  "elementsOrder": [
+    "heading",
+    "copy",
+    "quote"
+  ]
+}

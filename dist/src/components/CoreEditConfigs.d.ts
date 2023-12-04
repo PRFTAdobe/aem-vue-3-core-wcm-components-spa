@@ -11,6 +11,11 @@ interface ContainerComponentProperties extends MappedComponentProperties {
     cqItemsOrder: string[] | undefined;
 }
 export declare const ContainerEditConfig: EditConfig<ContainerComponentProperties>;
+interface ContentFragmentComponentProperties extends MappedComponentProperties {
+    cqItemsOrder: string[] | undefined;
+    elementsOrder: string[] | undefined;
+}
+export declare const ContentFragmentEditConfig: EditConfig<ContentFragmentComponentProperties>;
 interface ExperienceFragmentComponentProperties extends MappedComponentProperties {
     cqItemsOrder: string[] | undefined;
 }

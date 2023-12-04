@@ -39,6 +39,26 @@ export const ContainerEditConfig: EditConfig<ContainerComponentProperties> = {
   },
 };
 
+interface ContentFragmentComponentProperties extends MappedComponentProperties {
+  cqItemsOrder: string[] | undefined;
+  elementsOrder: string[] | undefined;
+}
+
+export const ContentFragmentEditConfig: EditConfig<ContentFragmentComponentProperties> =
+  {
+    emptyLabel: 'Content Fragment',
+    // eslint-disable-next-line no-shadow
+    isEmpty(props: {
+      cqItemsOrder: string[] | undefined;
+      elementsOrder: string[] | undefined;
+    }) {
+      return (
+        (props.elementsOrder as string[]).length === 0 &&
+        (props.cqItemsOrder as string[]).length === 0
+      );
+    },
+  };
+
 interface ExperienceFragmentComponentProperties
   extends MappedComponentProperties {
   cqItemsOrder: string[] | undefined;
