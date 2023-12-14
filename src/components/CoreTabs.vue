@@ -17,12 +17,7 @@
     watch,
   } from 'vue';
   import { AuthoringUtils, Model } from '@adobe/aem-spa-page-model-manager';
-
-  declare global {
-    interface Window {
-      Granite: unknown;
-    }
-  }
+  import SpaUtils from '@/utils/SpaUtils';
 
   interface TabsModel extends Model {
     'cq:panelTitle'?: string;
@@ -63,47 +58,7 @@
 
   const activeIndexFromAuthorPanel = ref(-1);
   const activeIndex = ref(0);
-  const messageChannel = ref(null);
-
-  const isBrowser = (() => {
-    try {
-      return typeof window !== 'undefined';
-    } catch (err) {
-      return false;
-    }
-  })();
-
-  if (
-    isBrowser &&
-    window.Granite &&
-    // @ts-ignore
-    window.Granite.author &&
-    // @ts-ignore
-    window.Granite.author.MessageChannel
-  ) {
-    // @ts-ignore
-    messageChannel.value = new window.Granite.author.MessageChannel(
-      'cqauthor',
-      window,
-    );
-  }
-
-  const callbackListener = (
-    message: {
-      data: {
-        id: string;
-        index: number;
-        operation: string;
-      };
-    },
-    cqPath = props.cqPath,
-  ) => {
-    if (message.data && message.data.id === cqPath) {
-      if (message.data.operation === 'navigate') {
-        activeIndexFromAuthorPanel.value = message.data.index;
-      }
-    }
-  };
+  const messageChannel = ref(SpaUtils.initMessageChannel());
 
   const childComponents = computed((): VNode[] =>
     Utils.getChildComponents(
@@ -169,24 +124,17 @@
     }
   });
 
+  const callbackListener = SpaUtils.createCallbackListener(
+    props.cqPath,
+    activeIndexFromAuthorPanel,
+  );
+
   onMounted(() => {
-    if (messageChannel.value) {
-      // @ts-ignore
-      messageChannel.value.subscribeRequestMessage(
-        'cmp.panelcontainer',
-        callbackListener,
-      );
-    }
+    SpaUtils.subscribeRequestMessage(messageChannel.value, callbackListener);
   });
 
   onUnmounted(() => {
-    if (messageChannel.value) {
-      // @ts-ignore
-      messageChannel.value.unsubscribeRequestMessage(
-        'cmp.panelcontainer',
-        callbackListener,
-      );
-    }
+    SpaUtils.unsubscribeRequestMessage(messageChannel.value, callbackListener);
   });
 
   defineOptions({

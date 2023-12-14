@@ -18,12 +18,7 @@
     ContainerPlaceholder,
     Utils,
   } from 'aem-vue-3-editable-components';
-
-  declare global {
-    interface Window {
-      Granite: unknown;
-    }
-  }
+  import SpaUtils from '@/utils/SpaUtils';
 
   interface AccordionModel extends Model {
     'cq:panelTitle'?: string;
@@ -60,35 +55,12 @@
   const isInEditor = inject('isInEditor', AuthoringUtils.isInEditor());
   const componentMapping = inject('componentMapping', new ComponentMapping());
 
-  const isBrowser = (() => {
-    try {
-      return typeof window !== 'undefined';
-    } catch (err) {
-      return false;
-    }
-  })();
-
-  const messageChannel = ref(null);
+  const messageChannel = ref(SpaUtils.initMessageChannel());
   const activeIndexFromAuthorPanel = ref(-1);
   const statefulExpandedItems = ref(props.expandedItems);
   const accordion = ref(null);
 
   const singleExpansion = computed(() => attrs?.singleExpansion === true);
-
-  if (
-    isBrowser &&
-    window.Granite &&
-    // @ts-ignore
-    window.Granite.author &&
-    // @ts-ignore
-    window.Granite.author.MessageChannel
-  ) {
-    // @ts-ignore
-    messageChannel.value = new window.Granite.author.MessageChannel(
-      'cqauthor',
-      window,
-    );
-  }
 
   const accordionContainerProps = computed(() => {
     const accordionContainerProperties: { [key: string]: string } = {};
@@ -102,23 +74,6 @@
 
     return accordionContainerProperties;
   });
-
-  const callbackListener = (
-    message: {
-      data: {
-        id: string;
-        index: number;
-        operation: string;
-      };
-    },
-    cqPath = props.cqPath,
-  ) => {
-    if (message.data && message.data.id === cqPath) {
-      if (message.data.operation === 'navigate') {
-        activeIndexFromAuthorPanel.value = message.data.index;
-      }
-    }
-  };
 
   const childComponents = computed((): VNode[] =>
     Utils.getChildComponents(
@@ -241,24 +196,17 @@
     }
   });
 
+  const callbackListener = SpaUtils.createCallbackListener(
+    props.cqPath,
+    activeIndexFromAuthorPanel,
+  );
+
   onMounted(() => {
-    if (messageChannel.value) {
-      // @ts-ignore
-      messageChannel.value.subscribeRequestMessage(
-        'cmp.panelcontainer',
-        callbackListener,
-      );
-    }
+    SpaUtils.subscribeRequestMessage(messageChannel.value, callbackListener);
   });
 
   onUnmounted(() => {
-    if (messageChannel.value) {
-      // @ts-ignore
-      messageChannel.value.unsubscribeRequestMessage(
-        'cmp.panelcontainer',
-        callbackListener,
-      );
-    }
+    SpaUtils.unsubscribeRequestMessage(messageChannel.value, callbackListener);
   });
 
   defineOptions({
