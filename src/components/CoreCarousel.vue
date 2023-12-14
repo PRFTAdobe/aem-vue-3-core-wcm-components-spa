@@ -19,7 +19,12 @@
     watch,
   } from 'vue';
   import { AuthoringUtils, Model } from '@adobe/aem-spa-page-model-manager';
-  import SpaUtils from '@/utils/SpaUtils';
+
+  declare global {
+    interface Window {
+      Granite: unknown;
+    }
+  }
 
   interface CarouselAccessibilityProperties {
     play: string;
@@ -93,8 +98,48 @@
   const interval: Ref<number | ReturnType<typeof setInterval>> = ref(-1);
   const activeIndexFromAuthorPanel = ref(-1);
   const activeIndex = ref(0);
-  const messageChannel = ref(SpaUtils.initMessageChannel());
+  const messageChannel = ref(null);
   const statefulAutoplay = ref(attrs?.autoplay === true && !computedIsInEditor);
+
+  const isBrowser = (() => {
+    try {
+      return typeof window !== 'undefined';
+    } catch (err) {
+      return false;
+    }
+  })();
+
+  if (
+    isBrowser &&
+    window.Granite &&
+    // @ts-ignore
+    window.Granite.author &&
+    // @ts-ignore
+    window.Granite.author.MessageChannel
+  ) {
+    // @ts-ignore
+    messageChannel.value = new window.Granite.author.MessageChannel(
+      'cqauthor',
+      window,
+    );
+  }
+
+  const callbackListener = (
+    message: {
+      data: {
+        id: string;
+        index: number;
+        operation: string;
+      };
+    },
+    cqPath = props.cqPath,
+  ) => {
+    if (message.data && message.data.id === cqPath) {
+      if (message.data.operation === 'navigate') {
+        activeIndexFromAuthorPanel.value = message.data.index;
+      }
+    }
+  };
 
   const childComponents = computed((): VNode[] =>
     Utils.getChildComponents(
@@ -215,21 +260,28 @@
     }
   });
 
-  const callbackListener = SpaUtils.createCallbackListener(
-    props.cqPath,
-    activeIndexFromAuthorPanel,
-  );
-
   onMounted(() => {
     autoPlay();
-    SpaUtils.subscribeRequestMessage(messageChannel.value, callbackListener);
+    if (messageChannel.value) {
+      // @ts-ignore
+      messageChannel.value.subscribeRequestMessage(
+        'cmp.panelcontainer',
+        callbackListener,
+      );
+    }
   });
 
   onUnmounted(() => {
     if (typeof interval.value === 'number' && interval.value >= 0) {
       clearAutoPlay();
     }
-    SpaUtils.unsubscribeRequestMessage(messageChannel.value, callbackListener);
+    if (messageChannel.value) {
+      // @ts-ignore
+      messageChannel.value.unsubscribeRequestMessage(
+        'cmp.panelcontainer',
+        callbackListener,
+      );
+    }
   });
 
   defineOptions({
