@@ -24,6 +24,12 @@ const SpaUtils = {
       if (message.data && message.data.id === cqPath) {
         if (message.data.operation === 'navigate') {
           activeIndexFromAuthorPanel.value = message.data.index;
+
+          // eslint-disable-next-line no-restricted-globals
+          const contentFrame = parent.document.getElementById('ContentFrame');
+          if (contentFrame) {
+            contentFrame.dispatchEvent(new Event('load'));
+          }
         }
       }
     };
