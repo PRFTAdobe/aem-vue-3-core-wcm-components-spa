@@ -175,7 +175,7 @@
         :class="`${props.baseCssClass}__author-tab-content`"
         :style="{ display: activeIndex === index ? 'block' : 'none' }"
       >
-        <component :is="childComponent" />
+        <component :is="childComponent" v-bind="{ isInEditor: false }" />
       </div>
     </template>
     <component :is="childComponents[activeIndex]" v-else-if="!isEmpty" />
