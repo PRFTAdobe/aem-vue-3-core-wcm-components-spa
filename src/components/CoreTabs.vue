@@ -9,6 +9,7 @@
   import {
     computed,
     inject,
+    nextTick,
     onMounted,
     onUnmounted,
     PropType,
@@ -121,6 +122,13 @@
       current !== previous
     ) {
       activeIndex.value = current;
+      await nextTick();
+
+      // eslint-disable-next-line no-restricted-globals
+      const contentFrame = parent.document.getElementById('ContentFrame');
+      if (contentFrame) {
+        contentFrame.dispatchEvent(new Event('load'));
+      }
     }
   });
 
