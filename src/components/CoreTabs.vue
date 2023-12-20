@@ -57,7 +57,7 @@
       : inject('isInEditor', AuthoringUtils.isInEditor());
   const componentMapping = inject('componentMapping', new ComponentMapping());
 
-  const activeIndexFromAuthorPanel = ref(-1);
+  const activeIndexFromAuthorPanel = ref(1);
   const activeIndex = ref(0);
   const messageChannel = ref(SpaUtils.initMessageChannel());
 
@@ -119,8 +119,11 @@
     if (
       current !== -1 &&
       typeof current !== 'undefined' &&
-      current !== previous
+      current !== previous &&
+      current !== activeIndex.value
     ) {
+      console.log('activeIndexFromAuthorPanel was: ', previous);
+      console.log('activeIndexFromAuthorPanel is: ', current);
       activeIndex.value = current;
       await nextTick();
 
