@@ -297,7 +297,7 @@ const We = {
 }), w = {
   createCallbackListener(t, e) {
     return (n, m = t) => {
-      n.data && n.data.id === m && n.data.operation === "navigate" && (console.log(
+      n.data && n.data.id === m && n.data.operation === "navigate" && n.id % 2 !== 0 && (console.log(
         "Callback Listener triggered with message: ",
         JSON.stringify(n, null, 2)
       ), e.value = n.data.index);

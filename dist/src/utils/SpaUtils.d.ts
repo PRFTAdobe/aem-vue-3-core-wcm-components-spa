@@ -6,6 +6,7 @@ declare global {
 }
 declare const SpaUtils: {
     createCallbackListener(cqPathArgument: string | undefined, activeIndexFromAuthorPanel: Ref<number>): (message: {
+        id: number;
         data: {
             id: string;
             index: number;
@@ -15,6 +16,7 @@ declare const SpaUtils: {
     initMessageChannel(): any;
     isBrowser(): boolean;
     subscribeRequestMessage(messageChannel: unknown, callbackListener: (message: {
+        id: number;
         data: {
             id: string;
             index: number;
@@ -22,6 +24,7 @@ declare const SpaUtils: {
         };
     }, cqPath: string | undefined) => void): void;
     unsubscribeRequestMessage(messageChannel: unknown, callbackListener: (message: {
+        id: number;
         data: {
             id: string;
             index: number;

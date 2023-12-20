@@ -13,6 +13,7 @@ const SpaUtils = {
   ) {
     return (
       message: {
+        id: number;
         data: {
           id: string;
           index: number;
@@ -22,7 +23,7 @@ const SpaUtils = {
       cqPath = cqPathArgument,
     ) => {
       if (message.data && message.data.id === cqPath) {
-        if (message.data.operation === 'navigate') {
+        if (message.data.operation === 'navigate' && message.id % 2 !== 0) {
           console.log(
             'Callback Listener triggered with message: ',
             JSON.stringify(message, null, 2),
@@ -57,6 +58,7 @@ const SpaUtils = {
     messageChannel: unknown,
     callbackListener: (
       message: {
+        id: number;
         data: { id: string; index: number; operation: string };
       },
       cqPath: string | undefined,
@@ -74,6 +76,7 @@ const SpaUtils = {
     messageChannel: unknown,
     callbackListener: (
       message: {
+        id: number;
         data: { id: string; index: number; operation: string };
       },
       cqPath: string | undefined,
