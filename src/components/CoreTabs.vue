@@ -9,7 +9,6 @@
   import {
     computed,
     inject,
-    nextTick,
     onMounted,
     onUnmounted,
     PropType,
@@ -122,16 +121,14 @@
       current !== previous &&
       current !== activeIndex.value
     ) {
-      console.log('activeIndexFromAuthorPanel was: ', previous);
-      console.log('activeIndexFromAuthorPanel is: ', current);
       activeIndex.value = current;
-      await nextTick();
+      /* await nextTick();
 
       // eslint-disable-next-line no-restricted-globals
       const contentFrame = parent.document.getElementById('ContentFrame');
       if (contentFrame) {
         contentFrame.dispatchEvent(new Event('load'));
-      }
+      } */
     }
   });
 

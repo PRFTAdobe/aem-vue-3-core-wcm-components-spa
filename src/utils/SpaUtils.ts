@@ -23,7 +23,7 @@ const SpaUtils = {
       cqPath = cqPathArgument,
     ) => {
       if (message.data && message.data.id === cqPath) {
-        if (message.data.operation === 'navigate' && message.id % 2 !== 0) {
+        if (message.data.operation === 'navigate') {
           console.log(
             'Callback Listener triggered with message: ',
             JSON.stringify(message, null, 2),
