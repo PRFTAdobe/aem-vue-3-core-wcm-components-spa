@@ -1,5 +1,10 @@
 import { PropType } from 'vue';
 import { Model } from '@adobe/aem-spa-page-model-manager';
+declare global {
+    interface Window {
+        Granite: unknown;
+    }
+}
 interface TabsModel extends Model {
     'cq:panelTitle'?: string;
     id?: string;
