@@ -24,10 +24,6 @@ const SpaUtils = {
     ) => {
       if (message.data && message.data.id === cqPath) {
         if (message.data.operation === 'navigate') {
-          console.log(
-            'Callback Listener triggered with message: ',
-            JSON.stringify(message, null, 2),
-          );
           activeIndexFromAuthorPanel.value = message.data.index;
         }
       }
