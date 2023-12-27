@@ -9,6 +9,7 @@
   import {
     computed,
     inject,
+    nextTick,
     onMounted,
     onUnmounted,
     PropType,
@@ -16,7 +17,11 @@
     VNode,
     watch,
   } from 'vue';
-  import { AuthoringUtils, Model } from '@adobe/aem-spa-page-model-manager';
+  import {
+    AuthoringUtils,
+    Model,
+    ModelManager,
+  } from '@adobe/aem-spa-page-model-manager';
   import SpaUtils from '@/utils/SpaUtils';
 
   interface TabsModel extends Model {
@@ -122,6 +127,10 @@
       current !== activeIndex.value
     ) {
       activeIndex.value = current;
+
+      await nextTick();
+      // eslint-disable-next-line no-underscore-dangle
+      ModelManager._notifyListeners(props.cqPath!);
     }
   });
 
