@@ -831,7 +831,9 @@ const Ye = {
       c.value !== b && (c.value = b);
     };
     J(I, async (b, F) => {
-      b !== -1 && typeof b < "u" && b !== F && b !== c.value && (c.value = b, await me(), be._notifyListeners(e.cqPath));
+      b !== -1 && typeof b < "u" && b !== F && b !== c.value && (c.value = b, await me(), be._notifyListeners(
+        `${e.cqPath}/${e.cqItemsOrder[b]}`
+      ));
     });
     const P = E.createCallbackListener(
       e.cqPath,
