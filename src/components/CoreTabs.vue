@@ -133,12 +133,6 @@
       ModelManager._notifyListeners(
         `${props.cqPath!}/${props.cqItemsOrder![current]}`,
       );
-      await nextTick();
-      // eslint-disable-next-line no-restricted-globals
-      const contentFrame = parent.document.getElementById('ContentFrame');
-      if (contentFrame) {
-        contentFrame.dispatchEvent(new Event('load'));
-      }
     }
   });
 
