@@ -9,6 +9,7 @@
   import {
     computed,
     inject,
+    nextTick,
     onMounted,
     onUnmounted,
     PropType,
@@ -19,7 +20,11 @@
     watch,
     watchEffect,
   } from 'vue';
-  import { AuthoringUtils, Model } from '@adobe/aem-spa-page-model-manager';
+  import {
+    AuthoringUtils,
+    Model,
+    ModelManager,
+  } from '@adobe/aem-spa-page-model-manager';
   import SpaUtils from '@/utils/SpaUtils';
 
   interface CarouselAccessibilityProperties {
@@ -221,6 +226,11 @@
     ) {
       activeIndex.value = current;
       statefulAutoplay.value = false;
+      await nextTick();
+      // eslint-disable-next-line no-underscore-dangle
+      ModelManager._notifyListeners(
+        `${props.cqPath!}/${props.cqItemsOrder![current]}`,
+      );
     }
   });
 
