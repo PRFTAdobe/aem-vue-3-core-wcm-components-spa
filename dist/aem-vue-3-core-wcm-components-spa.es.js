@@ -1,5 +1,5 @@
-import { MapTo as re, ComponentMapping as Q, componentProperties as U, componentClassNames as W, AllowedComponentsContainer as de, ResponsiveGrid as ue, Container as pe, Utils as Z, ContainerPlaceholder as te } from "aem-vue-3-editable-components";
-import { defineComponent as z, useAttrs as ee, inject as S, computed as C, openBlock as a, createBlock as h, unref as _, normalizeProps as N, mergeProps as M, resolveDynamicComponent as D, normalizeClass as s, normalizeStyle as le, withCtx as oe, createElementBlock as u, createElementVNode as n, toDisplayString as I, createCommentVNode as E, Fragment as R, renderList as T, ref as $, watch as J, onMounted as se, onUnmounted as ae, nextTick as me, guardReactiveProps as Ce } from "vue";
+import { MapTo as de, ComponentMapping as Q, componentProperties as U, componentClassNames as W, AllowedComponentsContainer as ue, ResponsiveGrid as pe, Container as me, Utils as Z, ContainerPlaceholder as te } from "aem-vue-3-editable-components";
+import { defineComponent as z, useAttrs as ee, inject as S, computed as C, openBlock as a, createBlock as h, unref as _, normalizeProps as N, mergeProps as M, resolveDynamicComponent as D, normalizeClass as s, normalizeStyle as oe, withCtx as ie, createElementBlock as u, createElementVNode as n, toDisplayString as I, createCommentVNode as E, Fragment as R, renderList as T, ref as $, watch as J, onMounted as se, onUnmounted as ae, nextTick as le, guardReactiveProps as Ce } from "vue";
 import { AuthoringUtils as Y, ModelManager as be } from "@adobe/aem-spa-page-model-manager";
 const Ye = {
   emptyLabel: "Accordion",
@@ -37,12 +37,12 @@ const Ye = {
   isEmpty(t) {
     return !t.cqItemsOrder || (t == null ? void 0 : t.cqItemsOrder.length) === 0;
   }
-}, _e = "ContentFragment-", ie = (t) => _e + t, ye = (t, e) => {
+}, _e = "ContentFragment-", ce = (t) => _e + t, ye = (t, e) => {
   t && e && (typeof t == "string" ? [t] : t).forEach((p) => {
-    re(ie(p))(e);
+    de(ce(p))(e);
   });
 }, he = (t) => {
-  const e = ie(t);
+  const e = ce(t);
   return Q.get(e);
 }, nt = (t) => (e) => ye(t, e), ve = /* @__PURE__ */ z({
   inheritAttrs: !1,
@@ -95,21 +95,21 @@ const Ye = {
         return p && (l == null ? void 0 : l.allowedComponents) && ((v = l == null ? void 0 : l.allowedComponents) == null ? void 0 : v.applicable);
       }
     );
-    return (v, i) => c.value ? (a(), h(_(de), N(M({ key: 0 }, { ...e, ..._(l) })), null, 16)) : (a(), h(D(e.styleSystemElement || "div"), {
+    return (v, i) => c.value ? (a(), h(_(ue), N(M({ key: 0 }, { ...e, ..._(l) })), null, 16)) : (a(), h(D(e.styleSystemElement || "div"), {
       key: 1,
       id: e.id,
       "aria-label": e.accessibilityLabel,
       class: s(q.value),
       role: e.roleAttribute,
-      style: le(e.backgroundStyle)
+      style: oe(e.backgroundStyle)
     }, {
-      default: oe(() => [
-        t.layout === "RESPONSIVE_GRID" ? (a(), h(_(ue), N(M({ key: 0 }, {
+      default: ie(() => [
+        t.layout === "RESPONSIVE_GRID" ? (a(), h(_(pe), N(M({ key: 0 }, {
           ...e,
           ..._(l),
           allowedComponents: { applicable: !1, components: [] },
           title: ""
-        })), null, 16)) : (a(), h(_(pe), N(M({ key: 1 }, { ...e, ..._(l) })), null, 16))
+        })), null, 16)) : (a(), h(_(me), N(M({ key: 1 }, { ...e, ..._(l) })), null, 16))
       ]),
       _: 1
     }, 8, ["id", "aria-label", "class", "role", "style"]));
@@ -455,7 +455,7 @@ const Ye = {
         (a(), h(D(e.headingElement), {
           class: s(`${e.baseCssClass}__heading`)
         }, {
-          default: oe(() => [
+          default: ie(() => [
             n("button", {
               id: `accordion-${e.cqItems[r].id}-button`,
               "aria-controls": `accordion-${e.cqItems[r].id}-panel`,
@@ -625,7 +625,7 @@ const Ye = {
       !e.autopauseDisabled && d.value && o();
     }, X = () => {
       !e.autopauseDisabled && d.value && G();
-    }, ce = C(
+    }, re = C(
       () => !e.cqItemsOrder || (e == null ? void 0 : e.cqItemsOrder.length) === 0
     );
     J(v, async (f, y) => {
@@ -649,7 +649,7 @@ const Ye = {
         "data-panelcontainer": "carousel",
         role: "group"
       }, [
-        ce.value ? E("", !0) : (a(), u("div", {
+        re.value ? E("", !0) : (a(), u("div", {
           key: 0,
           class: s(`${e.baseCssClass}__content`),
           onMouseenter: x,
@@ -832,9 +832,9 @@ const Ye = {
     };
     J(q, async (b, B) => {
       if (b !== -1 && typeof b < "u" && b !== B && b !== c.value) {
-        c.value = b, await me(), be._notifyListeners(
+        c.value = b, await le(), be._notifyListeners(
           `${e.cqPath}/${e.cqItemsOrder[b]}`
-        );
+        ), await le();
         const g = parent.document.getElementById("ContentFrame");
         g && g.dispatchEvent(new Event("load"));
       }
@@ -875,7 +875,7 @@ const Ye = {
       _(l) ? (a(!0), u(R, { key: 1 }, T(i.value, (g, P) => (a(), u("div", {
         key: `tab-content-${P}`,
         class: s(`${e.baseCssClass}__author-tab-content`),
-        style: le({ display: c.value === P ? "block" : "none" })
+        style: oe({ display: c.value === P ? "block" : "none" })
       }, [
         (a(), h(D(g), N(Ce({ isInEditor: !1 })), null, 16))
       ], 6))), 128)) : (a(), h(D(i.value[c.value]), { key: 2 })),
