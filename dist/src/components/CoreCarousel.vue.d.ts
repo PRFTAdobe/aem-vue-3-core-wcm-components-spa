@@ -53,6 +53,9 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
+    activeItem: {
+        type: StringConstructor;
+    };
     autopauseDisabled: {
         type: BooleanConstructor;
         default: boolean;
@@ -116,6 +119,9 @@ declare const _default: import("vue").DefineComponent<{
     accessibilityLabel: {
         type: StringConstructor;
         default: string;
+    };
+    activeItem: {
+        type: StringConstructor;
     };
     autopauseDisabled: {
         type: BooleanConstructor;

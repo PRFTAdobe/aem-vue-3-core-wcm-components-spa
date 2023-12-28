@@ -173,6 +173,62 @@ describe('CoreCarousel ->', () => {
     );
   });
 
+  it('Changes when you switch slide in author mode', async () => {
+    const callbacks: { (message: unknown): void }[] = [];
+    const messageChannel = jest.fn();
+    messageChannel.mockReturnValue({
+      subscribeRequestMessage: (
+        // @ts-ignore
+        topic: string,
+        callback: (message: unknown) => void,
+      ) => {
+        callbacks.push(callback);
+      },
+      unsubscribeRequestMessage: (
+        // @ts-ignore
+        topic: string,
+        callback: (message: unknown) => void,
+      ) => {
+        const index: number = callbacks.indexOf(callback);
+        callbacks.splice(index, 1);
+      },
+    });
+    // @ts-ignore
+    window.Granite = {
+      author: {
+        trigger: (path: string, index: number) => {
+          callbacks.forEach((callback) =>
+            callback({
+              data: {
+                id: path,
+                operation: 'navigate',
+                index,
+              },
+            }),
+          );
+        },
+        MessageChannel: messageChannel,
+      },
+    };
+
+    const wrapper = mount(CoreCarousel, {
+      propsData: defaultProps,
+      global: {
+        provide: {
+          isInEditor: true,
+          componentMapping: new ComponentMapping(),
+        },
+      },
+    });
+
+    // @ts-ignore
+    window.Granite.author.trigger('/content/carousel-path', 1);
+    await nextTick();
+    expect(wrapper.find('.cmp-carousel__item--active').text()).toEqual(
+      'Component2',
+    );
+  });
+
   it('Automatically slides forward', async () => {
     jest.useFakeTimers();
     const wrapper = mount(CoreCarousel, {

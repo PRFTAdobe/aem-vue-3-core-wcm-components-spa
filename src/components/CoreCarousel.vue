@@ -16,9 +16,11 @@
     ref,
     useAttrs,
     VNode,
+    watch,
     watchEffect,
   } from 'vue';
   import { AuthoringUtils, Model } from '@adobe/aem-spa-page-model-manager';
+  import SpaUtils from '@/utils/SpaUtils';
 
   interface CarouselAccessibilityProperties {
     play: string;
@@ -94,11 +96,13 @@
   const componentMapping = inject('componentMapping', new ComponentMapping());
 
   const interval: Ref<number | ReturnType<typeof setInterval>> = ref(-1);
+  const activeIndexFromAuthorPanel = ref(-1);
   const activeIndex = ref(
     props.cqItemsOrder!.indexOf(props.activeItem!) > 0
       ? props.cqItemsOrder!.indexOf(props.activeItem!)
       : 0,
   );
+  const messageChannel = ref(SpaUtils.initMessageChannel());
   const statefulAutoplay = ref(attrs?.autoplay === true && !computedIsInEditor);
 
   const childComponents = computed((): VNode[] =>
@@ -209,14 +213,32 @@
     () => !props.cqItemsOrder || props?.cqItemsOrder.length === 0,
   );
 
+  watch(activeIndexFromAuthorPanel, async (current, previous) => {
+    if (
+      current !== -1 &&
+      typeof current !== 'undefined' &&
+      current !== previous
+    ) {
+      activeIndex.value = current;
+      statefulAutoplay.value = false;
+    }
+  });
+
+  const callbackListener = SpaUtils.createCallbackListener(
+    props.cqPath,
+    activeIndexFromAuthorPanel,
+  );
+
   onMounted(() => {
     autoPlay();
+    SpaUtils.subscribeRequestMessage(messageChannel.value, callbackListener);
   });
 
   onUnmounted(() => {
     if (typeof interval.value === 'number' && interval.value >= 0) {
       clearAutoPlay();
     }
+    SpaUtils.unsubscribeRequestMessage(messageChannel.value, callbackListener);
   });
 
   watchEffect(
@@ -263,7 +285,7 @@
           data-cmp-hook-carousel="item"
           role="tabpanel"
         >
-          <component :is="childComponent" v-bind="{ isInEditor: false }" />
+          <component :is="childComponent" />
         </div>
       </div>
       <div :class="`${props.baseCssClass}__actions`">
