@@ -131,7 +131,10 @@
 
       await nextTick();
       // eslint-disable-next-line no-underscore-dangle
-      ModelManager._notifyListeners(props.cqPath!);
+      ModelManager._notifyListeners(
+        `${props.cqPath!}/${props.cqItemsOrder![current]}`,
+      );
+      await nextTick();
       PathUtils.dispatchGlobalCustomEvent('cq-async-content-loaded', {});
     }
   });
