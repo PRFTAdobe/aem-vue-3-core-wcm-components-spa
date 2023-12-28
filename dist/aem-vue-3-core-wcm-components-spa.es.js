@@ -1,50 +1,50 @@
 import { MapTo as ce, ComponentMapping as U, componentProperties as z, componentClassNames as H, AllowedComponentsContainer as re, ResponsiveGrid as de, Container as ue, Utils as Y, ContainerPlaceholder as te } from "aem-vue-3-editable-components";
-import { defineComponent as F, useAttrs as Z, inject as S, computed as m, openBlock as a, createBlock as v, unref as y, normalizeProps as L, mergeProps as x, resolveDynamicComponent as R, normalizeClass as s, normalizeStyle as pe, withCtx as ae, createElementBlock as d, createElementVNode as n, toDisplayString as I, createCommentVNode as q, Fragment as N, renderList as B, ref as w, watch as W, onMounted as ne, onUnmounted as le, guardReactiveProps as me } from "vue";
+import { defineComponent as F, useAttrs as Z, inject as S, computed as p, openBlock as a, createBlock as f, unref as y, normalizeProps as L, mergeProps as x, resolveDynamicComponent as R, normalizeClass as s, normalizeStyle as me, withCtx as ae, createElementBlock as d, createElementVNode as n, toDisplayString as I, createCommentVNode as q, Fragment as N, renderList as B, ref as O, watch as W, onMounted as ne, onUnmounted as le, watchEffect as pe, guardReactiveProps as Ce } from "vue";
 import { AuthoringUtils as K } from "@adobe/aem-spa-page-model-manager";
-const We = {
+const Ye = {
   emptyLabel: "Accordion",
   // eslint-disable-next-line no-shadow
   isEmpty(t) {
     return !t.cqItemsOrder || (t == null ? void 0 : t.cqItemsOrder.length) === 0;
   }
-}, Ye = {
+}, Ze = {
   emptyLabel: "Carousel",
   // eslint-disable-next-line no-shadow
   isEmpty(t) {
     return !t.cqItemsOrder || (t == null ? void 0 : t.cqItemsOrder.length) === 0;
   }
-}, Ze = {
+}, et = {
   emptyLabel: "Container",
   // eslint-disable-next-line no-shadow
   isEmpty(t) {
     return !t.cqItemsOrder || (t == null ? void 0 : t.cqItemsOrder.length) === 0;
   }
-}, et = {
+}, tt = {
   emptyLabel: "Content Fragment",
   // eslint-disable-next-line no-shadow
   isEmpty(t) {
     return t.elementsOrder.length === 0 && t.cqItemsOrder.length === 0;
   }
-}, tt = {
+}, st = {
   emptyLabel: "Experience Fragment",
   // eslint-disable-next-line no-shadow
   isEmpty(t) {
     return !t.cqItemsOrder || (t == null ? void 0 : t.cqItemsOrder.length) === 0;
   }
-}, st = {
+}, at = {
   emptyLabel: "Tabs",
   // eslint-disable-next-line no-shadow
   isEmpty(t) {
     return !t.cqItemsOrder || (t == null ? void 0 : t.cqItemsOrder.length) === 0;
   }
-}, Ce = "ContentFragment-", oe = (t) => Ce + t, be = (t, e) => {
+}, be = "ContentFragment-", ie = (t) => be + t, _e = (t, e) => {
   t && e && (typeof t == "string" ? [t] : t).forEach((u) => {
-    ce(oe(u))(e);
+    ce(ie(u))(e);
   });
-}, _e = (t) => {
-  const e = oe(t);
+}, ye = (t) => {
+  const e = ie(t);
   return U.get(e);
-}, at = (t) => (e) => be(t, e), ye = /* @__PURE__ */ F({
+}, nt = (t) => (e) => _e(t, e), he = /* @__PURE__ */ F({
   inheritAttrs: !1,
   __name: "CoreContainer",
   props: {
@@ -80,7 +80,7 @@ const We = {
     ...z("cmp-container")
   },
   setup(t) {
-    const e = t, l = Z(), u = typeof e.isInEditor < "u" ? e.isInEditor : S("isInEditor", K.isInEditor()), f = m(
+    const e = t, l = Z(), u = typeof e.isInEditor < "u" ? e.isInEditor : S("isInEditor", K.isInEditor()), h = p(
       () => H(
         e.baseCssClass,
         e.appliedCssClassNames,
@@ -89,32 +89,32 @@ const We = {
         u,
         e.aemNoDecoration
       )
-    ), C = m(
+    ), C = p(
       () => {
         var g;
         return u && (l == null ? void 0 : l.allowedComponents) && ((g = l == null ? void 0 : l.allowedComponents) == null ? void 0 : g.applicable);
       }
     );
-    return (g, i) => C.value ? (a(), v(y(re), L(x({ key: 0 }, { ...e, ...y(l) })), null, 16)) : (a(), v(R(e.styleSystemElement || "div"), {
+    return (g, o) => C.value ? (a(), f(y(re), L(x({ key: 0 }, { ...e, ...y(l) })), null, 16)) : (a(), f(R(e.styleSystemElement || "div"), {
       key: 1,
       id: e.id,
       "aria-label": e.accessibilityLabel,
-      class: s(f.value),
+      class: s(h.value),
       role: e.roleAttribute,
-      style: pe(e.backgroundStyle)
+      style: me(e.backgroundStyle)
     }, {
       default: ae(() => [
-        t.layout === "RESPONSIVE_GRID" ? (a(), v(y(de), L(x({ key: 0 }, {
+        t.layout === "RESPONSIVE_GRID" ? (a(), f(y(de), L(x({ key: 0 }, {
           ...e,
           ...y(l),
           allowedComponents: { applicable: !1, components: [] },
           title: ""
-        })), null, 16)) : (a(), v(y(ue), L(x({ key: 1 }, { ...e, ...y(l) })), null, 16))
+        })), null, 16)) : (a(), f(y(ue), L(x({ key: 1 }, { ...e, ...y(l) })), null, 16))
       ]),
       _: 1
     }, 8, ["id", "aria-label", "class", "role", "style"]));
   }
-}), he = ["id"], ve = ["innerHTML"], fe = /* @__PURE__ */ F({
+}), ve = ["id"], fe = ["innerHTML"], ge = /* @__PURE__ */ F({
   inheritAttrs: !1,
   __name: "DefaultContentFragment",
   props: {
@@ -159,7 +159,7 @@ const We = {
     ...z("cmp-contentfragment")
   },
   setup(t) {
-    const e = t, l = typeof e.isInEditor < "u" ? e.isInEditor : S("isInEditor", K.isInEditor()), u = S("componentMapping", new U()), f = m(
+    const e = t, l = typeof e.isInEditor < "u" ? e.isInEditor : S("isInEditor", K.isInEditor()), u = S("componentMapping", new U()), h = p(
       () => H(
         e.baseCssClass,
         e.appliedCssClassNames,
@@ -168,7 +168,7 @@ const We = {
         l,
         e.aemNoDecoration
       )
-    ), C = m(
+    ), C = p(
       () => Y.getChildComponents(
         e.cqPath,
         e.cqItems,
@@ -179,11 +179,11 @@ const We = {
         u
       )
     );
-    return (g, i) => {
+    return (g, o) => {
       var $;
       return a(), d("div", {
         id: e.id,
-        class: s(f.value)
+        class: s(h.value)
       }, [
         n("h3", {
           class: s(`${e.baseCssClass}__title`)
@@ -196,8 +196,8 @@ const We = {
           key: 1,
           class: s(`${e.baseCssClass}__elements`)
         }, [
-          (a(!0), d(N, null, B(e.elementsOrder, (r, O) => (a(), d("div", {
-            key: `${e.id}-element-${r}-${O}`,
+          (a(!0), d(N, null, B(e.elementsOrder, (r, w) => (a(), d("div", {
+            key: `${e.id}-element-${r}-${w}`,
             class: s(`${e.baseCssClass}__element`)
           }, [
             n("div", {
@@ -214,7 +214,7 @@ const We = {
                 `${e.baseCssClass}__elemententry--value`
               ]),
               innerHTML: `value: ${e.elements[r].value}`
-            }, null, 10, ve),
+            }, null, 10, fe),
             n("div", {
               class: s([
                 `${e.baseCssClass}__elemententry`,
@@ -235,13 +235,13 @@ const We = {
             }, " type: " + I(e.elements[r][":type"]), 3)
           ], 2))), 128))
         ], 2)) : q("", !0),
-        (a(!0), d(N, null, B(C.value, (r) => (a(), v(R(r), {
+        (a(!0), d(N, null, B(C.value, (r) => (a(), f(R(r), {
           key: r.toString()
         }))), 128))
-      ], 10, he);
+      ], 10, ve);
     };
   }
-}), nt = /* @__PURE__ */ F({
+}), lt = /* @__PURE__ */ F({
   inheritAttrs: !1,
   __name: "CoreContentFragment",
   props: {
@@ -286,13 +286,13 @@ const We = {
     ...z("cmp-contentfragment")
   },
   setup(t) {
-    const e = t, l = Z(), u = m(
+    const e = t, l = Z(), u = p(
       () => e.elementsOrder.length === 0 && e.cqItemsOrder.length === 0
-    ), f = m(() => {
-      const C = _e(e.model);
-      return C || fe;
+    ), h = p(() => {
+      const C = ye(e.model);
+      return C || ge;
     });
-    return (C, g) => u.value ? q("", !0) : (a(), v(R(f.value), L(x({ key: 0 }, { ...e, ...y(l) })), null, 16));
+    return (C, g) => u.value ? q("", !0) : (a(), f(R(h.value), L(x({ key: 0 }, { ...e, ...y(l) })), null, 16));
   }
 }), M = {
   createCallbackListener(t, e) {
@@ -324,7 +324,7 @@ const We = {
       e
     );
   }
-}, ge = ["id", "data-cmp-single-expansion"], Ie = ["id", "data-cmp-expanded"], qe = ["id", "aria-controls", "data-cmp-button-id", "onClick", "onKeydown"], $e = /* @__PURE__ */ n("svg", {
+}, Ie = ["id", "data-cmp-single-expansion"], qe = ["id", "data-cmp-expanded"], $e = ["id", "aria-controls", "data-cmp-button-id", "onClick", "onKeydown"], Ee = /* @__PURE__ */ n("svg", {
   fill: "var(--accordion-heading-color)",
   height: "18",
   viewBox: "0 0 24 24",
@@ -332,9 +332,9 @@ const We = {
   xmlns: "http://www.w3.org/2000/svg"
 }, [
   /* @__PURE__ */ n("path", { d: "M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z" })
-], -1), Ee = [
-  $e
-], we = ["id", "aria-labelledby"], lt = /* @__PURE__ */ F({
+], -1), Oe = [
+  Ee
+], we = ["id", "aria-labelledby"], it = /* @__PURE__ */ F({
   inheritAttrs: !1,
   __name: "CoreAccordion",
   props: {
@@ -361,10 +361,10 @@ const We = {
     ...z("cmp-accordion")
   },
   setup(t) {
-    const e = t, l = Z(), u = S("isInEditor", K.isInEditor()), f = S("componentMapping", new U()), C = w(M.initMessageChannel()), g = w(-1), i = w(e.expandedItems), $ = w(null), r = m(() => (l == null ? void 0 : l.singleExpansion) === !0), O = m(() => {
-      const o = {};
-      return u && (o["data-panelcontainer"] = "accordion", o["data-cq-data-path"] = e.cqPath || "", o["data-placeholder-text"] = "Please drag Accordion item components here"), o;
-    }), X = m(
+    const e = t, l = Z(), u = S("isInEditor", K.isInEditor()), h = S("componentMapping", new U()), C = O(M.initMessageChannel()), g = O(-1), o = O(e.expandedItems), $ = O(null), r = p(() => (l == null ? void 0 : l.singleExpansion) === !0), w = p(() => {
+      const i = {};
+      return u && (i["data-panelcontainer"] = "accordion", i["data-cq-data-path"] = e.cqPath || "", i["data-placeholder-text"] = "Please drag Accordion item components here"), i;
+    }), X = p(
       () => Y.getChildComponents(
         e.cqPath,
         e.cqItems,
@@ -372,9 +372,9 @@ const We = {
         !0,
         () => ({}),
         !1,
-        f
+        h
       )
-    ), P = m(
+    ), P = p(
       () => H(
         e.baseCssClass,
         e.appliedCssClassNames,
@@ -383,53 +383,53 @@ const We = {
         u,
         e.aemNoDecoration
       )
-    ), b = (o) => {
-      const p = $.value.querySelector(
-        `button[data-cmp-button-id="${o}"]`
+    ), b = (i) => {
+      const m = $.value.querySelector(
+        `button[data-cmp-button-id="${i}"]`
       );
-      p && p.focus();
-    }, J = (o, p) => {
-      const c = i.value.indexOf(o) > -1;
+      m && m.focus();
+    }, J = (i, m) => {
+      const c = o.value.indexOf(i) > -1;
       if (r.value)
-        i.value = c ? [] : [o];
+        o.value = c ? [] : [i];
       else if (c) {
-        const E = i.value.indexOf(o);
-        i.value.splice(E, 1);
+        const E = o.value.indexOf(i);
+        o.value.splice(E, 1);
       } else
-        i.value.push(o);
-      p.target.focus();
-    }, Q = (o, p, c) => {
+        o.value.push(i);
+      m.target.focus();
+    }, Q = (i, m, c) => {
       const E = $.value.querySelectorAll("button").length - 1;
-      switch (p.code) {
+      switch (m.code) {
         case "ArrowLeft":
         case "ArrowUp":
-          p.preventDefault(), c > 0 && b(c - 1);
+          m.preventDefault(), c > 0 && b(c - 1);
           break;
         case "ArrowRight":
         case "ArrowDown":
-          p.preventDefault(), c < E && b(c + 1);
+          m.preventDefault(), c < E && b(c + 1);
           break;
         case "Home":
-          p.preventDefault(), b(0);
+          m.preventDefault(), b(0);
           break;
         case "End":
-          p.preventDefault(), b(E);
+          m.preventDefault(), b(E);
           break;
         case "Enter":
         case "Space":
-          p.preventDefault(), J(o, p), b(c);
+          m.preventDefault(), J(i, m), b(c);
           break;
       }
-    }, j = (o) => i.value.indexOf(o) > -1, ee = m(() => ({
+    }, j = (i) => o.value.indexOf(i) > -1, ee = p(() => ({
       cqPath: e.cqPath,
       placeholderClassNames: ["new", "section"].join(" ")
     }));
-    W(r, async (o, p) => {
-      o !== p && (i.value = e.expandedItems);
-    }), W(e.expandedItems, async (o, p) => {
-      o !== p && (i.value = o);
-    }), W(g, async (o, p) => {
-      o !== -1 && typeof o < "u" && o !== p && e.cqItemsOrder && (i.value = [e.cqItemsOrder[o]]);
+    W(r, async (i, m) => {
+      i !== m && (o.value = e.expandedItems);
+    }), W(e.expandedItems, async (i, m) => {
+      i !== m && (o.value = i);
+    }), W(g, async (i, m) => {
+      i !== -1 && typeof i < "u" && i !== m && e.cqItemsOrder && (o.value = [e.cqItemsOrder[i]]);
     });
     const G = M.createCallbackListener(
       e.cqPath,
@@ -439,20 +439,20 @@ const We = {
       M.subscribeRequestMessage(C.value, G);
     }), le(() => {
       M.unsubscribeRequestMessage(C.value, G);
-    }), (o, p) => (a(), d("div", x({
+    }), (i, m) => (a(), d("div", x({
       id: e.id,
       ref_key: "accordion",
       ref: $,
       class: P.value,
       "data-cmp-single-expansion": r.value === !0 ? !0 : void 0
-    }, O.value), [
+    }, w.value), [
       e.cqItemsOrder && (e == null ? void 0 : e.cqItemsOrder.length) > 0 && e.cqItems ? (a(!0), d(N, { key: 0 }, B(e.cqItemsOrder, (c, E) => (a(), d("div", {
         id: `accordion-${e.cqItems[c].id}`,
         key: `accordion-index-${E}`,
         class: s(`${e.baseCssClass}__item`),
         "data-cmp-expanded": j(c) ? !0 : void 0
       }, [
-        (a(), v(R(e.headingElement), {
+        (a(), f(R(e.headingElement), {
           class: s(`${e.baseCssClass}__heading`)
         }, {
           default: ae(() => [
@@ -474,8 +474,8 @@ const We = {
               }, I(e.cqItems[c]["cq:panelTitle"]), 3),
               n("span", {
                 class: s(`${e.baseCssClass}__icon`)
-              }, Ee, 2)
-            ], 42, qe)
+              }, Oe, 2)
+            ], 42, $e)
           ]),
           _: 2
         }, 1032, ["class"])),
@@ -486,41 +486,41 @@ const We = {
           class: s(`${e.baseCssClass}__panel ${j(c) ? " " + e.baseCssClass + "__panel--expanded" : " " + e.baseCssClass + "__panel--hidden"}`),
           role: "region"
         }, [
-          e.cqItemsOrder ? (a(), v(R(X.value[t.cqItemsOrder.indexOf(c)]), { key: 0 })) : q("", !0)
+          e.cqItemsOrder ? (a(), f(R(X.value[t.cqItemsOrder.indexOf(c)]), { key: 0 })) : q("", !0)
         ], 10, we)) : q("", !0)
-      ], 10, Ie))), 128)) : q("", !0),
-      y(u) ? (a(), v(y(te), L(x({ key: 1 }, ee.value)), null, 16)) : q("", !0)
-    ], 16, ge));
+      ], 10, qe))), 128)) : q("", !0),
+      y(u) ? (a(), f(y(te), L(x({ key: 1 }, ee.value)), null, 16)) : q("", !0)
+    ], 16, Ie));
   }
-}), Oe = ["id", "aria-label"], Pe = ["aria-label"], xe = ["aria-label"], Se = /* @__PURE__ */ n("svg", {
+}), Pe = ["id", "aria-label"], xe = ["aria-label"], Se = ["aria-label"], ke = /* @__PURE__ */ n("svg", {
   viewBox: "0 0 24 24",
   xmlns: "http://www.w3.org/2000/svg"
 }, [
   /* @__PURE__ */ n("path", { d: "M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" })
-], -1), ke = [
-  Se
-], Ae = ["aria-label"], Me = /* @__PURE__ */ n("svg", {
+], -1), Ae = [
+  ke
+], Me = ["aria-label"], Le = /* @__PURE__ */ n("svg", {
   viewBox: "0 0 24 24",
   xmlns: "http://www.w3.org/2000/svg"
 }, [
   /* @__PURE__ */ n("path", { d: "M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" })
-], -1), Le = [
-  Me
-], Ne = ["aria-label"], De = /* @__PURE__ */ n("svg", {
+], -1), Ne = [
+  Le
+], De = ["aria-label"], Re = /* @__PURE__ */ n("svg", {
   viewBox: "0 0 24 24",
   xmlns: "http://www.w3.org/2000/svg"
 }, [
   /* @__PURE__ */ n("path", { d: "M6 19h4V5H6v14zm8-14v14h4V5h-4z" })
-], -1), Re = [
-  De
-], Be = ["aria-label"], Fe = /* @__PURE__ */ n("svg", {
+], -1), Be = [
+  Re
+], Fe = ["aria-label"], je = /* @__PURE__ */ n("svg", {
   viewBox: "0 0 24 24",
   xmlns: "http://www.w3.org/2000/svg"
 }, [
   /* @__PURE__ */ n("path", { d: "M8 5v14l11-7z" })
-], -1), je = [
-  Fe
-], Te = ["aria-label"], ze = ["aria-label", "onClick"], ot = /* @__PURE__ */ F({
+], -1), Te = [
+  je
+], ze = ["aria-label"], Ge = ["aria-label", "onClick"], ot = /* @__PURE__ */ F({
   inheritAttrs: !1,
   __name: "CoreCarousel",
   props: {
@@ -568,7 +568,7 @@ const We = {
     ...z("cmp-carousel")
   },
   setup(t) {
-    const e = t, l = Z(), u = typeof e.isInEditor < "u" ? e.isInEditor : S("isInEditor", K.isInEditor()), f = S("componentMapping", new U()), C = w(-1), g = w(-1), i = w(0), $ = w(M.initMessageChannel()), r = w((l == null ? void 0 : l.autoplay) === !0 && !u), O = m(
+    const e = t, l = Z(), u = typeof e.isInEditor < "u" ? e.isInEditor : S("isInEditor", K.isInEditor()), h = S("componentMapping", new U()), C = O(-1), g = O(-1), o = O(0), $ = O(M.initMessageChannel()), r = O((l == null ? void 0 : l.autoplay) === !0 && !u), w = p(
       () => Y.getChildComponents(
         e.cqPath,
         e.cqItems,
@@ -576,9 +576,9 @@ const We = {
         !0,
         () => ({}),
         !1,
-        f
+        h
       )
-    ), X = m(
+    ), X = p(
       () => H(
         e.baseCssClass,
         e.appliedCssClassNames,
@@ -587,49 +587,49 @@ const We = {
         u,
         e.aemNoDecoration
       )
-    ), P = m(() => ({
+    ), P = p(() => ({
       cqPath: e.cqPath,
       placeholderClassNames: ["new", "section"].join(" ")
-    })), b = (h) => {
+    })), b = (v) => {
       var D;
       let _ = ((D = e.accessibility) == null ? void 0 : D.indicator) || "";
       const T = "{0}";
-      return _ = _.replace(T, (h + 1).toString()), _;
-    }, J = (h) => {
+      return _ = _.replace(T, (v + 1).toString()), _;
+    }, J = (v) => {
       var k;
       let _ = ((k = e.accessibility) == null ? void 0 : k.slide) || "";
       const T = "{0}";
-      _ = _.replace(T, (h + 1).toString());
+      _ = _.replace(T, (v + 1).toString());
       const D = "{1}";
       return _ = _.replace(
         D,
         e.cqItemsOrder.length.toString()
       ), _;
     }, Q = () => {
-      i.value === e.cqItemsOrder.length - 1 ? i.value = 0 : i.value += 1;
+      o.value === e.cqItemsOrder.length - 1 ? o.value = 0 : o.value += 1;
     }, j = () => {
-      i.value === 0 ? i.value = e.cqItemsOrder.length - 1 : i.value -= 1;
+      o.value === 0 ? o.value = e.cqItemsOrder.length - 1 : o.value -= 1;
     }, ee = () => {
       !r.value || e.cqItemsOrder.length <= 1 || Q();
     }, G = () => {
       C.value = setInterval(() => {
         ee();
       }, e.delay);
-    }, o = () => {
+    }, i = () => {
       clearInterval(C.value);
-    }, p = (h) => {
-      r.value = h;
-    }, c = (h) => {
-      i.value !== h && (i.value = h);
+    }, m = (v) => {
+      r.value = v;
+    }, c = (v) => {
+      o.value !== v && (o.value = v);
     }, E = () => {
-      !e.autopauseDisabled && r.value && o();
+      !e.autopauseDisabled && r.value && i();
     }, V = () => {
       !e.autopauseDisabled && r.value && G();
-    }, ie = m(
+    }, oe = p(
       () => !e.cqItemsOrder || (e == null ? void 0 : e.cqItemsOrder.length) === 0
     );
-    W(g, async (h, _) => {
-      h !== -1 && typeof h < "u" && h !== _ && (i.value = h, r.value = !1);
+    W(g, async (v, _) => {
+      v !== -1 && typeof v < "u" && v !== _ && (o.value = v, r.value = !1);
     });
     const se = M.createCallbackListener(
       e.cqPath,
@@ -638,8 +638,8 @@ const We = {
     return ne(() => {
       G(), M.subscribeRequestMessage($.value, se);
     }), le(() => {
-      typeof C.value == "number" && C.value >= 0 && o(), M.unsubscribeRequestMessage($.value, se);
-    }), (h, _) => {
+      typeof C.value == "number" && C.value >= 0 && i(), M.unsubscribeRequestMessage($.value, se);
+    }), (v, _) => {
       var T, D;
       return a(), d("div", {
         id: e.id,
@@ -649,7 +649,7 @@ const We = {
         "data-panelcontainer": "carousel",
         role: "group"
       }, [
-        ie.value ? q("", !0) : (a(), d("div", {
+        oe.value ? q("", !0) : (a(), d("div", {
           key: 0,
           class: s(`${e.baseCssClass}__content`),
           onMouseenter: E,
@@ -658,20 +658,20 @@ const We = {
           n("div", {
             class: s([{ [`${e.baseCssClass}__items`]: !y(u) }])
           }, [
-            (a(!0), d(N, null, B(O.value, (k, A) => (a(), d("div", {
+            (a(!0), d(N, null, B(w.value, (k, A) => (a(), d("div", {
               key: `item-${A}`,
               "aria-label": J(A),
               class: s([
                 `${e.baseCssClass}__item`,
                 {
-                  [`${e.baseCssClass}__item--active`]: A === i.value
+                  [`${e.baseCssClass}__item--active`]: A === o.value
                 }
               ]),
               "data-cmp-hook-carousel": "item",
               role: "tabpanel"
             }, [
-              (a(), v(R(k)))
-            ], 10, Pe))), 128))
+              (a(), f(R(k)))
+            ], 10, xe))), 128))
           ], 2),
           n("div", {
             class: s(`${e.baseCssClass}__actions`)
@@ -684,11 +684,11 @@ const We = {
             }, [
               n("span", {
                 class: s(`${e.baseCssClass}__action-icon`)
-              }, ke, 2),
+              }, Ae, 2),
               n("span", {
                 class: s(`${e.baseCssClass}__action-text`)
               }, I(e.accessibility.previous), 3)
-            ], 10, xe),
+            ], 10, Se),
             n("button", {
               "aria-label": e.accessibility.next,
               class: s(`${e.baseCssClass}__action ${e.baseCssClass}__action--next`),
@@ -697,11 +697,11 @@ const We = {
             }, [
               n("span", {
                 class: s(`${e.baseCssClass}__action-icon`)
-              }, Le, 2),
+              }, Ne, 2),
               n("span", {
                 class: s(`${e.baseCssClass}__action-text`)
               }, I(e.accessibility.next), 3)
-            ], 10, Ae),
+            ], 10, Me),
             ((T = y(l)) == null ? void 0 : T.autoplay) === !0 ? (a(), d(N, { key: 0 }, [
               n("button", {
                 "aria-label": e.accessibility.pause,
@@ -713,15 +713,15 @@ const We = {
                   }
                 ]),
                 type: "button",
-                onClick: _[0] || (_[0] = (k) => p(!1))
+                onClick: _[0] || (_[0] = (k) => m(!1))
               }, [
                 n("span", {
                   class: s(`${e.baseCssClass}__action-icon`)
-                }, Re, 2),
+                }, Be, 2),
                 n("span", {
                   class: s(`${e.baseCssClass}__action-text`)
                 }, I(e.accessibility.pause), 3)
-              ], 10, Ne),
+              ], 10, De),
               n("button", {
                 "aria-label": e.accessibility.play,
                 class: s([
@@ -730,15 +730,15 @@ const We = {
                   { [`${e.baseCssClass}__action--disabled`]: r.value }
                 ]),
                 type: "button",
-                onClick: _[1] || (_[1] = (k) => p(!0))
+                onClick: _[1] || (_[1] = (k) => m(!0))
               }, [
                 n("span", {
                   class: s(`${e.baseCssClass}__action-icon`)
-                }, je, 2),
+                }, Te, 2),
                 n("span", {
                   class: s(`${e.baseCssClass}__action-text`)
                 }, I(e.accessibility.play), 3)
-              ], 10, Be)
+              ], 10, Fe)
             ], 64)) : q("", !0)
           ], 2),
           n("ol", {
@@ -752,27 +752,31 @@ const We = {
               class: s([
                 `${e.baseCssClass}__indicator`,
                 {
-                  [`${e.baseCssClass}__indicator--active`]: A === i.value
+                  [`${e.baseCssClass}__indicator--active`]: A === o.value
                 }
               ]),
               role: "tab",
-              onClick: (Ke) => c(A)
-            }, I(e.cqItems[k]["cq:panelTitle"]), 11, ze))), 128))
-          ], 10, Te)
+              onClick: (Xe) => c(A)
+            }, I(e.cqItems[k]["cq:panelTitle"]), 11, Ge))), 128))
+          ], 10, ze)
         ], 34)),
-        y(u) ? (a(), v(y(te), L(x({ key: 1 }, P.value)), null, 16)) : q("", !0)
-      ], 10, Oe);
+        y(u) ? (a(), f(y(te), L(x({ key: 1 }, P.value)), null, 16)) : q("", !0)
+      ], 10, Pe);
     };
   }
-}), it = /* @__PURE__ */ F({
+}), ct = /* @__PURE__ */ F({
   __name: "CoreExperienceFragment",
   setup(t) {
-    return (e, l) => (a(), v(ye, { "is-in-editor": !1 }));
+    return (e, l) => (a(), f(he, { "is-in-editor": !1 }));
   }
-}), Ge = ["id"], Ve = ["aria-label"], Ue = ["id", "aria-controls", "tabIndex"], He = ["id", "aria-labelledby"], ct = /* @__PURE__ */ F({
+}), Ve = ["id"], Ue = ["aria-label"], He = ["id", "aria-controls", "tabIndex"], Ke = ["id", "aria-labelledby"], rt = /* @__PURE__ */ F({
   inheritAttrs: !1,
   __name: "CoreTabs",
   props: {
+    // eslint-disable-next-line vue/require-default-prop
+    activeItem: {
+      type: String
+    },
     // eslint-disable-next-line vue/require-default-prop
     accessibilityLabel: {
       type: String
@@ -796,7 +800,14 @@ const We = {
     ...z("cmp-tabs")
   },
   setup(t) {
-    const e = t, l = typeof e.isInEditor < "u" ? e.isInEditor : S("isInEditor", K.isInEditor()), u = S("componentMapping", new U()), f = w(0), C = m(
+    const e = t, l = typeof e.isInEditor < "u" ? e.isInEditor : S("isInEditor", K.isInEditor()), u = S("componentMapping", new U()), h = O(
+      e.cqItemsOrder.indexOf(e.activeItem) > 0 ? e.cqItemsOrder.indexOf(e.activeItem) : 0
+    );
+    pe(
+      // eslint-disable-next-line no-return-assign
+      () => h.value = e.cqItemsOrder.indexOf(e.activeItem) > 0 ? e.cqItemsOrder.indexOf(e.activeItem) : 0
+    );
+    const C = p(
       () => Y.getChildComponents(
         e.cqPath,
         e.cqItems,
@@ -806,7 +817,7 @@ const We = {
         !1,
         u
       )
-    ), g = m(
+    ), g = p(
       () => H(
         e.baseCssClass,
         e.appliedCssClassNames,
@@ -815,24 +826,24 @@ const We = {
         l,
         e.aemNoDecoration
       )
-    ), i = m(
+    ), o = p(
       () => !e.cqItemsOrder || (e == null ? void 0 : e.cqItemsOrder.length) === 0
-    ), $ = m(() => {
-      const O = {
+    ), $ = p(() => {
+      const w = {
         class: "aem-container",
         "data-cmp-is": "tabs",
         "data-panelcontainer": "tabs"
       };
-      return l && (O["data-cq-data-path"] = e.cqPath), O;
-    }), r = m(() => ({
+      return l && (w["data-cq-data-path"] = e.cqPath), w;
+    }), r = p(() => ({
       cqPath: e.cqPath,
       placeholderClassNames: ["new", "section"].join(" ")
     }));
-    return (O, X) => (a(), d("div", x({
+    return (w, X) => (a(), d("div", x({
       id: e.id,
       class: g.value
     }, $.value), [
-      i.value ? q("", !0) : (a(), d("ol", {
+      o.value ? q("", !0) : (a(), d("ol", {
         key: 0,
         "aria-label": e.accessibilityLabel,
         class: s(`${e.baseCssClass}__tablist`),
@@ -846,21 +857,21 @@ const We = {
           class: s([
             `${e.baseCssClass}__tab`,
             {
-              [`${e.baseCssClass}__tab--active`]: b === f.value
+              [`${e.baseCssClass}__tab--active`]: b === h.value
             }
           ]),
-          tabIndex: b === f.value ? 0 : -1,
+          tabIndex: b === h.value ? 0 : -1,
           "data-cmp-hook-tabs": "tab",
           role: "tab"
-        }, I(e.cqItems[P]["cq:panelTitle"]), 11, Ue))), 128))
-      ], 10, Ve)),
-      i.value ? q("", !0) : (a(!0), d(N, { key: 1 }, B(C.value, (P, b) => (a(), d("div", {
+        }, I(e.cqItems[P]["cq:panelTitle"]), 11, He))), 128))
+      ], 10, Ue)),
+      o.value ? q("", !0) : (a(!0), d(N, { key: 1 }, B(C.value, (P, b) => (a(), d("div", {
         id: `${e.cqItems[e.cqItemsOrder[b]].id}-tabpanel`,
         key: `tab-content-${b}`,
         class: s([
           `${e.baseCssClass}__tabpanel`,
           {
-            [`${e.baseCssClass}__tabpanel--active`]: b === f.value
+            [`${e.baseCssClass}__tabpanel--active`]: b === h.value
           }
         ]),
         "aria-labelledby": `${e.cqItems[e.cqItemsOrder[b]].id}-tab`,
@@ -868,28 +879,28 @@ const We = {
         role: "tabpanel",
         tabindex: "0"
       }, [
-        (a(), v(R(P), L(me({ isInEditor: !1 })), null, 16))
-      ], 10, He))), 128)),
-      y(l) ? (a(), v(y(te), L(x({ key: 2 }, r.value)), null, 16)) : q("", !0)
-    ], 16, Ge));
+        (a(), f(R(P), L(Ce({ isInEditor: !1 })), null, 16))
+      ], 10, Ke))), 128)),
+      y(l) ? (a(), f(y(te), L(x({ key: 2 }, r.value)), null, 16)) : q("", !0)
+    ], 16, Ve));
   }
 });
 export {
-  We as AccordionEditConfig,
-  Ye as CarouselEditConfig,
-  Ze as ContainerEditConfig,
-  et as ContentFragmentEditConfig,
-  lt as CoreAccordion,
+  Ye as AccordionEditConfig,
+  Ze as CarouselEditConfig,
+  et as ContainerEditConfig,
+  tt as ContentFragmentEditConfig,
+  it as CoreAccordion,
   ot as CoreCarousel,
-  ye as CoreContainer,
-  nt as CoreContentFragment,
-  it as CoreExperienceFragment,
-  ct as CoreTabs,
-  fe as DefaultContentFragment,
-  tt as ExperienceFragmentEditConfig,
-  at as MapToContentFragmentModel,
+  he as CoreContainer,
+  lt as CoreContentFragment,
+  ct as CoreExperienceFragment,
+  rt as CoreTabs,
+  ge as DefaultContentFragment,
+  st as ExperienceFragmentEditConfig,
+  nt as MapToContentFragmentModel,
   M as SpaUtils,
-  st as TabsEditConfig,
-  _e as getRenderer,
-  be as mapRenderer
+  at as TabsEditConfig,
+  ye as getRenderer,
+  _e as mapRenderer
 };

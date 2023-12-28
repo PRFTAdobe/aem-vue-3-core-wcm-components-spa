@@ -6,7 +6,7 @@
     ContainerPlaceholder,
     Utils,
   } from 'aem-vue-3-editable-components';
-  import { computed, inject, PropType, ref, VNode } from 'vue';
+  import { computed, inject, PropType, ref, VNode, watchEffect } from 'vue';
   import { AuthoringUtils, Model } from '@adobe/aem-spa-page-model-manager';
 
   interface TabsModel extends Model {
@@ -15,6 +15,10 @@
   }
 
   const props = defineProps({
+    // eslint-disable-next-line vue/require-default-prop
+    activeItem: {
+      type: String,
+    },
     // eslint-disable-next-line vue/require-default-prop
     accessibilityLabel: {
       type: String,
@@ -45,7 +49,20 @@
       ? props.isInEditor
       : inject('isInEditor', AuthoringUtils.isInEditor());
   const componentMapping = inject('componentMapping', new ComponentMapping());
-  const activeIndex = ref(0);
+  const activeIndex = ref(
+    props.cqItemsOrder!.indexOf(props.activeItem!) > 0
+      ? props.cqItemsOrder!.indexOf(props.activeItem!)
+      : 0,
+  );
+
+  watchEffect(
+    // eslint-disable-next-line no-return-assign
+    () =>
+      (activeIndex.value =
+        props.cqItemsOrder!.indexOf(props.activeItem!) > 0
+          ? props.cqItemsOrder!.indexOf(props.activeItem!)
+          : 0),
+  );
 
   const childComponents = computed((): VNode[] =>
     Utils.getChildComponents(

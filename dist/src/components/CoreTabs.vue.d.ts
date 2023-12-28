@@ -28,6 +28,9 @@ declare const _default: import("vue").DefineComponent<{
     id: {
         type: StringConstructor;
     };
+    activeItem: {
+        type: StringConstructor;
+    };
     accessibilityLabel: {
         type: StringConstructor;
     };
@@ -69,6 +72,9 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
     };
     id: {
+        type: StringConstructor;
+    };
+    activeItem: {
         type: StringConstructor;
     };
     accessibilityLabel: {
