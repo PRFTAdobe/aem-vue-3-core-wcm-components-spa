@@ -130,9 +130,7 @@
 
       await nextTick();
       // eslint-disable-next-line no-underscore-dangle
-      ModelManager._notifyListeners(
-        `${props.cqPath!}/${props.cqItemsOrder![current]}`,
-      );
+      ModelManager._notifyListeners(props.cqPath!);
     }
   });
 
