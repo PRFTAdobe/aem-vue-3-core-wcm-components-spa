@@ -21,7 +21,6 @@
     AuthoringUtils,
     Model,
     ModelManager,
-    PathUtils,
   } from '@adobe/aem-spa-page-model-manager';
   import SpaUtils from '@/utils/SpaUtils';
 
@@ -134,8 +133,11 @@
       ModelManager._notifyListeners(
         `${props.cqPath!}/${props.cqItemsOrder![current]}`,
       );
-      await nextTick();
-      PathUtils.dispatchGlobalCustomEvent('cq-async-content-loaded', {});
+      // eslint-disable-next-line no-restricted-globals
+      const contentFrame = parent.document.getElementById('ContentFrame');
+      if (contentFrame) {
+        contentFrame.dispatchEvent(new Event('load'));
+      }
     }
   });
 
