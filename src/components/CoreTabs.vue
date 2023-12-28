@@ -21,6 +21,7 @@
     AuthoringUtils,
     Model,
     ModelManager,
+    PathUtils,
   } from '@adobe/aem-spa-page-model-manager';
   import SpaUtils from '@/utils/SpaUtils';
 
@@ -130,9 +131,8 @@
 
       await nextTick();
       // eslint-disable-next-line no-underscore-dangle
-      ModelManager._notifyListeners(
-        `${props.cqPath!}/${props.cqItemsOrder![current]}`,
-      );
+      ModelManager._notifyListeners(props.cqPath!);
+      PathUtils.dispatchGlobalCustomEvent('cq-async-content-loaded', {});
     }
   });
 
