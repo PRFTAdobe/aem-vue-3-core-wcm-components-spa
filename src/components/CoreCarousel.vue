@@ -208,6 +208,7 @@
           `${props.baseCssClass}__action`,
           `${props.baseCssClass}__action--pause`,
         ],
+        'data-cmp-hook-carousel': 'pause',
         type: 'button',
       },
       [
@@ -235,6 +236,7 @@
           `${props.baseCssClass}__action--play`,
           `${props.baseCssClass}__action--disabled`,
         ],
+        'data-cmp-hook-carousel': 'play',
         type: 'button',
       },
       [
