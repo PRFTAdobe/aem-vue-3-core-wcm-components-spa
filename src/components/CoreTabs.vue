@@ -55,15 +55,6 @@
       : 0,
   );
 
-  watchEffect(
-    // eslint-disable-next-line no-return-assign
-    () =>
-      (activeIndex.value =
-        props.cqItemsOrder!.indexOf(props.activeItem!) > 0
-          ? props.cqItemsOrder!.indexOf(props.activeItem!)
-          : 0),
-  );
-
   const childComponents = computed((): VNode[] =>
     Utils.getChildComponents(
       props.cqPath as string,
@@ -111,6 +102,15 @@
     cqPath: props.cqPath!,
     placeholderClassNames: ['new', 'section'].join(' '),
   }));
+
+  watchEffect(
+    // eslint-disable-next-line no-return-assign
+    () =>
+      (activeIndex.value =
+        props.cqItemsOrder!.indexOf(props.activeItem!) > 0
+          ? props.cqItemsOrder!.indexOf(props.activeItem!)
+          : 0),
+  );
 
   defineOptions({
     inheritAttrs: false,

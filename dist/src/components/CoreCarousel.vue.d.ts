@@ -1,14 +1,5 @@
 import { PropType } from 'vue';
 import { Model } from '@adobe/aem-spa-page-model-manager';
-interface CarouselAccessibilityProperties {
-    play: string;
-    pause: string;
-    next: string;
-    previous: string;
-    slide: string;
-    indicator: string;
-    indicators: string;
-}
 interface CarouselModel extends Model {
     'cq:panelTitle'?: string;
     id?: string;
@@ -38,18 +29,36 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
     };
     accessibility: {
-        type: PropType<CarouselAccessibilityProperties>;
-        default: () => {
-            play: string;
-            pause: string;
-            next: string;
-            previous: string;
+        type: PropType<{
             slide: string;
             indicator: string;
-            indicators: string;
+        }>;
+        default: () => {
+            slide: string;
+            indicator: string;
         };
     };
     accessibilityLabel: {
+        type: StringConstructor;
+        default: string;
+    };
+    accessibilityNext: {
+        type: StringConstructor;
+        default: string;
+    };
+    accessibilityPause: {
+        type: StringConstructor;
+        default: string;
+    };
+    accessibilityPlay: {
+        type: StringConstructor;
+        default: string;
+    };
+    accessibilityPrevious: {
+        type: StringConstructor;
+        default: string;
+    };
+    accessibilityTablist: {
         type: StringConstructor;
         default: string;
     };
@@ -71,6 +80,10 @@ declare const _default: import("vue").DefineComponent<{
     cqPath: {
         type: StringConstructor;
         default: string;
+    };
+    controlsPrepended: {
+        type: BooleanConstructor;
+        default: boolean;
     };
     delay: {
         type: NumberConstructor;
@@ -105,18 +118,36 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
     };
     accessibility: {
-        type: PropType<CarouselAccessibilityProperties>;
-        default: () => {
-            play: string;
-            pause: string;
-            next: string;
-            previous: string;
+        type: PropType<{
             slide: string;
             indicator: string;
-            indicators: string;
+        }>;
+        default: () => {
+            slide: string;
+            indicator: string;
         };
     };
     accessibilityLabel: {
+        type: StringConstructor;
+        default: string;
+    };
+    accessibilityNext: {
+        type: StringConstructor;
+        default: string;
+    };
+    accessibilityPause: {
+        type: StringConstructor;
+        default: string;
+    };
+    accessibilityPlay: {
+        type: StringConstructor;
+        default: string;
+    };
+    accessibilityPrevious: {
+        type: StringConstructor;
+        default: string;
+    };
+    accessibilityTablist: {
         type: StringConstructor;
         default: string;
     };
@@ -139,6 +170,10 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
+    controlsPrepended: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
     delay: {
         type: NumberConstructor;
         default: number;
@@ -155,9 +190,18 @@ declare const _default: import("vue").DefineComponent<{
         [key: string]: string;
     };
     isInEditor: boolean;
-    accessibility: CarouselAccessibilityProperties;
+    accessibility: {
+        slide: string;
+        indicator: string;
+    };
     accessibilityLabel: string;
+    accessibilityNext: string;
+    accessibilityPause: string;
+    accessibilityPlay: string;
+    accessibilityPrevious: string;
+    accessibilityTablist: string;
     autopauseDisabled: boolean;
+    controlsPrepended: boolean;
     delay: number;
 }, {}>;
 export default _default;

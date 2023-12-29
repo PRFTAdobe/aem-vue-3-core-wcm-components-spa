@@ -8,34 +8,15 @@
   } from 'aem-vue-3-editable-components';
   import {
     computed,
+    h,
     inject,
-    nextTick,
-    onMounted,
-    onUnmounted,
     PropType,
-    Ref,
     ref,
     useAttrs,
     VNode,
-    watch,
     watchEffect,
   } from 'vue';
-  import {
-    AuthoringUtils,
-    Model,
-    ModelManager,
-  } from '@adobe/aem-spa-page-model-manager';
-  import SpaUtils from '@/utils/SpaUtils';
-
-  interface CarouselAccessibilityProperties {
-    play: string;
-    pause: string;
-    next: string;
-    previous: string;
-    slide: string;
-    indicator: string;
-    indicators: string;
-  }
+  import { AuthoringUtils, Model } from '@adobe/aem-spa-page-model-manager';
 
   interface CarouselModel extends Model {
     'cq:panelTitle'?: string;
@@ -45,20 +26,38 @@
   const props = defineProps({
     // eslint-disable-next-line vue/require-default-prop
     accessibility: {
-      type: Object as PropType<CarouselAccessibilityProperties>,
+      type: Object as PropType<{
+        slide: string;
+        indicator: string;
+      }>,
       default: () => ({
-        play: 'Play',
-        pause: 'Pause',
-        next: 'Next',
-        previous: 'Previous',
         slide: 'Slide {0} of {1}',
         indicator: 'Slide {0}',
-        indicators: 'Choose a slide to display',
       }),
     },
     accessibilityLabel: {
       type: String,
       default: 'Carousel',
+    },
+    accessibilityNext: {
+      type: String,
+      default: 'Next',
+    },
+    accessibilityPause: {
+      type: String,
+      default: 'Pause',
+    },
+    accessibilityPlay: {
+      type: String,
+      default: 'Play',
+    },
+    accessibilityPrevious: {
+      type: String,
+      default: 'Previous',
+    },
+    accessibilityTablist: {
+      type: String,
+      default: 'Choose a slide to display',
     },
     // eslint-disable-next-line vue/require-default-prop
     activeItem: {
@@ -82,6 +81,10 @@
       type: String,
       default: '',
     },
+    controlsPrepended: {
+      type: Boolean,
+      default: false,
+    },
     delay: {
       type: Number,
       default: 5000,
@@ -94,21 +97,169 @@
   });
 
   const attrs = useAttrs();
+
   const computedIsInEditor =
     typeof props.isInEditor !== 'undefined'
       ? props.isInEditor
       : inject('isInEditor', AuthoringUtils.isInEditor());
   const componentMapping = inject('componentMapping', new ComponentMapping());
 
-  const interval: Ref<number | ReturnType<typeof setInterval>> = ref(-1);
-  const activeIndexFromAuthorPanel = ref(-1);
   const activeIndex = ref(
     props.cqItemsOrder!.indexOf(props.activeItem!) > 0
       ? props.cqItemsOrder!.indexOf(props.activeItem!)
       : 0,
   );
-  const messageChannel = ref(SpaUtils.initMessageChannel());
-  const statefulAutoplay = ref(attrs?.autoplay === true && !computedIsInEditor);
+
+  const className = computed(() =>
+    componentClassNames(
+      props.baseCssClass,
+      props.appliedCssClassNames,
+      props.cssClassNames,
+      props.containerProps,
+      computedIsInEditor,
+      props.aemNoDecoration,
+    ),
+  );
+
+  const carouselContainerProps = computed(() => {
+    const carouselContainerProperties: { [key: string]: string } = {
+      'aria-label': props.accessibilityLabel!,
+      'aria-live': 'polite',
+      'aria-roledescription': 'carousel',
+      class: 'aem-container',
+      'data-cmp-is': 'carousel',
+      'data-cmp-autoplay': (
+        attrs?.autoplay === true && !computedIsInEditor
+      ).toString(),
+      'data-cmp-delay': props.delay.toString(),
+      'data-cmp-autopause-disabled': props.autopauseDisabled.toString(),
+      'data-panelcontainer': 'carousel',
+      role: 'group',
+    };
+
+    if (computedIsInEditor) {
+      carouselContainerProperties['data-cq-data-path'] = props.cqPath!;
+    }
+
+    return carouselContainerProperties;
+  });
+
+  const carouselControls = computed(() => {
+    const previousButton = h(
+      'button',
+      {
+        'aria-label': props.accessibilityPrevious,
+        class: [
+          `${props.baseCssClass}__action`,
+          `${props.baseCssClass}__action--previous`,
+        ],
+        'data-cmp-hook-carousel': 'previous',
+        type: 'button',
+      },
+      [
+        h('span', { class: `${props.baseCssClass}__action-icon` }, [
+          h(
+            'svg',
+            {
+              viewBox: '0 0 24 24',
+              xmlns: 'http://www.w3.org/2000/svg',
+            },
+            h('path', { d: 'M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z' }),
+          ),
+        ]),
+        h('span', { class: `${props.baseCssClass}__action-text` }, [
+          props.accessibilityPrevious,
+        ]),
+      ],
+    );
+    const nextButton = h(
+      'button',
+      {
+        'aria-label': props.accessibilityNext,
+        class: [
+          `${props.baseCssClass}__action`,
+          `${props.baseCssClass}__action--next`,
+        ],
+        'data-cmp-hook-carousel': 'next',
+        type: 'button',
+      },
+      [
+        h('span', { class: `${props.baseCssClass}__action-icon` }, [
+          h(
+            'svg',
+            {
+              viewBox: '0 0 24 24',
+              xmlns: 'http://www.w3.org/2000/svg',
+            },
+            h('path', { d: 'M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z' }),
+          ),
+        ]),
+        h('span', { class: `${props.baseCssClass}__action-text` }, [
+          props.accessibilityNext,
+        ]),
+      ],
+    );
+
+    const pauseButton = h(
+      'button',
+      {
+        'aria-label': props.accessibilityPause,
+        class: [
+          `${props.baseCssClass}__action`,
+          `${props.baseCssClass}__action--pause`,
+        ],
+        type: 'button',
+      },
+      [
+        h('span', { class: `${props.baseCssClass}__action-icon` }, [
+          h(
+            'svg',
+            {
+              viewBox: '0 0 24 24',
+              xmlns: 'http://www.w3.org/2000/svg',
+            },
+            [h('path', { d: 'M6 19h4V5H6v14zm8-14v14h4V5h-4z' })],
+          ),
+        ]),
+        h('span', { class: `${props.baseCssClass}__action-text` }, [
+          props.accessibilityPause,
+        ]),
+      ],
+    );
+    const playButton = h(
+      'button',
+      {
+        'aria-label': props.accessibilityPlay,
+        class: [
+          `${props.baseCssClass}__action`,
+          `${props.baseCssClass}__action--play`,
+          `${props.baseCssClass}__action--disabled`,
+        ],
+        type: 'button',
+      },
+      [
+        h('span', { class: `${props.baseCssClass}__action-icon` }, [
+          h(
+            'svg',
+            {
+              viewBox: '0 0 24 24',
+              xmlns: 'http://www.w3.org/2000/svg',
+            },
+            [h('path', { d: 'M8 5v14l11-7z' })],
+          ),
+        ]),
+        h('span', { class: `${props.baseCssClass}__action-text` }, [
+          props.accessibilityPlay,
+        ]),
+      ],
+    );
+    const buttons = [previousButton, nextButton];
+    if (attrs?.autoplay === true) {
+      buttons.push(pauseButton);
+      buttons.push(playButton);
+    }
+    return h('div', { class: `${props.baseCssClass}__actions` }, buttons);
+  });
 
   const childComponents = computed((): VNode[] =>
     Utils.getChildComponents(
@@ -124,15 +275,8 @@
     ),
   );
 
-  const className = computed(() =>
-    componentClassNames(
-      props.baseCssClass,
-      props.appliedCssClassNames,
-      props.cssClassNames,
-      props.containerProps,
-      computedIsInEditor,
-      props.aemNoDecoration,
-    ),
+  const isEmpty = computed(
+    () => !props.cqItemsOrder || props?.cqItemsOrder.length === 0,
   );
 
   const placeholderProps = computed(() => ({
@@ -159,98 +303,6 @@
     return ariaLabel;
   };
 
-  const nextSlide = () => {
-    if (activeIndex.value === props.cqItemsOrder!.length - 1) {
-      activeIndex.value = 0;
-    } else {
-      activeIndex.value += 1;
-    }
-  };
-
-  const prevSlide = () => {
-    if (activeIndex.value === 0) {
-      activeIndex.value = props.cqItemsOrder!.length - 1;
-    } else {
-      activeIndex.value -= 1;
-    }
-  };
-
-  const autoPlayTick = () => {
-    if (!statefulAutoplay.value || props.cqItemsOrder!.length <= 1) {
-      return;
-    }
-    nextSlide();
-  };
-
-  const autoPlay = () => {
-    interval.value = setInterval(() => {
-      autoPlayTick();
-    }, props.delay!);
-  };
-
-  const clearAutoPlay = () => {
-    clearInterval(interval.value);
-  };
-
-  const toggleAutoPlay = (toggle: boolean) => {
-    statefulAutoplay.value = toggle;
-  };
-
-  const handleIndicatorClick = (index: number) => {
-    if (activeIndex.value !== index) {
-      activeIndex.value = index;
-    }
-  };
-
-  const handleOnMouseEnter = () => {
-    if (!props.autopauseDisabled && statefulAutoplay.value) {
-      clearAutoPlay();
-    }
-  };
-
-  const handleOnMouseLeave = () => {
-    if (!props.autopauseDisabled && statefulAutoplay.value) {
-      autoPlay();
-    }
-  };
-
-  const isEmpty = computed(
-    () => !props.cqItemsOrder || props?.cqItemsOrder.length === 0,
-  );
-
-  watch(activeIndexFromAuthorPanel, async (current, previous) => {
-    if (
-      current !== -1 &&
-      typeof current !== 'undefined' &&
-      current !== previous
-    ) {
-      activeIndex.value = current;
-      statefulAutoplay.value = false;
-      await nextTick();
-      // eslint-disable-next-line no-underscore-dangle
-      ModelManager._notifyListeners(
-        `${props.cqPath!}/${props.cqItemsOrder![current]}`,
-      );
-    }
-  });
-
-  const callbackListener = SpaUtils.createCallbackListener(
-    props.cqPath,
-    activeIndexFromAuthorPanel,
-  );
-
-  onMounted(() => {
-    autoPlay();
-    SpaUtils.subscribeRequestMessage(messageChannel.value, callbackListener);
-  });
-
-  onUnmounted(() => {
-    if (typeof interval.value === 'number' && interval.value >= 0) {
-      clearAutoPlay();
-    }
-    SpaUtils.unsubscribeRequestMessage(messageChannel.value, callbackListener);
-  });
-
   watchEffect(
     // eslint-disable-next-line no-return-assign
     () =>
@@ -266,117 +318,51 @@
 </script>
 
 <template>
-  <div
-    :id="props.id"
-    :aria-label="props.accessibilityLabel"
-    :class="className"
-    aria-live="polite"
-    aria-roledescription="carousel"
-    data-panelcontainer="carousel"
-    role="group"
-  >
+  <div :id="props.id" :class="className" v-bind="carouselContainerProps">
+    <component :is="carouselControls as VNode" v-if="props.controlsPrepended" />
     <div
       v-if="!isEmpty"
+      :aria-live="attrs?.autoplay === true ? 'off' : 'polite'"
       :class="`${props.baseCssClass}__content`"
-      @mouseenter="handleOnMouseEnter"
-      @mouseleave="handleOnMouseLeave"
+      aria-atomic="false"
     >
-      <div :class="[{ [`${props.baseCssClass}__items`]: !computedIsInEditor }]">
-        <div
-          v-for="(childComponent, index) of childComponents"
-          :key="`item-${index}`"
-          :aria-label="getItemAriaLabel(index)"
-          :class="[
-            `${props.baseCssClass}__item`,
-            {
-              [`${props.baseCssClass}__item--active`]: index === activeIndex,
-            },
-          ]"
-          data-cmp-hook-carousel="item"
-          role="tabpanel"
-        >
-          <component :is="childComponent" />
-        </div>
+      <div
+        v-for="(childComponent, index) of childComponents"
+        :id="`${props.cqItems![props.cqItemsOrder![index]].id}-tabpanel`"
+        :key="`item-${index}`"
+        :aria-label="getItemAriaLabel(index)"
+        :aria-labelledby="`${
+          props.cqItems![props.cqItemsOrder![index]].id
+        }-tab`"
+        :class="[
+          `${props.baseCssClass}__item`,
+          {
+            [`${props.baseCssClass}__item--active`]: index === activeIndex,
+          },
+        ]"
+        aria-roledescription="slide"
+        data-cmp-hook-carousel="item"
+        role="tabpanel"
+      >
+        <component :is="childComponent" v-bind="{ isInEditor: false }" />
       </div>
-      <div :class="`${props.baseCssClass}__actions`">
-        <button
-          :aria-label="props.accessibility!.previous"
-          :class="`${props.baseCssClass}__action ${props.baseCssClass}__action--previous`"
-          type="button"
-          @click="prevSlide"
-        >
-          <span :class="`${props.baseCssClass}__action-icon`">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
-            </svg>
-          </span>
-          <span :class="`${props.baseCssClass}__action-text`">{{
-            props.accessibility.previous
-          }}</span>
-        </button>
-        <button
-          :aria-label="props.accessibility!.next"
-          :class="`${props.baseCssClass}__action ${props.baseCssClass}__action--next`"
-          type="button"
-          @click="nextSlide"
-        >
-          <span :class="`${props.baseCssClass}__action-icon`"
-            ><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" /></svg
-          ></span>
-          <span :class="`${props.baseCssClass}__action-text`">{{
-            props.accessibility.next
-          }}</span>
-        </button>
-        <template v-if="attrs?.autoplay === true">
-          <button
-            :aria-label="props.accessibility!.pause"
-            :class="[
-              `${props.baseCssClass}__action`,
-              `${props.baseCssClass}__action--pause`,
-              {
-                [`${props.baseCssClass}__action--disabled`]: !statefulAutoplay,
-              },
-            ]"
-            type="button"
-            @click="toggleAutoPlay(false)"
-          >
-            <span :class="`${props.baseCssClass}__action-icon`"
-              ><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" /></svg
-            ></span>
-            <span :class="`${props.baseCssClass}__action-text`">{{
-              props.accessibility.pause
-            }}</span>
-          </button>
-          <button
-            :aria-label="props.accessibility!.play"
-            :class="[
-              `${props.baseCssClass}__action`,
-              `${props.baseCssClass}__action--play`,
-              { [`${props.baseCssClass}__action--disabled`]: statefulAutoplay },
-            ]"
-            type="button"
-            @click="toggleAutoPlay(true)"
-          >
-            <span :class="`${props.baseCssClass}__action-icon`"
-              ><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 5v14l11-7z" /></svg
-            ></span>
-            <span :class="`${props.baseCssClass}__action-text`">{{
-              props.accessibility.play
-            }}</span>
-          </button>
-        </template>
-      </div>
+      <component
+        :is="carouselControls as VNode"
+        v-if="!props.controlsPrepended"
+      />
       <ol
-        :aria-label="props.accessibility?.indicators"
+        :aria-label="props.accessibilityTablist"
         :class="`${props.baseCssClass}__indicators`"
+        data-cmp-hook-carousel="indicators"
         role="tablist"
       >
         <li
           v-for="(cqItem, index) of props.cqItemsOrder"
+          :id="`${props.cqItems![props.cqItemsOrder![index]].id}-tab`"
           :key="`item-${index}`"
+          :aria-controls="`${
+            props.cqItems![props.cqItemsOrder![index]].id
+          }-tabpanel`"
           :aria-label="getIndicatorArialLabel(index)"
           :class="[
             `${props.baseCssClass}__indicator`,
@@ -385,8 +371,8 @@
                 index === activeIndex,
             },
           ]"
+          data-cmp-hook-carousel="indicator"
           role="tab"
-          @click="handleIndicatorClick(index)"
         >
           {{ props.cqItems![cqItem]['cq:panelTitle'] }}
         </li>
