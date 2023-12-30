@@ -1,5 +1,5 @@
 import { MapTo as te, ComponentMapping as T, componentProperties as j, componentClassNames as z, AllowedComponentsContainer as se, ResponsiveGrid as ae, Container as ne, Utils as H, ContainerPlaceholder as Q } from "aem-vue-3-editable-components";
-import { defineComponent as R, useAttrs as K, inject as M, computed as r, openBlock as s, createBlock as h, unref as y, normalizeProps as A, mergeProps as P, resolveDynamicComponent as N, normalizeClass as i, normalizeStyle as ie, withCtx as W, createElementBlock as c, createElementVNode as v, toDisplayString as k, createCommentVNode as g, Fragment as B, renderList as D, ref as F, watch as J, onMounted as le, onUnmounted as oe, h as u, watchEffect as Y, guardReactiveProps as Z } from "vue";
+import { defineComponent as R, useAttrs as K, inject as M, computed as r, openBlock as s, createBlock as y, unref as h, normalizeProps as A, mergeProps as P, resolveDynamicComponent as N, normalizeClass as i, normalizeStyle as ie, withCtx as W, createElementBlock as c, createElementVNode as q, toDisplayString as k, createCommentVNode as g, Fragment as B, renderList as D, ref as F, watch as J, onMounted as le, onUnmounted as oe, h as u, watchEffect as Y, guardReactiveProps as Z } from "vue";
 import { AuthoringUtils as G } from "@adobe/aem-spa-page-model-manager";
 const Ne = {
   emptyLabel: "Accordion",
@@ -95,7 +95,7 @@ const Ne = {
         return l && (a == null ? void 0 : a.allowedComponents) && (($ = a == null ? void 0 : a.allowedComponents) == null ? void 0 : $.applicable);
       }
     );
-    return ($, C) => b.value ? (s(), h(y(se), A(P({ key: 0 }, { ...e, ...y(a) })), null, 16)) : (s(), h(N(e.styleSystemElement || "div"), {
+    return ($, C) => b.value ? (s(), y(h(se), A(P({ key: 0 }, { ...e, ...h(a) })), null, 16)) : (s(), y(N(e.styleSystemElement || "div"), {
       key: 1,
       id: e.id,
       "aria-label": e.accessibilityLabel,
@@ -104,12 +104,12 @@ const Ne = {
       style: ie(e.backgroundStyle)
     }, {
       default: W(() => [
-        t.layout === "RESPONSIVE_GRID" ? (s(), h(y(ae), A(P({ key: 0 }, {
+        t.layout === "RESPONSIVE_GRID" ? (s(), y(h(ae), A(P({ key: 0 }, {
           ...e,
-          ...y(a),
+          ...h(a),
           allowedComponents: { applicable: !1, components: [] },
           title: ""
-        })), null, 16)) : (s(), h(y(ne), A(P({ key: 1 }, { ...e, ...y(a) })), null, 16))
+        })), null, 16)) : (s(), y(h(ne), A(P({ key: 1 }, { ...e, ...h(a) })), null, 16))
       ]),
       _: 1
     }, 8, ["id", "aria-label", "class", "role", "style"]));
@@ -185,7 +185,7 @@ const Ne = {
         id: e.id,
         class: i(f.value)
       }, [
-        v("h3", {
+        q("h3", {
           class: i(`${e.baseCssClass}__title`)
         }, k(e.title), 3),
         e.description ? (s(), c("p", {
@@ -200,34 +200,34 @@ const Ne = {
             key: `${e.id}-element-${p}-${x}`,
             class: i(`${e.baseCssClass}__element`)
           }, [
-            v("div", {
+            q("div", {
               class: i([
                 `${e.baseCssClass}__elemententry`,
                 `${e.baseCssClass}__elemententry--key`
               ])
             }, [
-              v("h4", null, k(p), 1)
+              q("h4", null, k(p), 1)
             ], 2),
-            v("div", {
+            q("div", {
               class: i([
                 `${e.baseCssClass}__elemententry`,
                 `${e.baseCssClass}__elemententry--value`
               ]),
               innerHTML: `value: ${e.elements[p].value}`
             }, null, 10, pe),
-            v("div", {
+            q("div", {
               class: i([
                 `${e.baseCssClass}__elemententry`,
                 `${e.baseCssClass}__elemententry--datatype`
               ])
             }, " datatype: " + k(e.elements[p].dataType), 3),
-            v("div", {
+            q("div", {
               class: i([
                 `${e.baseCssClass}__elemententry`,
                 `${e.baseCssClass}__elemententry--multivalue`
               ])
             }, " multivalue: " + k(e.elements[p].multiValue ? "true" : "false"), 3),
-            v("div", {
+            q("div", {
               class: i([
                 `${e.baseCssClass}__elemententry`,
                 `${e.baseCssClass}__elemententry--type`
@@ -235,7 +235,7 @@ const Ne = {
             }, " type: " + k(e.elements[p][":type"]), 3)
           ], 2))), 128))
         ], 2)) : g("", !0),
-        (s(!0), c(B, null, D(b.value, (p) => (s(), h(N(p), {
+        (s(!0), c(B, null, D(b.value, (p) => (s(), y(N(p), {
           key: p.toString()
         }))), 128))
       ], 10, me);
@@ -292,7 +292,7 @@ const Ne = {
       const b = de(e.model);
       return b || be;
     });
-    return (b, $) => l.value ? g("", !0) : (s(), h(N(f.value), A(P({ key: 0 }, { ...e, ...y(a) })), null, 16));
+    return (b, $) => l.value ? g("", !0) : (s(), y(N(f.value), A(P({ key: 0 }, { ...e, ...h(a) })), null, 16));
   }
 }), U = {
   createCallbackListener(t, e) {
@@ -324,14 +324,14 @@ const Ne = {
       e
     );
   }
-}, Ce = ["id", "data-cmp-single-expansion"], _e = ["id", "data-cmp-expanded"], ye = ["id", "aria-controls", "data-cmp-button-id", "onClick", "onKeydown"], he = /* @__PURE__ */ v("svg", {
+}, Ce = ["id", "data-cmp-single-expansion"], _e = ["id", "data-cmp-expanded"], ye = ["id", "aria-controls", "data-cmp-button-id", "onClick", "onKeydown"], he = /* @__PURE__ */ q("svg", {
   fill: "var(--accordion-heading-color)",
   height: "18",
   viewBox: "0 0 24 24",
   width: "18",
   xmlns: "http://www.w3.org/2000/svg"
 }, [
-  /* @__PURE__ */ v("path", { d: "M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z" })
+  /* @__PURE__ */ q("path", { d: "M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z" })
 ], -1), fe = [
   he
 ], Ie = ["id", "aria-labelledby"], Te = /* @__PURE__ */ R({
@@ -420,7 +420,7 @@ const Ne = {
           m.preventDefault(), O(n, m), _(o);
           break;
       }
-    }, q = (n) => C.value.indexOf(n) > -1, E = r(() => ({
+    }, v = (n) => C.value.indexOf(n) > -1, E = r(() => ({
       cqPath: e.cqPath,
       placeholderClassNames: ["new", "section"].join(" ")
     }));
@@ -450,49 +450,49 @@ const Ne = {
         id: `accordion-${e.cqItems[o].id}`,
         key: `accordion-index-${L}`,
         class: i(`${e.baseCssClass}__item`),
-        "data-cmp-expanded": q(o) ? !0 : void 0
+        "data-cmp-expanded": v(o) ? !0 : void 0
       }, [
-        (s(), h(N(e.headingElement), {
+        (s(), y(N(e.headingElement), {
           class: i(`${e.baseCssClass}__heading`)
         }, {
           default: W(() => [
-            v("button", {
+            q("button", {
               id: `accordion-${e.cqItems[o].id}-button`,
               "aria-controls": `accordion-${e.cqItems[o].id}-panel`,
               class: i([
                 `${e.baseCssClass}__button`,
                 {
-                  [`${e.baseCssClass}__button--expanded`]: q(o)
+                  [`${e.baseCssClass}__button--expanded`]: v(o)
                 }
               ]),
               "data-cmp-button-id": L,
               onClick: (X) => O(o, X),
               onKeydown: (X) => I(o, X, L)
             }, [
-              v("span", {
+              q("span", {
                 class: i(`${e.baseCssClass}__title`)
               }, k(e.cqItems[o]["cq:panelTitle"]), 3),
-              v("span", {
+              q("span", {
                 class: i(`${e.baseCssClass}__icon`)
               }, fe, 2)
             ], 42, ye)
           ]),
           _: 2
         }, 1032, ["class"])),
-        y(l) || q(o) ? (s(), c("div", {
+        h(l) || v(o) ? (s(), c("div", {
           key: 0,
           id: `accordion-${e.cqItems[o].id}-panel`,
           "aria-labelledby": `accordion-${e.cqItems[o].id}-button`,
-          class: i(`${e.baseCssClass}__panel ${q(o) ? " " + e.baseCssClass + "__panel--expanded" : " " + e.baseCssClass + "__panel--hidden"}`),
+          class: i(`${e.baseCssClass}__panel ${v(o) ? " " + e.baseCssClass + "__panel--expanded" : " " + e.baseCssClass + "__panel--hidden"}`),
           role: "region"
         }, [
-          e.cqItemsOrder ? (s(), h(N(V.value[t.cqItemsOrder.indexOf(o)]), { key: 0 })) : g("", !0)
+          e.cqItemsOrder ? (s(), y(N(V.value[t.cqItemsOrder.indexOf(o)]), { key: 0 })) : g("", !0)
         ], 10, Ie)) : g("", !0)
       ], 10, _e))), 128)) : g("", !0),
-      y(l) ? (s(), h(y(Q), A(P({ key: 1 }, E.value)), null, 16)) : g("", !0)
+      h(l) ? (s(), y(h(Q), A(P({ key: 1 }, E.value)), null, 16)) : g("", !0)
     ], 16, Ce));
   }
-}), ve = ["id"], ge = ["aria-live"], qe = ["id", "aria-label", "aria-labelledby"], $e = ["aria-label"], Oe = ["id", "aria-controls", "aria-label"], ze = /* @__PURE__ */ R({
+}), ge = ["id"], ve = ["aria-live"], qe = ["id", "aria-label", "aria-labelledby"], $e = ["aria-label"], Oe = ["id", "aria-controls", "aria-label"], ze = /* @__PURE__ */ R({
   inheritAttrs: !1,
   __name: "CoreCarousel",
   props: {
@@ -641,7 +641,7 @@ const Ne = {
             e.accessibilityNext
           ])
         ]
-      ), q = u(
+      ), v = u(
         "button",
         {
           "aria-label": e.accessibilityPause,
@@ -695,7 +695,7 @@ const Ne = {
           ])
         ]
       ), d = [O, I];
-      return (a == null ? void 0 : a.autoplay) === !0 && (d.push(q), d.push(E)), u("div", { class: `${e.baseCssClass}__actions` }, d);
+      return (a == null ? void 0 : a.autoplay) === !0 && (d.push(v), d.push(E)), u("div", { class: `${e.baseCssClass}__actions` }, d);
     }), p = r(
       () => H.getChildComponents(
         e.cqPath,
@@ -714,13 +714,13 @@ const Ne = {
     })), S = (O) => {
       var E;
       let I = ((E = e.accessibility) == null ? void 0 : E.indicator) || "";
-      const q = "{0}";
-      return I = I.replace(q, (O + 1).toString()), I;
+      const v = "{0}";
+      return I = I.replace(v, (O + 1).toString()), I;
     }, _ = (O) => {
       var d;
       let I = ((d = e.accessibility) == null ? void 0 : d.slide) || "";
-      const q = "{0}";
-      I = I.replace(q, (O + 1).toString());
+      const v = "{0}";
+      I = I.replace(v, (O + 1).toString());
       const E = "{1}";
       return I = I.replace(
         E,
@@ -731,41 +731,37 @@ const Ne = {
       // eslint-disable-next-line no-return-assign
       () => b.value = e.cqItemsOrder.indexOf(e.activeItem) > 0 ? e.cqItemsOrder.indexOf(e.activeItem) : 0
     ), (O, I) => {
-      var q;
+      var v;
       return s(), c("div", P({
         id: e.id,
         class: $.value
       }, C.value), [
-        e.controlsPrepended ? (s(), h(N(w.value), { key: 0 })) : g("", !0),
+        e.controlsPrepended ? (s(), y(N(w.value), { key: 0 })) : g("", !0),
         x.value ? g("", !0) : (s(), c("div", {
           key: 1,
-          "aria-live": ((q = y(a)) == null ? void 0 : q.autoplay) === !0 ? "off" : "polite",
+          "aria-live": ((v = h(a)) == null ? void 0 : v.autoplay) === !0 ? "off" : "polite",
           class: i(`${e.baseCssClass}__content`),
           "aria-atomic": "false"
         }, [
-          v("div", {
-            class: i([{ [`${e.baseCssClass}__items`]: !y(l) }])
+          (s(!0), c(B, null, D(p.value, (E, d) => (s(), c("div", {
+            id: `${e.cqItems[e.cqItemsOrder[d]].id}-tabpanel`,
+            key: `item-${d}`,
+            "aria-label": _(d),
+            "aria-labelledby": `${e.cqItems[e.cqItemsOrder[d]].id}-tab`,
+            class: i([
+              `${e.baseCssClass}__item`,
+              {
+                [`${e.baseCssClass}__item--active`]: d === b.value
+              }
+            ]),
+            "aria-roledescription": "slide",
+            "data-cmp-hook-carousel": "item",
+            role: "tabpanel"
           }, [
-            (s(!0), c(B, null, D(p.value, (E, d) => (s(), c("div", {
-              id: `${e.cqItems[e.cqItemsOrder[d]].id}-tabpanel`,
-              key: `item-${d}`,
-              "aria-label": _(d),
-              "aria-labelledby": `${e.cqItems[e.cqItemsOrder[d]].id}-tab`,
-              class: i([
-                `${e.baseCssClass}__item`,
-                {
-                  [`${e.baseCssClass}__item--active`]: d === b.value
-                }
-              ]),
-              "aria-roledescription": "slide",
-              "data-cmp-hook-carousel": "item",
-              role: "tabpanel"
-            }, [
-              (s(), h(N(E), A(Z({ isInEditor: !1 })), null, 16))
-            ], 10, qe))), 128))
-          ], 2),
-          e.controlsPrepended ? g("", !0) : (s(), h(N(w.value), { key: 0 })),
-          v("ol", {
+            (s(), y(N(E), A(Z({ isInEditor: !1 })), null, 16))
+          ], 10, qe))), 128)),
+          e.controlsPrepended ? g("", !0) : (s(), y(N(w.value), { key: 0 })),
+          q("ol", {
             "aria-label": e.accessibilityTablist,
             class: i(`${e.baseCssClass}__indicators`),
             "data-cmp-hook-carousel": "indicators",
@@ -786,15 +782,15 @@ const Ne = {
               role: "tab"
             }, k(e.cqItems[E]["cq:panelTitle"]), 11, Oe))), 128))
           ], 10, $e)
-        ], 10, ge)),
-        y(l) ? (s(), h(y(Q), A(P({ key: 2 }, V.value)), null, 16)) : g("", !0)
-      ], 16, ve);
+        ], 10, ve)),
+        h(l) ? (s(), y(h(Q), A(P({ key: 2 }, V.value)), null, 16)) : g("", !0)
+      ], 16, ge);
     };
   }
 }), Ge = /* @__PURE__ */ R({
   __name: "CoreExperienceFragment",
   setup(t) {
-    return (e, a) => (s(), h(ue, { "is-in-editor": !1 }));
+    return (e, a) => (s(), y(ue, { "is-in-editor": !1 }));
   }
 }), Ee = ["id"], we = ["aria-label"], Pe = ["id", "aria-controls", "tabIndex"], xe = ["id", "aria-labelledby"], Ve = /* @__PURE__ */ R({
   inheritAttrs: !1,
@@ -904,9 +900,9 @@ const Ne = {
         role: "tabpanel",
         tabindex: "0"
       }, [
-        (s(), h(N(S), A(Z({ isInEditor: !1 })), null, 16))
+        (s(), y(N(S), A(Z({ isInEditor: !1 })), null, 16))
       ], 10, xe))), 128)),
-      y(a) ? (s(), h(y(Q), A(P({ key: 2 }, p.value)), null, 16)) : g("", !0)
+      h(a) ? (s(), y(h(Q), A(P({ key: 2 }, p.value)), null, 16)) : g("", !0)
     ], 16, Ee));
   }
 });

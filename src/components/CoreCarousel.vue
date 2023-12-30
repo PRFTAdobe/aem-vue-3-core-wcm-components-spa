@@ -327,27 +327,25 @@
       :class="`${props.baseCssClass}__content`"
       aria-atomic="false"
     >
-      <div :class="[{ [`${props.baseCssClass}__items`]: !computedIsInEditor }]">
-        <div
-          v-for="(childComponent, index) of childComponents"
-          :id="`${props.cqItems![props.cqItemsOrder![index]].id}-tabpanel`"
-          :key="`item-${index}`"
-          :aria-label="getItemAriaLabel(index)"
-          :aria-labelledby="`${
-            props.cqItems![props.cqItemsOrder![index]].id
-          }-tab`"
-          :class="[
-            `${props.baseCssClass}__item`,
-            {
-              [`${props.baseCssClass}__item--active`]: index === activeIndex,
-            },
-          ]"
-          aria-roledescription="slide"
-          data-cmp-hook-carousel="item"
-          role="tabpanel"
-        >
-          <component :is="childComponent" v-bind="{ isInEditor: false }" />
-        </div>
+      <div
+        v-for="(childComponent, index) of childComponents"
+        :id="`${props.cqItems![props.cqItemsOrder![index]].id}-tabpanel`"
+        :key="`item-${index}`"
+        :aria-label="getItemAriaLabel(index)"
+        :aria-labelledby="`${
+          props.cqItems![props.cqItemsOrder![index]].id
+        }-tab`"
+        :class="[
+          `${props.baseCssClass}__item`,
+          {
+            [`${props.baseCssClass}__item--active`]: index === activeIndex,
+          },
+        ]"
+        aria-roledescription="slide"
+        data-cmp-hook-carousel="item"
+        role="tabpanel"
+      >
+        <component :is="childComponent" v-bind="{ isInEditor: false }" />
       </div>
       <component
         :is="carouselControls as VNode"
