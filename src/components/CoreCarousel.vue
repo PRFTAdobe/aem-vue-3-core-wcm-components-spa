@@ -122,15 +122,14 @@
   );
 
   const carouselContainerProps = computed(() => {
-    const carouselContainerProperties: { [key: string]: string } = {
+    const carouselContainerProperties: { [key: string]: string | undefined } = {
       'aria-label': props.accessibilityLabel!,
       'aria-live': 'polite',
       'aria-roledescription': 'carousel',
       class: 'aem-container',
       'data-cmp-is': 'carousel',
-      'data-cmp-autoplay': (
-        attrs?.autoplay === true && !computedIsInEditor
-      ).toString(),
+      'data-cmp-autoplay':
+        attrs?.autoplay === true && !computedIsInEditor ? 'true' : undefined,
       'data-cmp-delay': props.delay.toString(),
       'data-cmp-autopause-disabled': props.autopauseDisabled.toString(),
       'data-panelcontainer': 'carousel',
