@@ -159,6 +159,8 @@
           }
         });
       }
+    } else {
+      console.log('I do not understand:', tabContainer.value);
     }
   };
 
