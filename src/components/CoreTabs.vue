@@ -6,8 +6,19 @@
     ContainerPlaceholder,
     Utils,
   } from 'aem-vue-3-editable-components';
-  import { computed, inject, PropType, ref, VNode, watchEffect } from 'vue';
+  import {
+    computed,
+    inject,
+    onMounted,
+    onUnmounted,
+    PropType,
+    ref,
+    VNode,
+    watch,
+    watchEffect,
+  } from 'vue';
   import { AuthoringUtils, Model } from '@adobe/aem-spa-page-model-manager';
+  import SpaUtils from '@/utils/SpaUtils';
 
   interface TabsModel extends Model {
     'cq:panelTitle'?: string;
@@ -54,6 +65,9 @@
       ? props.cqItemsOrder!.indexOf(props.activeItem!)
       : 0,
   );
+  const tabContainer = ref(null);
+  const activeIndexFromAuthorPanel = ref(1);
+  const messageChannel = ref(SpaUtils.initMessageChannel());
 
   const childComponents = computed((): VNode[] =>
     Utils.getChildComponents(
@@ -87,7 +101,6 @@
   const tabContainerProps = computed(() => {
     const tabContainerProperties: { [key: string]: string } = {
       class: 'aem-container',
-      'data-cmp-is': 'tabs',
       'data-panelcontainer': 'tabs',
     };
 
@@ -102,6 +115,71 @@
     cqPath: props.cqPath!,
     placeholderClassNames: ['new', 'section'].join(' '),
   }));
+
+  const navigate = (tabIndex: number) => {
+    if (tabContainer.value) {
+      const tabContainerElement = tabContainer.value as HTMLDivElement;
+      const tabElements = tabContainerElement.querySelectorAll(
+        `${props.baseCssClass}__tab`,
+      );
+      const tabPanelElements = tabContainerElement.querySelectorAll(
+        `${props.baseCssClass}__tabpanel`,
+      );
+
+      if (tabElements.length) {
+        tabElements.forEach((tabElement, index) => {
+          if (index === tabIndex) {
+            tabElement.classList.add(`${props.baseCssClass}__tab--active`);
+            tabElement.setAttribute('aria-selected', 'true');
+            tabElement.setAttribute('tabindex', '0');
+          } else {
+            tabElement.classList.remove(`${props.baseCssClass}__tab--active`);
+            tabElement.removeAttribute('aria-selected');
+            tabElement.setAttribute('tabindex', '-1');
+          }
+        });
+      }
+
+      if (tabPanelElements.length) {
+        tabPanelElements.forEach((tabPanelElement, index) => {
+          if (index === tabIndex) {
+            tabPanelElement.classList.add(
+              `${props.baseCssClass}__tabpanel--active`,
+            );
+            tabPanelElement.removeAttribute('aria-hidden');
+          } else {
+            tabPanelElement.classList.remove(
+              `${props.baseCssClass}__tabpanel--active`,
+            );
+            tabPanelElement.setAttribute('aria-hidden', 'true');
+          }
+        });
+      }
+    }
+  };
+
+  const callbackListener = SpaUtils.createCallbackListener(
+    props.cqPath,
+    activeIndexFromAuthorPanel,
+  );
+
+  onMounted(() => {
+    SpaUtils.subscribeRequestMessage(messageChannel.value, callbackListener);
+  });
+
+  onUnmounted(() => {
+    SpaUtils.unsubscribeRequestMessage(messageChannel.value, callbackListener);
+  });
+
+  watch(activeIndexFromAuthorPanel, async (current, previous) => {
+    if (
+      current !== -1 &&
+      typeof current !== 'undefined' &&
+      current !== previous
+    ) {
+      navigate(current);
+    }
+  });
 
   watchEffect(
     // eslint-disable-next-line no-return-assign
@@ -118,7 +196,12 @@
 </script>
 
 <template>
-  <div :id="props.id" :class="className" v-bind="tabContainerProps">
+  <div
+    :id="props.id"
+    ref="tabContainer"
+    :class="className"
+    v-bind="tabContainerProps"
+  >
     <ol
       v-if="!isEmpty"
       :aria-label="props.accessibilityLabel"
@@ -131,6 +214,7 @@
         :id="`${props.cqItems![tab].id}-tab`"
         :key="`tab-${index}`"
         :aria-controls="`${props.cqItems![tab].id}-tabpanel`"
+        :aria-selected="index === activeIndex ? true : undefined"
         :class="[
           `${props.baseCssClass}__tab`,
           {
@@ -140,6 +224,7 @@
         :tabIndex="index === activeIndex ? 0 : -1"
         data-cmp-hook-tabs="tab"
         role="tab"
+        @click="navigate(index)"
       >
         {{ props.cqItems![tab]['cq:panelTitle'] }}
       </li>
@@ -149,15 +234,16 @@
         v-for="(childComponent, index) of childComponents"
         :id="`${props.cqItems![props.cqItemsOrder![index]].id}-tabpanel`"
         :key="`tab-content-${index}`"
+        :aria-hidden="index === activeIndex ? undefined : true"
+        :aria-labelledby="`${
+          props.cqItems![props.cqItemsOrder![index]].id
+        }-tab`"
         :class="[
           `${props.baseCssClass}__tabpanel`,
           {
             [`${props.baseCssClass}__tabpanel--active`]: index === activeIndex,
           },
         ]"
-        :aria-labelledby="`${
-          props.cqItems![props.cqItemsOrder![index]].id
-        }-tab`"
         data-cmp-hook-tabs="tabpanel"
         role="tabpanel"
         tabindex="0"
