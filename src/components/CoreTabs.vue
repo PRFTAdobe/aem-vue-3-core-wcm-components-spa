@@ -155,6 +155,7 @@
               `${props.baseCssClass}__tabpanel--active`,
             );
             tabPanelElement.removeAttribute('aria-hidden');
+            (tabPanelElement as HTMLDivElement).focus();
           } else {
             tabPanelElement.classList.remove(
               `${props.baseCssClass}__tabpanel--active`,

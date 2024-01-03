@@ -389,25 +389,25 @@ const Me = {
       );
       a && a.focus();
     }, I = (s, a) => {
-      const r = v.value.indexOf(s) > -1;
+      const i = v.value.indexOf(s) > -1;
       if (C.value)
-        v.value = r ? [] : [s];
-      else if (r) {
+        v.value = i ? [] : [s];
+      else if (i) {
         const E = v.value.indexOf(s);
         v.value.splice(E, 1);
       } else
         v.value.push(s);
       a.target.focus();
-    }, _ = (s, a, r) => {
+    }, _ = (s, a, i) => {
       const E = w.value.querySelectorAll("button").length - 1;
       switch (a.code) {
         case "ArrowLeft":
         case "ArrowUp":
-          a.preventDefault(), r > 0 && S(r - 1);
+          a.preventDefault(), i > 0 && S(i - 1);
           break;
         case "ArrowRight":
         case "ArrowDown":
-          a.preventDefault(), r < E && S(r + 1);
+          a.preventDefault(), i < E && S(i + 1);
           break;
         case "Home":
           a.preventDefault(), S(0);
@@ -417,10 +417,10 @@ const Me = {
           break;
         case "Enter":
         case "Space":
-          a.preventDefault(), I(s, a), S(r);
+          a.preventDefault(), I(s, a), S(i);
           break;
       }
-    }, f = (s) => v.value.indexOf(s) > -1, i = m(() => ({
+    }, f = (s) => v.value.indexOf(s) > -1, o = m(() => ({
       cqPath: e.cqPath,
       placeholderClassNames: ["new", "section"].join(" ")
     }));
@@ -431,14 +431,14 @@ const Me = {
     }), Q($, async (s, a) => {
       s !== -1 && typeof s < "u" && s !== a && e.cqItemsOrder && (v.value = [e.cqItemsOrder[s]]);
     });
-    const o = R.createCallbackListener(
+    const r = R.createCallbackListener(
       e.cqPath,
       $
     );
     return Z(() => {
-      R.subscribeRequestMessage(c.value, o);
+      R.subscribeRequestMessage(c.value, r);
     }), ee(() => {
-      R.unsubscribeRequestMessage(c.value, o);
+      R.unsubscribeRequestMessage(c.value, r);
     }), (s, a) => (n(), p("div", x({
       id: e.id,
       ref_key: "accordion",
@@ -446,32 +446,32 @@ const Me = {
       class: P.value,
       "data-cmp-single-expansion": C.value === !0 ? !0 : void 0
     }, N.value), [
-      e.cqItemsOrder && (e == null ? void 0 : e.cqItemsOrder.length) > 0 && e.cqItems ? (n(!0), p(B, { key: 0 }, F(e.cqItemsOrder, (r, E) => (n(), p("div", {
-        id: `accordion-${e.cqItems[r].id}`,
+      e.cqItemsOrder && (e == null ? void 0 : e.cqItemsOrder.length) > 0 && e.cqItems ? (n(!0), p(B, { key: 0 }, F(e.cqItemsOrder, (i, E) => (n(), p("div", {
+        id: `accordion-${e.cqItems[i].id}`,
         key: `accordion-index-${E}`,
         class: d(`${e.baseCssClass}__item`),
-        "data-cmp-expanded": f(r) ? !0 : void 0
+        "data-cmp-expanded": f(i) ? !0 : void 0
       }, [
         (n(), h(L(e.headingElement), {
           class: d(`${e.baseCssClass}__heading`)
         }, {
           default: Y(() => [
             O("button", {
-              id: `accordion-${e.cqItems[r].id}-button`,
-              "aria-controls": `accordion-${e.cqItems[r].id}-panel`,
+              id: `accordion-${e.cqItems[i].id}-button`,
+              "aria-controls": `accordion-${e.cqItems[i].id}-panel`,
               class: d([
                 `${e.baseCssClass}__button`,
                 {
-                  [`${e.baseCssClass}__button--expanded`]: f(r)
+                  [`${e.baseCssClass}__button--expanded`]: f(i)
                 }
               ]),
               "data-cmp-button-id": E,
-              onClick: (J) => I(r, J),
-              onKeydown: (J) => _(r, J, E)
+              onClick: (J) => I(i, J),
+              onKeydown: (J) => _(i, J, E)
             }, [
               O("span", {
                 class: d(`${e.baseCssClass}__title`)
-              }, A(e.cqItems[r]["cq:panelTitle"]), 3),
+              }, A(e.cqItems[i]["cq:panelTitle"]), 3),
               O("span", {
                 class: d(`${e.baseCssClass}__icon`)
               }, ve, 2)
@@ -479,17 +479,17 @@ const Me = {
           ]),
           _: 2
         }, 1032, ["class"])),
-        g(u) || f(r) ? (n(), p("div", {
+        g(u) || f(i) ? (n(), p("div", {
           key: 0,
-          id: `accordion-${e.cqItems[r].id}-panel`,
-          "aria-labelledby": `accordion-${e.cqItems[r].id}-button`,
-          class: d(`${e.baseCssClass}__panel ${f(r) ? " " + e.baseCssClass + "__panel--expanded" : " " + e.baseCssClass + "__panel--hidden"}`),
+          id: `accordion-${e.cqItems[i].id}-panel`,
+          "aria-labelledby": `accordion-${e.cqItems[i].id}-button`,
+          class: d(`${e.baseCssClass}__panel ${f(i) ? " " + e.baseCssClass + "__panel--expanded" : " " + e.baseCssClass + "__panel--hidden"}`),
           role: "region"
         }, [
-          e.cqItemsOrder ? (n(), h(L(G.value[t.cqItemsOrder.indexOf(r)]), { key: 0 })) : q("", !0)
+          e.cqItemsOrder ? (n(), h(L(G.value[t.cqItemsOrder.indexOf(i)]), { key: 0 })) : q("", !0)
         ], 10, ge)) : q("", !0)
       ], 10, ye))), 128)) : q("", !0),
-      g(u) ? (n(), h(g(W), k(x({ key: 1 }, i.value)), null, 16)) : q("", !0)
+      g(u) ? (n(), h(g(W), k(x({ key: 1 }, o.value)), null, 16)) : q("", !0)
     ], 16, _e));
   }
 }), Ie = ["id"], qe = ["aria-live"], $e = ["id", "aria-label", "aria-labelledby"], Oe = ["aria-label"], Ee = ["id", "aria-controls", "aria-label"], Ge = /* @__PURE__ */ j({
@@ -667,7 +667,7 @@ const Me = {
             e.accessibilityPause
           ])
         ]
-      ), i = b(
+      ), o = b(
         "button",
         {
           "aria-label": e.accessibilityPlay,
@@ -694,8 +694,8 @@ const Me = {
             e.accessibilityPlay
           ])
         ]
-      ), o = [I, _];
-      return (l == null ? void 0 : l.autoplay) === !0 && (o.push(f), o.push(i)), b("div", { class: `${e.baseCssClass}__actions` }, o);
+      ), r = [I, _];
+      return (l == null ? void 0 : l.autoplay) === !0 && (r.push(f), r.push(o)), b("div", { class: `${e.baseCssClass}__actions` }, r);
     }), C = m(
       () => H.getChildComponents(
         e.cqPath,
@@ -712,18 +712,18 @@ const Me = {
       cqPath: e.cqPath,
       placeholderClassNames: ["new", "section"].join(" ")
     })), P = (I) => {
-      var i;
-      let _ = ((i = e.accessibility) == null ? void 0 : i.indicator) || "";
+      var o;
+      let _ = ((o = e.accessibility) == null ? void 0 : o.indicator) || "";
       const f = "{0}";
       return _ = _.replace(f, (I + 1).toString()), _;
     }, S = (I) => {
-      var o;
-      let _ = ((o = e.accessibility) == null ? void 0 : o.slide) || "";
+      var r;
+      let _ = ((r = e.accessibility) == null ? void 0 : r.slide) || "";
       const f = "{0}";
       _ = _.replace(f, (I + 1).toString());
-      const i = "{1}";
+      const o = "{1}";
       return _ = _.replace(
-        i,
+        o,
         e.cqItemsOrder.length.toString()
       ), _;
     };
@@ -743,22 +743,22 @@ const Me = {
           class: d(`${e.baseCssClass}__content`),
           "aria-atomic": "false"
         }, [
-          (n(!0), p(B, null, F(C.value, (i, o) => (n(), p("div", {
-            id: `${e.cqItems[e.cqItemsOrder[o]].id}-tabpanel`,
-            key: `item-${o}`,
-            "aria-label": S(o),
-            "aria-labelledby": `${e.cqItems[e.cqItemsOrder[o]].id}-tab`,
+          (n(!0), p(B, null, F(C.value, (o, r) => (n(), p("div", {
+            id: `${e.cqItems[e.cqItemsOrder[r]].id}-tabpanel`,
+            key: `item-${r}`,
+            "aria-label": S(r),
+            "aria-labelledby": `${e.cqItems[e.cqItemsOrder[r]].id}-tab`,
             class: d([
               `${e.baseCssClass}__item`,
               {
-                [`${e.baseCssClass}__item--active`]: o === c.value
+                [`${e.baseCssClass}__item--active`]: r === c.value
               }
             ]),
             "aria-roledescription": "slide",
             "data-cmp-hook-carousel": "item",
             role: "tabpanel"
           }, [
-            (n(), h(L(i), k(se({ isInEditor: !1 })), null, 16))
+            (n(), h(L(o), k(se({ isInEditor: !1 })), null, 16))
           ], 10, $e))), 128)),
           e.controlsPrepended ? q("", !0) : (n(), h(L(w.value), { key: 0 })),
           O("ol", {
@@ -767,20 +767,20 @@ const Me = {
             "data-cmp-hook-carousel": "indicators",
             role: "tablist"
           }, [
-            (n(!0), p(B, null, F(e.cqItemsOrder, (i, o) => (n(), p("li", {
-              id: `${e.cqItems[e.cqItemsOrder[o]].id}-tab`,
-              key: `item-${o}`,
-              "aria-controls": `${e.cqItems[e.cqItemsOrder[o]].id}-tabpanel`,
-              "aria-label": P(o),
+            (n(!0), p(B, null, F(e.cqItemsOrder, (o, r) => (n(), p("li", {
+              id: `${e.cqItems[e.cqItemsOrder[r]].id}-tab`,
+              key: `item-${r}`,
+              "aria-controls": `${e.cqItems[e.cqItemsOrder[r]].id}-tabpanel`,
+              "aria-label": P(r),
               class: d([
                 `${e.baseCssClass}__indicator`,
                 {
-                  [`${e.baseCssClass}__indicator--active`]: o === c.value
+                  [`${e.baseCssClass}__indicator--active`]: r === c.value
                 }
               ]),
               "data-cmp-hook-carousel": "indicator",
               role: "tab"
-            }, A(e.cqItems[i]["cq:panelTitle"]), 11, Ee))), 128))
+            }, A(e.cqItems[o]["cq:panelTitle"]), 11, Ee))), 128))
           ], 10, Oe)
         ], 10, qe)),
         g(u) ? (n(), h(g(W), k(x({ key: 2 }, G.value)), null, 16)) : q("", !0)
@@ -847,56 +847,56 @@ const Me = {
     ), C = m(
       () => !e.cqItemsOrder || (e == null ? void 0 : e.cqItemsOrder.length) === 0
     ), N = m(() => {
-      const i = {
+      const o = {
         class: "aem-container",
         "data-panelcontainer": "tabs"
       };
-      return l && (i["data-cq-data-path"] = e.cqPath), i;
+      return l && (o["data-cq-data-path"] = e.cqPath), o;
     }), G = m(() => ({
       cqPath: e.cqPath,
       placeholderClassNames: ["new", "section"].join(" ")
-    })), P = (i) => {
+    })), P = (o) => {
       if (c.value) {
-        const o = c.value, s = o.querySelectorAll(
+        const r = c.value, s = r.querySelectorAll(
           `.${e.baseCssClass}__tab`
-        ), a = o.querySelectorAll(
+        ), a = r.querySelectorAll(
           `.${e.baseCssClass}__tabpanel`
         );
-        i < 0 && (i = s.length - 1), i >= s.length && (i = 0), s.length && s.forEach((r, E) => {
-          E === i ? (r.classList.add(`${e.baseCssClass}__tab--active`), r.setAttribute("aria-selected", "true"), r.setAttribute("tabindex", "0")) : (r.classList.remove(`${e.baseCssClass}__tab--active`), r.removeAttribute("aria-selected"), r.setAttribute("tabindex", "-1"));
-        }), a.length && a.forEach((r, E) => {
-          E === i ? (r.classList.add(
+        o < 0 && (o = s.length - 1), o >= s.length && (o = 0), s.length && s.forEach((i, E) => {
+          E === o ? (i.classList.add(`${e.baseCssClass}__tab--active`), i.setAttribute("aria-selected", "true"), i.setAttribute("tabindex", "0")) : (i.classList.remove(`${e.baseCssClass}__tab--active`), i.removeAttribute("aria-selected"), i.setAttribute("tabindex", "-1"));
+        }), a.length && a.forEach((i, E) => {
+          E === o ? (i.classList.add(
             `${e.baseCssClass}__tabpanel--active`
-          ), r.removeAttribute("aria-hidden")) : (r.classList.remove(
+          ), i.removeAttribute("aria-hidden"), i.focus()) : (i.classList.remove(
             `${e.baseCssClass}__tabpanel--active`
-          ), r.setAttribute("aria-hidden", "true"));
+          ), i.setAttribute("aria-hidden", "true"));
         });
       }
-    }, S = (i, o = e.cqPath) => {
-      i.data && i.data.id === o && i.data.operation === "navigate" && P(i.data.index);
+    }, S = (o, r = e.cqPath) => {
+      o.data && o.data.id === r && o.data.operation === "navigate" && P(o.data.index);
     }, I = () => {
       if (c.value) {
-        const o = c.value.querySelectorAll(
+        const r = c.value.querySelectorAll(
           `.${e.baseCssClass}__tab`
         );
-        P(o.length - 1);
+        P(r.length - 1);
       }
     }, _ = () => {
       if (c.value) {
-        const i = c.value, o = i.querySelectorAll(
+        const o = c.value, r = o.querySelectorAll(
           `.${e.baseCssClass}__tab`
-        ), s = i.querySelector(
+        ), s = o.querySelector(
           `.${e.baseCssClass}__tab--active`
-        ), a = Array.from(o).indexOf(s);
+        ), a = Array.from(r).indexOf(s);
         P(a - 1);
       }
     }, f = () => {
       if (c.value) {
-        const i = c.value, o = i.querySelectorAll(
+        const o = c.value, r = o.querySelectorAll(
           `.${e.baseCssClass}__tab`
-        ), s = i.querySelector(
+        ), s = o.querySelector(
           `.${e.baseCssClass}__tab--active`
-        ), a = Array.from(o).indexOf(s);
+        ), a = Array.from(r).indexOf(s);
         P(a + 1);
       }
     };
@@ -907,7 +907,7 @@ const Me = {
     }), te(
       // eslint-disable-next-line no-return-assign
       () => y.value = e.cqItemsOrder.indexOf(e.activeItem) > 0 ? e.cqItemsOrder.indexOf(e.activeItem) : 0
-    ), (i, o) => (n(), p("div", x({
+    ), (o, r) => (n(), p("div", x({
       id: e.id,
       ref_key: "tabContainer",
       ref: c,
@@ -918,7 +918,7 @@ const Me = {
         T(_, ["up"]),
         T(f, ["right"]),
         T(f, ["down"]),
-        o[0] || (o[0] = T((s) => P(0), ["home"])),
+        r[0] || (r[0] = T((s) => P(0), ["home"])),
         T(I, ["end"])
       ]
     }), [
@@ -942,7 +942,7 @@ const Me = {
           ]),
           tabIndex: a === y.value ? 0 : -1,
           role: "tab",
-          onClick: (r) => P(a)
+          onClick: (i) => P(a)
         }, A(e.cqItems[s]["cq:panelTitle"]), 11, Se))), 128))
       ], 10, Pe)),
       C.value ? q("", !0) : (n(!0), p(B, { key: 1 }, F(v.value, (s, a) => (n(), p("div", {
