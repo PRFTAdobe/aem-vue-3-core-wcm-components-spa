@@ -129,6 +129,11 @@
         tabIndex = tabElements.length - 1;
       }
 
+      if (tabIndex >= tabElements.length) {
+        // eslint-disable-next-line no-param-reassign
+        tabIndex = 0;
+      }
+
       if (tabElements.length) {
         tabElements.forEach((tabElement, index) => {
           if (index === tabIndex) {
@@ -179,6 +184,16 @@
     }
   };
 
+  const handleKeyDownEnd = () => {
+    if (tabContainer.value) {
+      const tabContainerElement = tabContainer.value as HTMLDivElement;
+      const tabElements = tabContainerElement.querySelectorAll(
+        `.${props.baseCssClass}__tab`,
+      );
+      navigate(tabElements!.length - 1);
+    }
+  };
+
   const handleKeyDownLeft = () => {
     if (tabContainer.value) {
       const tabContainerElement = tabContainer.value as HTMLDivElement;
@@ -189,8 +204,21 @@
         `.${props.baseCssClass}__tab--active`,
       );
       const tabIndex = Array.from(tabElements).indexOf(tabElement!);
-      console.log(tabIndex);
       navigate(tabIndex - 1);
+    }
+  };
+
+  const handleKeyDownRight = () => {
+    if (tabContainer.value) {
+      const tabContainerElement = tabContainer.value as HTMLDivElement;
+      const tabElements = tabContainerElement.querySelectorAll(
+        `.${props.baseCssClass}__tab`,
+      );
+      const tabElement = tabContainerElement.querySelector(
+        `.${props.baseCssClass}__tab--active`,
+      );
+      const tabIndex = Array.from(tabElements).indexOf(tabElement!);
+      navigate(tabIndex + 1);
     }
   };
 
@@ -222,8 +250,12 @@
     ref="tabContainer"
     :class="className"
     v-bind="tabContainerProps"
-    @keydown.left="handleKeyDownLeft"
-    @keydown.up="handleKeyDownLeft"
+    @keydown.left.prevent="handleKeyDownLeft"
+    @keydown.up.prevent="handleKeyDownLeft"
+    @keydown.right.prevent="handleKeyDownRight"
+    @keydown.down.prevent="handleKeyDownRight"
+    @keydown.home.prevent="navigate(0)"
+    @keydown.end.prevent="handleKeyDownEnd"
   >
     <ol
       v-if="!isEmpty"
