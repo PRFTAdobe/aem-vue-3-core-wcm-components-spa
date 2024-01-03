@@ -14,7 +14,6 @@
     PropType,
     ref,
     VNode,
-    watch,
     watchEffect,
   } from 'vue';
   import { AuthoringUtils, Model } from '@adobe/aem-spa-page-model-manager';
@@ -66,8 +65,7 @@
       : 0,
   );
   const tabContainer = ref(null);
-  const activeIndexFromAuthorPanel = ref(1);
-  const messageChannel = ref(SpaUtils.initMessageChannel());
+  const messageChannel = SpaUtils.initMessageChannel();
 
   const childComponents = computed((): VNode[] =>
     Utils.getChildComponents(
@@ -121,10 +119,10 @@
       console.log('We have a tab container!');
       const tabContainerElement = tabContainer.value as HTMLDivElement;
       const tabElements = tabContainerElement.querySelectorAll(
-        `${props.baseCssClass}__tab`,
+        `.${props.baseCssClass}__tab`,
       );
       const tabPanelElements = tabContainerElement.querySelectorAll(
-        `${props.baseCssClass}__tabpanel`,
+        `.${props.baseCssClass}__tabpanel`,
       );
 
       console.log('Tabs: ', tabElements);
@@ -159,32 +157,33 @@
           }
         });
       }
-    } else {
-      console.log('I do not understand:', tabContainer.value);
     }
   };
 
-  const callbackListener = SpaUtils.createCallbackListener(
-    props.cqPath,
-    activeIndexFromAuthorPanel,
-  );
+  const callbackListener = (
+    message: {
+      id: number;
+      data: {
+        id: string;
+        index: number;
+        operation: string;
+      };
+    },
+    cqPath = props.cqPath,
+  ) => {
+    if (message.data && message.data.id === cqPath) {
+      if (message.data.operation === 'navigate') {
+        navigate(message.data.index);
+      }
+    }
+  };
 
   onMounted(() => {
-    SpaUtils.subscribeRequestMessage(messageChannel.value, callbackListener);
+    SpaUtils.subscribeRequestMessage(messageChannel, callbackListener);
   });
 
   onUnmounted(() => {
-    SpaUtils.unsubscribeRequestMessage(messageChannel.value, callbackListener);
-  });
-
-  watch(activeIndexFromAuthorPanel, async (current, previous) => {
-    if (
-      current !== -1 &&
-      typeof current !== 'undefined' &&
-      current !== previous
-    ) {
-      navigate(current);
-    }
+    SpaUtils.unsubscribeRequestMessage(messageChannel, callbackListener);
   });
 
   watchEffect(
