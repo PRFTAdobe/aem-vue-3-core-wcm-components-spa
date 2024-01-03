@@ -118,6 +118,7 @@
 
   const navigate = (tabIndex: number) => {
     if (tabContainer.value) {
+      console.log('We have a tab container!');
       const tabContainerElement = tabContainer.value as HTMLDivElement;
       const tabElements = tabContainerElement.querySelectorAll(
         `${props.baseCssClass}__tab`,
@@ -125,6 +126,9 @@
       const tabPanelElements = tabContainerElement.querySelectorAll(
         `${props.baseCssClass}__tabpanel`,
       );
+
+      console.log('Tabs: ', tabElements);
+      console.log('Tab Panels: ', tabPanelElements);
 
       if (tabElements.length) {
         tabElements.forEach((tabElement, index) => {
