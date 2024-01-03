@@ -250,12 +250,12 @@
     ref="tabContainer"
     :class="className"
     v-bind="tabContainerProps"
-    @keydown.left.prevent="handleKeyDownLeft"
-    @keydown.up.prevent="handleKeyDownLeft"
-    @keydown.right.prevent="handleKeyDownRight"
-    @keydown.down.prevent="handleKeyDownRight"
-    @keydown.home.prevent="navigate(0)"
-    @keydown.end.prevent="handleKeyDownEnd"
+    @keydown.left="handleKeyDownLeft"
+    @keydown.up="handleKeyDownLeft"
+    @keydown.right="handleKeyDownRight"
+    @keydown.down="handleKeyDownRight"
+    @keydown.home="navigate(0)"
+    @keydown.end="handleKeyDownEnd"
   >
     <ol
       v-if="!isEmpty"
@@ -277,7 +277,6 @@
           },
         ]"
         :tabIndex="index === activeIndex ? 0 : -1"
-        data-cmp-hook-tabs="tab"
         role="tab"
         @click="navigate(index)"
       >
@@ -299,7 +298,6 @@
             [`${props.baseCssClass}__tabpanel--active`]: index === activeIndex,
           },
         ]"
-        data-cmp-hook-tabs="tabpanel"
         role="tabpanel"
         tabindex="0"
       >
