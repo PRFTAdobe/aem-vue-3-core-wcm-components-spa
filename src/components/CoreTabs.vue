@@ -116,7 +116,6 @@
 
   const navigate = (tabIndex: number) => {
     if (tabContainer.value) {
-      console.log('We have a tab container!');
       const tabContainerElement = tabContainer.value as HTMLDivElement;
       const tabElements = tabContainerElement.querySelectorAll(
         `.${props.baseCssClass}__tab`,
@@ -125,8 +124,10 @@
         `.${props.baseCssClass}__tabpanel`,
       );
 
-      console.log('Tabs: ', tabElements);
-      console.log('Tab Panels: ', tabPanelElements);
+      if (tabIndex < 0) {
+        // eslint-disable-next-line no-param-reassign
+        tabIndex = tabElements.length - 1;
+      }
 
       if (tabElements.length) {
         tabElements.forEach((tabElement, index) => {
@@ -178,6 +179,21 @@
     }
   };
 
+  const handleKeyDownLeft = () => {
+    if (tabContainer.value) {
+      const tabContainerElement = tabContainer.value as HTMLDivElement;
+      const tabElements = tabContainerElement.querySelectorAll(
+        `.${props.baseCssClass}__tab`,
+      );
+      const tabElement = tabContainerElement.querySelector(
+        `.${props.baseCssClass}__tab--active`,
+      );
+      const tabIndex = Array.from(tabElements).indexOf(tabElement!);
+      console.log(tabIndex);
+      navigate(tabIndex - 1);
+    }
+  };
+
   onMounted(() => {
     SpaUtils.subscribeRequestMessage(messageChannel, callbackListener);
   });
@@ -206,6 +222,8 @@
     ref="tabContainer"
     :class="className"
     v-bind="tabContainerProps"
+    @keydown.left="handleKeyDownLeft"
+    @keydown.up="handleKeyDownLeft"
   >
     <ol
       v-if="!isEmpty"
