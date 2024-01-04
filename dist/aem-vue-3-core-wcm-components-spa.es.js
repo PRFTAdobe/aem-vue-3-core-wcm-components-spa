@@ -607,9 +607,9 @@ const Ue = {
           ), o.setAttribute("aria-hidden", "true"));
         }), $.length && $.forEach((o, Z) => {
           Z === r ? (o.classList.add(
-            `${e.baseCssClass}indicator--active`
+            `${e.baseCssClass}__indicator--active`
           ), o.setAttribute("aria-selected", "true"), o.setAttribute("tabindex", "0")) : (o.classList.remove(
-            `${e.baseCssClass}indicator--active`
+            `${e.baseCssClass}__indicator--active`
           ), o.removeAttribute("aria-selected"), o.setAttribute("tabindex", "-1"));
         });
       }

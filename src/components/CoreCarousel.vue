@@ -200,13 +200,13 @@
         carouselIndicators.forEach((carouselIndicator, index) => {
           if (index === itemIndex) {
             carouselIndicator.classList.add(
-              `${props.baseCssClass}indicator--active`,
+              `${props.baseCssClass}__indicator--active`,
             );
             carouselIndicator.setAttribute('aria-selected', 'true');
             carouselIndicator.setAttribute('tabindex', '0');
           } else {
             carouselIndicator.classList.remove(
-              `${props.baseCssClass}indicator--active`,
+              `${props.baseCssClass}__indicator--active`,
             );
             carouselIndicator.removeAttribute('aria-selected');
             carouselIndicator.setAttribute('tabindex', '-1');
