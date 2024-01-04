@@ -1,7 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { ComponentMapping } from 'aem-vue-3-editable-components';
 import { defineComponent, h, nextTick } from 'vue';
-import userEvent from '@testing-library/user-event';
 import CoreCarousel from '@/components/CoreCarousel.vue';
 
 describe('CoreCarousel ->', () => {
@@ -263,25 +262,21 @@ describe('CoreCarousel ->', () => {
       'Component1',
     );
 
-    const pauseButton = wrapper.find('.cmp-carousel__action--pause').element;
+    const pauseButton = wrapper.find('.cmp-carousel__action--pause');
 
-    await userEvent.setup({ delay: null }).click(pauseButton as HTMLElement);
+    await pauseButton.trigger('click');
 
-    await nextTick();
-
-    jest.advanceTimersByTime(150);
+    jest.advanceTimersByTime(100);
 
     expect(wrapper.find('.cmp-carousel__item--active').text()).toEqual(
       'Component1',
     );
 
-    const playButton = wrapper.find('.cmp-carousel__action--play').element;
+    const playButton = wrapper.find('.cmp-carousel__action--play');
 
-    await userEvent.setup({ delay: null }).click(playButton as HTMLElement);
+    await playButton.trigger('click');
 
-    await nextTick();
-
-    jest.advanceTimersByTime(150);
+    jest.advanceTimersByTime(100);
 
     expect(wrapper.find('.cmp-carousel__item--active').text()).toEqual(
       'Component2',
