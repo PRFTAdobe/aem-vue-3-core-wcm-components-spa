@@ -501,7 +501,7 @@
       @mouseenter="handleOnMouseEnter"
       @mouseleave="handleOnMouseLeave"
     >
-      <div :class="[`${props.baseCssClass}__items`]">
+      <div :class="[{ [`${props.baseCssClass}__items`]: !computedIsInEditor }]">
         <div
           v-for="(childComponent, index) of childComponents"
           :id="`${props.cqItems![props.cqItemsOrder![index]].id}-tabpanel`"
