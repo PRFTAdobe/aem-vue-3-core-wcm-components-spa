@@ -340,6 +340,10 @@
     display: block;
   }
 
+  .cmp-tabs__tabpanel:focus {
+    outline: 0;
+  }
+
   .cmp-tabs__tab:hover {
     color: #222;
   }

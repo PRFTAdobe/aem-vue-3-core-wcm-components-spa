@@ -10,13 +10,17 @@
     computed,
     h,
     inject,
+    onMounted,
+    onUnmounted,
     PropType,
+    Ref,
     ref,
     useAttrs,
     VNode,
     watchEffect,
   } from 'vue';
   import { AuthoringUtils, Model } from '@adobe/aem-spa-page-model-manager';
+  import SpaUtils from '@/utils/SpaUtils';
 
   interface CarouselModel extends Model {
     'cq:panelTitle'?: string;
@@ -110,6 +114,25 @@
       : 0,
   );
 
+  const carouselContainer = ref(null);
+  const interval: Ref<number | ReturnType<typeof setInterval>> = ref(-1);
+  const messageChannel = SpaUtils.initMessageChannel();
+  const statefulAutoplay = ref(attrs?.autoplay === true && !computedIsInEditor);
+
+  const childComponents = computed((): VNode[] =>
+    Utils.getChildComponents(
+      props.cqPath as string,
+      props.cqItems as {
+        [key: string]: Model;
+      },
+      props.cqItemsOrder as string[],
+      true,
+      () => ({}),
+      false,
+      componentMapping,
+    ),
+  );
+
   const className = computed(() =>
     componentClassNames(
       props.baseCssClass,
@@ -127,11 +150,6 @@
       'aria-live': 'polite',
       'aria-roledescription': 'carousel',
       class: 'aem-container',
-      'data-cmp-is': 'carousel',
-      'data-cmp-autoplay':
-        attrs?.autoplay === true && !computedIsInEditor ? 'true' : undefined,
-      'data-cmp-delay': props.delay.toString(),
-      'data-cmp-autopause-disabled': props.autopauseDisabled.toString(),
       'data-panelcontainer': 'carousel',
       role: 'group',
     };
@@ -143,6 +161,91 @@
     return carouselContainerProperties;
   });
 
+  const navigate = (itemIndex: number) => {
+    if (carouselContainer.value) {
+      const carouselContainerElement =
+        carouselContainer.value as HTMLDivElement;
+      const carouselItems = carouselContainerElement.querySelectorAll(
+        `.${props.baseCssClass}__item`,
+      );
+      const carouselIndicators = carouselContainerElement.querySelectorAll(
+        `.${props.baseCssClass}__indicator`,
+      );
+
+      if (itemIndex < 0) {
+        // eslint-disable-next-line no-param-reassign
+        itemIndex = carouselItems.length - 1;
+      }
+
+      if (itemIndex >= carouselItems.length) {
+        // eslint-disable-next-line no-param-reassign
+        itemIndex = 0;
+      }
+
+      if (carouselItems.length) {
+        carouselItems.forEach((carouselItem, index) => {
+          if (index === itemIndex) {
+            carouselItem.classList.add(`${props.baseCssClass}__item--active`);
+            carouselItem.removeAttribute('aria-hidden');
+          } else {
+            carouselItem.classList.remove(
+              `${props.baseCssClass}__item--active`,
+            );
+            carouselItem.setAttribute('aria-hidden', 'true');
+          }
+        });
+      }
+
+      if (carouselIndicators.length) {
+        carouselIndicators.forEach((carouselIndicator, index) => {
+          if (index === itemIndex) {
+            carouselIndicator.classList.add(
+              `${props.baseCssClass}indicator--active`,
+            );
+            carouselIndicator.setAttribute('aria-selected', 'true');
+            carouselIndicator.setAttribute('tabindex', '0');
+          } else {
+            carouselIndicator.classList.remove(
+              `${props.baseCssClass}indicator--active`,
+            );
+            carouselIndicator.removeAttribute('aria-selected');
+            carouselIndicator.setAttribute('tabindex', '-1');
+          }
+        });
+      }
+    }
+  };
+
+  const getActiveItem = () => {
+    let activeItem = 0;
+    if (carouselContainer.value) {
+      const carouselContainerElement =
+        carouselContainer.value as HTMLDivElement;
+      const itemElements = carouselContainerElement.querySelectorAll(
+        `.${props.baseCssClass}__item`,
+      );
+      const activeItemElement = carouselContainerElement.querySelector(
+        `.${props.baseCssClass}__item--active`,
+      );
+      activeItem = Array.from(itemElements).indexOf(activeItemElement!);
+    }
+    return activeItem;
+  };
+
+  const nextSlide = () => {
+    const activeItem = getActiveItem();
+    navigate(activeItem + 1);
+  };
+
+  const prevSlide = () => {
+    const activeItem = getActiveItem();
+    navigate(activeItem - 1);
+  };
+
+  const toggleAutoPlay = (toggle: boolean) => {
+    statefulAutoplay.value = toggle;
+  };
+
   const carouselControls = computed(() => {
     const previousButton = h(
       'button',
@@ -152,8 +255,10 @@
           `${props.baseCssClass}__action`,
           `${props.baseCssClass}__action--previous`,
         ],
-        'data-cmp-hook-carousel': 'previous',
         type: 'button',
+        onClick: () => {
+          prevSlide();
+        },
       },
       [
         h('span', { class: `${props.baseCssClass}__action-icon` }, [
@@ -179,8 +284,10 @@
           `${props.baseCssClass}__action`,
           `${props.baseCssClass}__action--next`,
         ],
-        'data-cmp-hook-carousel': 'next',
         type: 'button',
+        onClick: () => {
+          nextSlide();
+        },
       },
       [
         h('span', { class: `${props.baseCssClass}__action-icon` }, [
@@ -206,9 +313,15 @@
         class: [
           `${props.baseCssClass}__action`,
           `${props.baseCssClass}__action--pause`,
+          {
+            [`${props.baseCssClass}__action--disabled`]:
+              !statefulAutoplay.value,
+          },
         ],
-        'data-cmp-hook-carousel': 'pause',
         type: 'button',
+        onClick: () => {
+          toggleAutoPlay(false);
+        },
       },
       [
         h('span', { class: `${props.baseCssClass}__action-icon` }, [
@@ -233,10 +346,14 @@
         class: [
           `${props.baseCssClass}__action`,
           `${props.baseCssClass}__action--play`,
-          `${props.baseCssClass}__action--disabled`,
+          {
+            [`${props.baseCssClass}__action--disabled`]: statefulAutoplay.value,
+          },
         ],
-        'data-cmp-hook-carousel': 'play',
         type: 'button',
+        onClick: () => {
+          toggleAutoPlay(true);
+        },
       },
       [
         h('span', { class: `${props.baseCssClass}__action-icon` }, [
@@ -261,20 +378,6 @@
     }
     return h('div', { class: `${props.baseCssClass}__actions` }, buttons);
   });
-
-  const childComponents = computed((): VNode[] =>
-    Utils.getChildComponents(
-      props.cqPath as string,
-      props.cqItems as {
-        [key: string]: Model;
-      },
-      props.cqItemsOrder as string[],
-      true,
-      () => ({}),
-      false,
-      componentMapping,
-    ),
-  );
 
   const isEmpty = computed(
     () => !props.cqItemsOrder || props?.cqItemsOrder.length === 0,
@@ -304,6 +407,70 @@
     return ariaLabel;
   };
 
+  const autoPlayTick = () => {
+    if (!statefulAutoplay.value || props.cqItemsOrder!.length <= 1) {
+      return;
+    }
+    const activeItem = getActiveItem();
+    navigate(activeItem + 1);
+  };
+
+  const autoPlay = () => {
+    interval.value = setInterval(() => {
+      autoPlayTick();
+    }, props.delay!);
+  };
+
+  const clearAutoPlay = () => {
+    clearInterval(interval.value);
+  };
+
+  const handleIndicatorClick = (index: number) => {
+    navigate(index);
+  };
+
+  const handleOnMouseEnter = () => {
+    if (!props.autopauseDisabled && statefulAutoplay.value) {
+      clearAutoPlay();
+    }
+  };
+
+  const handleOnMouseLeave = () => {
+    if (!props.autopauseDisabled && statefulAutoplay.value) {
+      autoPlay();
+    }
+  };
+
+  const callbackListener = (
+    message: {
+      id: number;
+      data: {
+        id: string;
+        index: number;
+        operation: string;
+      };
+    },
+    cqPath = props.cqPath,
+  ) => {
+    if (message.data && message.data.id === cqPath) {
+      if (message.data.operation === 'navigate') {
+        navigate(message.data.index);
+      }
+    }
+  };
+
+  onMounted(() => {
+    autoPlay();
+    SpaUtils.subscribeRequestMessage(messageChannel, callbackListener);
+  });
+
+  onUnmounted(() => {
+    if (typeof interval.value === 'number' && interval.value >= 0) {
+      clearAutoPlay();
+    }
+    SpaUtils.unsubscribeRequestMessage(messageChannel, callbackListener);
+  });
+
   watchEffect(
     // eslint-disable-next-line no-return-assign
     () =>
@@ -319,33 +486,42 @@
 </script>
 
 <template>
-  <div :id="props.id" :class="className" v-bind="carouselContainerProps">
+  <div
+    :id="props.id"
+    ref="carouselContainer"
+    :class="className"
+    v-bind="carouselContainerProps"
+  >
     <component :is="carouselControls as VNode" v-if="props.controlsPrepended" />
     <div
       v-if="!isEmpty"
       :aria-live="attrs?.autoplay === true ? 'off' : 'polite'"
       :class="`${props.baseCssClass}__content`"
       aria-atomic="false"
+      @mouseenter="handleOnMouseEnter"
+      @mouseleave="handleOnMouseLeave"
     >
-      <div
-        v-for="(childComponent, index) of childComponents"
-        :id="`${props.cqItems![props.cqItemsOrder![index]].id}-tabpanel`"
-        :key="`item-${index}`"
-        :aria-label="getItemAriaLabel(index)"
-        :aria-labelledby="`${
-          props.cqItems![props.cqItemsOrder![index]].id
-        }-tab`"
-        :class="[
-          `${props.baseCssClass}__item`,
-          {
-            [`${props.baseCssClass}__item--active`]: index === activeIndex,
-          },
-        ]"
-        aria-roledescription="slide"
-        data-cmp-hook-carousel="item"
-        role="tabpanel"
-      >
-        <component :is="childComponent" v-bind="{ isInEditor: false }" />
+      <div :class="[`${props.baseCssClass}__items`]">
+        <div
+          v-for="(childComponent, index) of childComponents"
+          :id="`${props.cqItems![props.cqItemsOrder![index]].id}-tabpanel`"
+          :key="`item-${index}`"
+          :aria-hidden="index === activeIndex ? undefined : true"
+          :aria-label="getItemAriaLabel(index)"
+          :aria-labelledby="`${
+            props.cqItems![props.cqItemsOrder![index]].id
+          }-tab`"
+          :class="[
+            `${props.baseCssClass}__item`,
+            {
+              [`${props.baseCssClass}__item--active`]: index === activeIndex,
+            },
+          ]"
+          aria-roledescription="slide"
+          role="tabpanel"
+        >
+          <component :is="childComponent" v-bind="{ isInEditor: false }" />
+        </div>
       </div>
       <component
         :is="carouselControls as VNode"
@@ -354,7 +530,6 @@
       <ol
         :aria-label="props.accessibilityTablist"
         :class="`${props.baseCssClass}__indicators`"
-        data-cmp-hook-carousel="indicators"
         role="tablist"
       >
         <li
@@ -365,6 +540,7 @@
             props.cqItems![props.cqItemsOrder![index]].id
           }-tabpanel`"
           :aria-label="getIndicatorArialLabel(index)"
+          :aria-selected="index === activeIndex ? true : undefined"
           :class="[
             `${props.baseCssClass}__indicator`,
             {
@@ -372,8 +548,8 @@
                 index === activeIndex,
             },
           ]"
-          data-cmp-hook-carousel="indicator"
           role="tab"
+          @click="handleIndicatorClick(index)"
         >
           {{ props.cqItems![cqItem]['cq:panelTitle'] }}
         </li>
