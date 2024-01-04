@@ -833,6 +833,7 @@ const Ue = {
                 }
               ]),
               "aria-roledescription": "slide",
+              "data-cmp-hook-carousel": "item",
               role: "tabpanel"
             }, [
               (l(), q(B(E), R(ue({ isInEditor: !1 })), null, 16))

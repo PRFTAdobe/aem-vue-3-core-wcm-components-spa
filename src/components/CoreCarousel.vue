@@ -518,6 +518,7 @@
             },
           ]"
           aria-roledescription="slide"
+          data-cmp-hook-carousel="item"
           role="tabpanel"
         >
           <component :is="childComponent" v-bind="{ isInEditor: false }" />
