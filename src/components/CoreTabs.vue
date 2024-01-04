@@ -155,7 +155,6 @@
               `${props.baseCssClass}__tabpanel--active`,
             );
             tabPanelElement.removeAttribute('aria-hidden');
-            (tabPanelElement as HTMLDivElement).focus();
           } else {
             tabPanelElement.classList.remove(
               `${props.baseCssClass}__tabpanel--active`,
@@ -164,6 +163,17 @@
           }
         });
       }
+    }
+  };
+
+  const navigateAndFocus = (tabIndex: number) => {
+    navigate(tabIndex);
+    if (tabContainer.value) {
+      const tabContainerElement = tabContainer.value as HTMLDivElement;
+      const tabPanelElements = tabContainerElement.querySelectorAll(
+        `.${props.baseCssClass}__tabpanel`,
+      );
+      (tabPanelElements[tabIndex] as HTMLDivElement).focus();
     }
   };
 
@@ -191,7 +201,7 @@
       const tabElements = tabContainerElement.querySelectorAll(
         `.${props.baseCssClass}__tab`,
       );
-      navigate(tabElements!.length - 1);
+      navigateAndFocus(tabElements!.length - 1);
     }
   };
 
@@ -205,7 +215,7 @@
         `.${props.baseCssClass}__tab--active`,
       );
       const tabIndex = Array.from(tabElements).indexOf(tabElement!);
-      navigate(tabIndex - 1);
+      navigateAndFocus(tabIndex - 1);
     }
   };
 
@@ -219,7 +229,7 @@
         `.${props.baseCssClass}__tab--active`,
       );
       const tabIndex = Array.from(tabElements).indexOf(tabElement!);
-      navigate(tabIndex + 1);
+      navigateAndFocus(tabIndex + 1);
     }
   };
 
@@ -255,7 +265,7 @@
     @keydown.up="handleKeyDownLeft"
     @keydown.right="handleKeyDownRight"
     @keydown.down="handleKeyDownRight"
-    @keydown.home="navigate(0)"
+    @keydown.home="navigateAndFocus(0)"
     @keydown.end="handleKeyDownEnd"
   >
     <ol

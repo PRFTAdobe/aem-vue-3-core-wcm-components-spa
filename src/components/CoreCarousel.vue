@@ -232,6 +232,18 @@
     return activeItem;
   };
 
+  const navigateAndFocus = (itemIndex: number) => {
+    navigate(itemIndex);
+    if (carouselContainer.value) {
+      const carouselContainerElement =
+        carouselContainer.value as HTMLDivElement;
+      const itemElements = carouselContainerElement.querySelectorAll(
+        `.${props.baseCssClass}__item`,
+      );
+      (itemElements[itemIndex] as HTMLDivElement).focus();
+    }
+  };
+
   const nextSlide = () => {
     const activeItem = getActiveItem();
     navigate(activeItem + 1);
@@ -242,8 +254,22 @@
     navigate(activeItem - 1);
   };
 
-  const toggleAutoPlay = (toggle: boolean) => {
-    statefulAutoplay.value = toggle;
+  const autoPlayTick = () => {
+    if (!statefulAutoplay.value || props.cqItemsOrder!.length <= 1) {
+      return;
+    }
+    const activeItem = getActiveItem();
+    navigate(activeItem + 1);
+  };
+
+  const autoPlay = () => {
+    interval.value = setInterval(() => {
+      autoPlayTick();
+    }, props.delay!);
+  };
+
+  const clearAutoPlay = () => {
+    clearInterval(interval.value);
   };
 
   const carouselControls = computed(() => {
@@ -320,7 +346,9 @@
         ],
         type: 'button',
         onClick: () => {
-          toggleAutoPlay(false);
+          if (!props.autopauseDisabled && statefulAutoplay.value) {
+            clearAutoPlay();
+          }
         },
       },
       [
@@ -352,7 +380,9 @@
         ],
         type: 'button',
         onClick: () => {
-          toggleAutoPlay(true);
+          if (!props.autopauseDisabled && statefulAutoplay.value) {
+            autoPlay();
+          }
         },
       },
       [
@@ -407,24 +437,6 @@
     return ariaLabel;
   };
 
-  const autoPlayTick = () => {
-    if (!statefulAutoplay.value || props.cqItemsOrder!.length <= 1) {
-      return;
-    }
-    const activeItem = getActiveItem();
-    navigate(activeItem + 1);
-  };
-
-  const autoPlay = () => {
-    interval.value = setInterval(() => {
-      autoPlayTick();
-    }, props.delay!);
-  };
-
-  const clearAutoPlay = () => {
-    clearInterval(interval.value);
-  };
-
   const handleIndicatorClick = (index: number) => {
     navigate(index);
   };
@@ -434,11 +446,31 @@
       clearAutoPlay();
     }
   };
-
   const handleOnMouseLeave = () => {
     if (!props.autopauseDisabled && statefulAutoplay.value) {
       autoPlay();
     }
+  };
+
+  const handleKeyDownEnd = () => {
+    if (carouselContainer.value) {
+      const carouselContainerElement =
+        carouselContainer.value as HTMLDivElement;
+      const itemElements = carouselContainerElement.querySelectorAll(
+        `.${props.baseCssClass}__item`,
+      );
+      navigateAndFocus(itemElements!.length - 1);
+    }
+  };
+
+  const handleKeyDownLeft = () => {
+    const activeItem = getActiveItem();
+    navigateAndFocus(activeItem - 1);
+  };
+
+  const handleKeyDownRight = () => {
+    const activeItem = getActiveItem();
+    navigateAndFocus(activeItem + 1);
   };
 
   const callbackListener = (
@@ -500,6 +532,12 @@
       aria-atomic="false"
       @mouseenter="handleOnMouseEnter"
       @mouseleave="handleOnMouseLeave"
+      @keydown.left="handleKeyDownLeft"
+      @keydown.up="handleKeyDownLeft"
+      @keydown.right="handleKeyDownRight"
+      @keydown.down="handleKeyDownRight"
+      @keydown.home="navigateAndFocus(0)"
+      @keydown.end="handleKeyDownEnd"
     >
       <div :class="[{ [`${props.baseCssClass}__items`]: !computedIsInEditor }]">
         <div
