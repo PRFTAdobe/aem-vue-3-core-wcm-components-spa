@@ -275,9 +275,9 @@ describe('CoreCarousel ->', () => {
       'Component1',
     );
 
-    const resumeButton = wrapper.find('.cmp-carousel__action--play').element;
+    const playButton = wrapper.find('.cmp-carousel__action--play').element;
 
-    await userEvent.setup({ delay: null }).click(resumeButton as HTMLElement);
+    await userEvent.setup({ delay: null }).click(playButton as HTMLElement);
 
     await nextTick();
 

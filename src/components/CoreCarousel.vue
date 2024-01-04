@@ -117,9 +117,7 @@
   const carouselContainer = ref(null);
   const interval: Ref<number | ReturnType<typeof setInterval>> = ref(-1);
   const messageChannel = SpaUtils.initMessageChannel();
-  const computedAutoplay = computed(
-    () => attrs?.autoplay === true && !computedIsInEditor,
-  );
+  const autoplay = ref(attrs?.autoplay === true && !computedIsInEditor);
 
   const childComponents = computed((): VNode[] =>
     Utils.getChildComponents(
@@ -257,14 +255,14 @@
   };
 
   const autoPlayTick = () => {
-    if (!computedAutoplay.value || props.cqItemsOrder!.length <= 1) {
+    if (!autoplay.value || props.cqItemsOrder!.length <= 1) {
       return;
     }
     const activeItem = getActiveItem();
     navigate(activeItem + 1);
   };
 
-  const autoPlay = () => {
+  const autoPlayCarousel = () => {
     interval.value = setInterval(() => {
       autoPlayTick();
     }, props.delay!);
@@ -272,7 +270,10 @@
 
   const clearAutoPlay = () => {
     clearInterval(interval.value);
-    interval.value = -1;
+  };
+
+  const toggleAutoPlay = (toggle: boolean) => {
+    autoplay.value = toggle;
   };
 
   const carouselControls = computed(() => {
@@ -343,14 +344,12 @@
           `${props.baseCssClass}__action`,
           `${props.baseCssClass}__action--pause`,
           {
-            [`${props.baseCssClass}__action--disabled`]: interval.value === -1,
+            [`${props.baseCssClass}__action--disabled`]: !autoplay.value,
           },
         ],
         type: 'button',
         onClick: () => {
-          if (!props.autopauseDisabled && computedAutoplay.value) {
-            clearAutoPlay();
-          }
+          toggleAutoPlay(false);
         },
       },
       [
@@ -377,14 +376,12 @@
           `${props.baseCssClass}__action`,
           `${props.baseCssClass}__action--play`,
           {
-            [`${props.baseCssClass}__action--disabled`]: interval.value !== -1,
+            [`${props.baseCssClass}__action--disabled`]: autoplay.value,
           },
         ],
         type: 'button',
         onClick: () => {
-          if (!props.autopauseDisabled && computedAutoplay.value) {
-            autoPlay();
-          }
+          toggleAutoPlay(true);
         },
       },
       [
@@ -444,13 +441,13 @@
   };
 
   const handleOnMouseEnter = () => {
-    if (!props.autopauseDisabled && computedAutoplay.value) {
+    if (!props.autopauseDisabled && autoplay.value) {
       clearAutoPlay();
     }
   };
   const handleOnMouseLeave = () => {
-    if (!props.autopauseDisabled && computedAutoplay.value) {
-      autoPlay();
+    if (!props.autopauseDisabled && autoplay.value) {
+      autoPlayCarousel();
     }
   };
 
@@ -494,7 +491,7 @@
   };
 
   onMounted(() => {
-    autoPlay();
+    autoPlayCarousel();
     SpaUtils.subscribeRequestMessage(messageChannel, callbackListener);
   });
 
