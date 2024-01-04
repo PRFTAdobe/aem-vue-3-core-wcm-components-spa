@@ -117,7 +117,9 @@
   const carouselContainer = ref(null);
   const interval: Ref<number | ReturnType<typeof setInterval>> = ref(-1);
   const messageChannel = SpaUtils.initMessageChannel();
-  const statefulAutoplay = ref(attrs?.autoplay === true && !computedIsInEditor);
+  const computedAutoplay = computed(
+    () => attrs?.autoplay === true && !computedIsInEditor,
+  );
 
   const childComponents = computed((): VNode[] =>
     Utils.getChildComponents(
@@ -255,7 +257,7 @@
   };
 
   const autoPlayTick = () => {
-    if (!statefulAutoplay.value || props.cqItemsOrder!.length <= 1) {
+    if (!computedAutoplay.value || props.cqItemsOrder!.length <= 1) {
       return;
     }
     const activeItem = getActiveItem();
@@ -270,6 +272,7 @@
 
   const clearAutoPlay = () => {
     clearInterval(interval.value);
+    interval.value = -1;
   };
 
   const carouselControls = computed(() => {
@@ -340,13 +343,12 @@
           `${props.baseCssClass}__action`,
           `${props.baseCssClass}__action--pause`,
           {
-            [`${props.baseCssClass}__action--disabled`]:
-              !statefulAutoplay.value,
+            [`${props.baseCssClass}__action--disabled`]: interval.value === -1,
           },
         ],
         type: 'button',
         onClick: () => {
-          if (!props.autopauseDisabled && statefulAutoplay.value) {
+          if (!props.autopauseDisabled && computedAutoplay.value) {
             clearAutoPlay();
           }
         },
@@ -375,12 +377,12 @@
           `${props.baseCssClass}__action`,
           `${props.baseCssClass}__action--play`,
           {
-            [`${props.baseCssClass}__action--disabled`]: statefulAutoplay.value,
+            [`${props.baseCssClass}__action--disabled`]: interval.value !== -1,
           },
         ],
         type: 'button',
         onClick: () => {
-          if (!props.autopauseDisabled && statefulAutoplay.value) {
+          if (!props.autopauseDisabled && computedAutoplay.value) {
             autoPlay();
           }
         },
@@ -442,12 +444,12 @@
   };
 
   const handleOnMouseEnter = () => {
-    if (!props.autopauseDisabled && statefulAutoplay.value) {
+    if (!props.autopauseDisabled && computedAutoplay.value) {
       clearAutoPlay();
     }
   };
   const handleOnMouseLeave = () => {
-    if (!props.autopauseDisabled && statefulAutoplay.value) {
+    if (!props.autopauseDisabled && computedAutoplay.value) {
       autoPlay();
     }
   };
