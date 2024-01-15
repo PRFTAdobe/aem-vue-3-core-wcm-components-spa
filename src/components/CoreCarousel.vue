@@ -535,8 +535,8 @@
       @keydown.up="handleKeyDownLeft"
       @keydown.right="handleKeyDownRight"
       @keydown.down="handleKeyDownRight"
-      @keydown.home="navigateAndFocus(0)"
-      @keydown.end="handleKeyDownEnd"
+      @keydown.prevent.home="navigateAndFocus(0)"
+      @keydown.prevent.end="handleKeyDownEnd"
     >
       <div :class="[{ [`${props.baseCssClass}__items`]: !computedIsInEditor }]">
         <div

@@ -359,8 +359,8 @@
             @keydown.up="handleKeyDownLeft(index)"
             @keydown.right="handleKeyDownRight(index)"
             @keydown.down="handleKeyDownRight(index)"
-            @keydown.home="focusButton(0)"
-            @keydown.end="handleKeyDownEnd"
+            @keydown.prevent.home="focusButton(0)"
+            @keydown.prevent.end="handleKeyDownEnd"
             @keydown.prevent.enter="
               () => {
                 toggle(index);
