@@ -1,5 +1,3 @@
-import { Ref } from 'vue';
-
 declare global {
   interface Window {
     Granite: unknown;
@@ -7,28 +5,6 @@ declare global {
 }
 
 const SpaUtils = {
-  createCallbackListener(
-    cqPathArgument: string | undefined,
-    activeIndexFromAuthorPanel: Ref<number>,
-  ) {
-    return (
-      message: {
-        id: number;
-        data: {
-          id: string;
-          index: number;
-          operation: string;
-        };
-      },
-      cqPath = cqPathArgument,
-    ) => {
-      if (message.data && message.data.id === cqPath) {
-        if (message.data.operation === 'navigate') {
-          activeIndexFromAuthorPanel.value = message.data.index;
-        }
-      }
-    };
-  },
   initMessageChannel() {
     if (
       this.isBrowser() &&
