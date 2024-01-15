@@ -99,8 +99,9 @@ describe('CoreAccordion ->', () => {
     expect(accordionRoot).toHaveLength(1);
 
     const dummyComp = wrapper.findAll('.dummyCmp');
-    expect(dummyComp).toHaveLength(1);
+    expect(dummyComp).toHaveLength(2);
     expect(dummyComp[0].text()).toEqual('Component1');
+    expect(dummyComp[dummyComp.length - 1].text()).toEqual('Component2');
   });
 
   it('Renders out all items in author mode with hidden CSS', () => {
@@ -128,6 +129,15 @@ describe('CoreAccordion ->', () => {
     const component1 = screen.getByText('Component1');
     expect(component1).toBeInTheDocument();
 
+    const button1 = getById(
+      dom.container as HTMLElement,
+      'accordion-test-button',
+    );
+
+    expect(
+      button1?.classList.contains('cmp-accordion__button--expanded'),
+    ).toBeTruthy();
+
     const button2 = getById(
       dom.container as HTMLElement,
       'accordion-test2-button',
@@ -138,6 +148,10 @@ describe('CoreAccordion ->', () => {
     ).toBeFalsy();
 
     await userEvent.click(button2 as HTMLElement);
+
+    expect(
+      button1?.classList.contains('cmp-accordion__button--expanded'),
+    ).toBeFalsy();
 
     expect(
       button2?.classList.contains('cmp-accordion__button--expanded'),
@@ -151,19 +165,33 @@ describe('CoreAccordion ->', () => {
     const dom = render(CoreAccordion, {
       props: { ...defaultProps },
     });
+
+    const button1 = getById(
+      dom.container as HTMLElement,
+      'accordion-test-button',
+    );
+
     expect(
-      (dom.container as HTMLElement).querySelectorAll('.dummyCmp').length,
-    ).toEqual(1);
+      button1?.classList.contains('cmp-accordion__button--expanded'),
+    ).toBeTruthy();
 
     const button2 = getById(
       dom.container as HTMLElement,
       'accordion-test2-button',
     );
 
+    expect(
+      button2!.classList.contains('cmp-accordion__button--expanded'),
+    ).toBeFalsy();
+
     await userEvent.click(button2 as HTMLElement);
 
     expect(
-      (dom.container as HTMLElement).querySelectorAll('.dummyCmp').length,
-    ).toEqual(2);
+      button1?.classList.contains('cmp-accordion__button--expanded'),
+    ).toBeTruthy();
+
+    expect(
+      button2!.classList.contains('cmp-accordion__button--expanded'),
+    ).toBeTruthy();
   });
 });

@@ -188,6 +188,47 @@
     }
   };
 
+  const focusButton = (index: number) => {
+    if (accordionContainer.value) {
+      const accordionContainerElement =
+        accordionContainer.value as HTMLDivElement;
+      const buttons = accordionContainerElement.querySelectorAll(
+        `.${props.baseCssClass}__button`,
+      );
+      (buttons[index] as HTMLButtonElement).focus();
+    }
+  };
+
+  const handleKeyDownEnd = () => {
+    if (accordionContainer.value) {
+      const accordionContainerElement =
+        accordionContainer.value as HTMLDivElement;
+      const buttons = accordionContainerElement.querySelectorAll(
+        `.${props.baseCssClass}__button`,
+      );
+      focusButton(buttons.length - 1);
+    }
+  };
+
+  const handleKeyDownLeft = (index: number) => {
+    if (index > 0) {
+      focusButton(index - 1);
+    }
+  };
+
+  const handleKeyDownRight = (index: number) => {
+    if (accordionContainer.value) {
+      const accordionContainerElement =
+        accordionContainer.value as HTMLDivElement;
+      const buttons = accordionContainerElement.querySelectorAll(
+        `.${props.baseCssClass}__button`,
+      );
+      if (index < buttons.length - 1) {
+        focusButton(index + 1);
+      }
+    }
+  };
+
   const refreshItem = (item: HTMLDivElement) => {
     const expanded = item.hasAttribute('data-cmp-expanded');
     if (expanded) {
@@ -309,9 +350,27 @@
             data-cmp-hook-accordion="button"
             type="button"
             @click="
-              (event) => {
+              () => {
                 toggle(index);
-                (event.currentTarget! as HTMLButtonElement).focus();
+                focusButton(index);
+              }
+            "
+            @keydown.left="handleKeyDownLeft(index)"
+            @keydown.up="handleKeyDownLeft(index)"
+            @keydown.right="handleKeyDownRight(index)"
+            @keydown.down="handleKeyDownRight(index)"
+            @keydown.home="focusButton(0)"
+            @keydown.end="handleKeyDownEnd"
+            @keydown.enter="
+              () => {
+                toggle(index);
+                focusButton(index);
+              }
+            "
+            @keydown.space="
+              () => {
+                toggle(index);
+                focusButton(index);
               }
             "
           >
