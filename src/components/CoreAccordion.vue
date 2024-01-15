@@ -361,13 +361,13 @@
             @keydown.down="handleKeyDownRight(index)"
             @keydown.home="focusButton(0)"
             @keydown.end="handleKeyDownEnd"
-            @keydown.enter="
+            @keydown.prevent.enter="
               () => {
                 toggle(index);
                 focusButton(index);
               }
             "
-            @keydown.space="
+            @keydown.prevent.space="
               () => {
                 toggle(index);
                 focusButton(index);
