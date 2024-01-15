@@ -48,6 +48,14 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
+    isInEditor: {
+        type: BooleanConstructor;
+        default: undefined;
+    };
+    singleExpansion: {
+        type: BooleanConstructor;
+        default: undefined;
+    };
 }, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     aemNoDecoration: {
         type: BooleanConstructor;
@@ -92,10 +100,20 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
+    isInEditor: {
+        type: BooleanConstructor;
+        default: undefined;
+    };
+    singleExpansion: {
+        type: BooleanConstructor;
+        default: undefined;
+    };
 }>>, {
     cqPath: string;
     expandedItems: string[];
     headingElement: string;
+    isInEditor: boolean;
+    singleExpansion: boolean;
     aemNoDecoration: boolean;
     baseCssClass: string;
     containerProps: {

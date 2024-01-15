@@ -1,23 +1,21 @@
 <script lang="ts" setup>
   import {
-    computed,
-    inject,
-    onMounted,
-    onUnmounted,
-    PropType,
-    ref,
-    useAttrs,
-    VNode,
-    watch,
-  } from 'vue';
-  import { AuthoringUtils, Model } from '@adobe/aem-spa-page-model-manager';
-  import {
     componentClassNames,
     ComponentMapping,
     componentProperties,
     ContainerPlaceholder,
     Utils,
   } from 'aem-vue-3-editable-components';
+  import {
+    computed,
+    inject,
+    onMounted,
+    onUnmounted,
+    PropType,
+    ref,
+    VNode,
+  } from 'vue';
+  import { AuthoringUtils, Model } from '@adobe/aem-spa-page-model-manager';
   import SpaUtils from '@/utils/SpaUtils';
 
   interface AccordionModel extends Model {
@@ -48,32 +46,25 @@
       type: String,
       default: 'h3',
     },
+    isInEditor: {
+      type: Boolean,
+      default: undefined,
+    },
+    singleExpansion: {
+      type: Boolean,
+      default: undefined,
+    },
     ...componentProperties('cmp-accordion'),
   });
 
-  const attrs = useAttrs();
-  const isInEditor = inject('isInEditor', AuthoringUtils.isInEditor());
+  const computedIsInEditor =
+    typeof props.isInEditor !== 'undefined'
+      ? props.isInEditor
+      : inject('isInEditor', AuthoringUtils.isInEditor());
   const componentMapping = inject('componentMapping', new ComponentMapping());
 
-  const messageChannel = ref(SpaUtils.initMessageChannel());
-  const activeIndexFromAuthorPanel = ref(-1);
-  const statefulExpandedItems = ref(props.expandedItems);
-  const accordion = ref(null);
-
-  const singleExpansion = computed(() => attrs?.singleExpansion === true);
-
-  const accordionContainerProps = computed(() => {
-    const accordionContainerProperties: { [key: string]: string } = {};
-
-    if (isInEditor) {
-      accordionContainerProperties['data-panelcontainer'] = 'accordion';
-      accordionContainerProperties['data-cq-data-path'] = props.cqPath || '';
-      accordionContainerProperties['data-placeholder-text'] =
-        'Please drag Accordion item components here';
-    }
-
-    return accordionContainerProperties;
-  });
+  const accordionContainer = ref(null);
+  const messageChannel = SpaUtils.initMessageChannel();
 
   const childComponents = computed((): VNode[] =>
     Utils.getChildComponents(
@@ -95,118 +86,184 @@
       props.appliedCssClassNames,
       props.cssClassNames,
       props.containerProps,
-      isInEditor,
+      computedIsInEditor,
       props.aemNoDecoration,
     ),
   );
 
-  const focusButton = (index: number) => {
-    const button = (accordion.value! as HTMLDivElement).querySelector(
-      `button[data-cmp-button-id="${index}"]`,
-    );
-    if (button) {
-      (button as HTMLButtonElement).focus();
-    }
-  };
-
-  const handleAccordionNavClick = (itemKey: string, event: Event) => {
-    const isActive = statefulExpandedItems.value!.indexOf(itemKey) > -1;
-
-    if (singleExpansion.value) {
-      statefulExpandedItems.value = isActive ? [] : [itemKey];
-    } else if (isActive) {
-      const index = statefulExpandedItems.value!.indexOf(itemKey);
-      statefulExpandedItems.value!.splice(index, 1);
-    } else {
-      statefulExpandedItems.value!.push(itemKey);
-    }
-    (event.target as HTMLButtonElement).focus();
-  };
-
-  const handleAccordionNavKeyDown = (
-    itemKey: string,
-    event: KeyboardEvent,
-    index: number,
-  ) => {
-    const lastIndex =
-      (accordion.value! as HTMLDivElement).querySelectorAll('button').length -
-      1;
-
-    switch (event.code) {
-      case 'ArrowLeft':
-      case 'ArrowUp':
-        event.preventDefault();
-        if (index > 0) {
-          focusButton(index - 1);
-        }
-        break;
-      case 'ArrowRight':
-      case 'ArrowDown':
-        event.preventDefault();
-        if (index < lastIndex) {
-          focusButton(index + 1);
-        }
-        break;
-      case 'Home':
-        event.preventDefault();
-        focusButton(0);
-        break;
-      case 'End':
-        event.preventDefault();
-        focusButton(lastIndex);
-        break;
-      case 'Enter':
-      case 'Space':
-        event.preventDefault();
-        handleAccordionNavClick(itemKey, event);
-        focusButton(index);
-        break;
-      default:
-    }
-  };
-
-  const isItemExpanded = (key: string) =>
-    statefulExpandedItems.value!.indexOf(key) > -1;
+  const isEmpty = computed(
+    () => !props.cqItemsOrder || props?.cqItemsOrder.length === 0,
+  );
 
   const placeholderProps = computed(() => ({
     cqPath: props.cqPath!,
     placeholderClassNames: ['new', 'section'].join(' '),
   }));
 
-  watch(singleExpansion, async (current, previous) => {
-    if (current !== previous) {
-      statefulExpandedItems.value = props.expandedItems;
+  const accordionContainerProps = computed(() => {
+    const accordionContainerProperties: { [key: string]: string } = {
+      class: 'aem-container',
+      'data-panelcontainer': 'accordion',
+    };
+
+    if (computedIsInEditor) {
+      accordionContainerProperties['data-cq-data-path'] = props.cqPath!;
     }
+
+    return accordionContainerProperties;
   });
 
-  watch(props.expandedItems, async (current, previous) => {
-    if (current !== previous) {
-      statefulExpandedItems.value = current;
+  const getExpandedItems = (): Element[] => {
+    let expandedItems: Element[] = [];
+    if (accordionContainer.value) {
+      const accordionContainerElement =
+        accordionContainer.value as HTMLDivElement;
+      const expandedElements = accordionContainerElement.querySelectorAll(
+        `.${props.baseCssClass}__item[data-cmp-expanded]`,
+      );
+      expandedItems = Array.from(expandedElements);
     }
-  });
+    return expandedItems;
+  };
 
-  watch(activeIndexFromAuthorPanel, async (current, previous) => {
-    if (
-      current !== -1 &&
-      typeof current !== 'undefined' &&
-      current !== previous &&
-      props.cqItemsOrder
-    ) {
-      statefulExpandedItems.value = [props.cqItemsOrder[current]];
+  const expandItem = (item: HTMLDivElement) => {
+    if (accordionContainer.value) {
+      const accordionContainerElement =
+        accordionContainer.value as HTMLDivElement;
+      const items = accordionContainerElement.querySelectorAll(
+        `.${props.baseCssClass}__item`,
+      );
+      const indexOfItem = Array.from(items).indexOf(item!);
+      if (indexOfItem > -1) {
+        const buttons = accordionContainerElement.querySelectorAll(
+          `.${props.baseCssClass}__button`,
+        );
+        buttons[indexOfItem].classList.add(
+          `${props.baseCssClass}__button--expanded`,
+        );
+        buttons[indexOfItem].setAttribute('aria-expanded', true.toString());
+
+        const panels = accordionContainerElement.querySelectorAll(
+          `.${props.baseCssClass}__panel`,
+        );
+        panels[indexOfItem].classList.add(
+          `${props.baseCssClass}__panel--expanded`,
+        );
+        panels[indexOfItem].classList.remove(
+          `${props.baseCssClass}__panel--hidden`,
+        );
+        panels[indexOfItem].setAttribute('aria-hidden', false.toString());
+      }
     }
-  });
+  };
 
-  const callbackListener = SpaUtils.createCallbackListener(
-    props.cqPath,
-    activeIndexFromAuthorPanel,
-  );
+  const collapseItem = (item: HTMLDivElement) => {
+    if (accordionContainer.value) {
+      const accordionContainerElement =
+        accordionContainer.value as HTMLDivElement;
+      const items = accordionContainerElement.querySelectorAll(
+        `.${props.baseCssClass}__item`,
+      );
+      const indexOfItem = Array.from(items).indexOf(item!);
+      if (indexOfItem > -1) {
+        const buttons = accordionContainerElement.querySelectorAll(
+          `.${props.baseCssClass}__button`,
+        );
+        buttons[indexOfItem].classList.remove(
+          `${props.baseCssClass}__button--expanded`,
+        );
+        buttons[indexOfItem].removeAttribute('aria-expanded');
+
+        const panels = accordionContainerElement.querySelectorAll(
+          `.${props.baseCssClass}__panel`,
+        );
+        panels[indexOfItem].classList.remove(
+          `${props.baseCssClass}__panel--expanded`,
+        );
+        panels[indexOfItem].classList.add(
+          `${props.baseCssClass}__panel--hidden`,
+        );
+        panels[indexOfItem].setAttribute('aria-hidden', true.toString());
+      }
+    }
+  };
+
+  const refreshItem = (item: HTMLDivElement) => {
+    const expanded = item.hasAttribute('data-cmp-expanded');
+    if (expanded) {
+      expandItem(item);
+    } else {
+      collapseItem(item);
+    }
+  };
+
+  const setItemExpanded = (item: HTMLDivElement, expanded: boolean) => {
+    if (expanded) {
+      item.setAttribute('data-cmp-expanded', '');
+    } else {
+      item.removeAttribute('data-cmp-expanded');
+    }
+    refreshItem(item);
+  };
+
+  const toggle = (index: number) => {
+    if (accordionContainer.value) {
+      const accordionContainerElement =
+        accordionContainer.value as HTMLDivElement;
+      const items = accordionContainerElement.querySelectorAll(
+        `.${props.baseCssClass}__item`,
+      );
+      const item = items[index];
+      if (item) {
+        if (props.singleExpansion === true) {
+          items.forEach((itemInArray) => {
+            if (
+              itemInArray !== item &&
+              itemInArray.hasAttribute('data-cmp-expanded')
+            ) {
+              setItemExpanded(itemInArray as HTMLDivElement, false);
+            }
+          });
+        }
+        setItemExpanded(
+          item as HTMLDivElement,
+          !item.hasAttribute('data-cmp-expanded'),
+        );
+      }
+    }
+  };
+
+  const callbackListener = (
+    message: {
+      id: number;
+      data: {
+        id: string;
+        index: number;
+        operation: string;
+      };
+    },
+    cqPath = props.cqPath,
+  ) => {
+    if (message.data && message.data.id === cqPath) {
+      if (message.data.operation === 'navigate') {
+        toggle(message.data.index);
+      }
+    }
+  };
 
   onMounted(() => {
-    SpaUtils.subscribeRequestMessage(messageChannel.value, callbackListener);
+    if (props.singleExpansion === true) {
+      const expandedItems = getExpandedItems();
+      if (expandedItems.length > 1) {
+        toggle(expandedItems.length - 1);
+      }
+    }
+
+    SpaUtils.subscribeRequestMessage(messageChannel, callbackListener);
   });
 
   onUnmounted(() => {
-    SpaUtils.unsubscribeRequestMessage(messageChannel.value, callbackListener);
+    SpaUtils.unsubscribeRequestMessage(messageChannel, callbackListener);
   });
 
   defineOptions({
@@ -217,70 +274,84 @@
 <template>
   <div
     :id="props.id"
-    ref="accordion"
+    ref="accordionContainer"
     :class="className"
-    :data-cmp-single-expansion="singleExpansion === true ? true : undefined"
     v-bind="accordionContainerProps"
   >
-    <template
-      v-if="
-        props.cqItemsOrder && props?.cqItemsOrder.length > 0 && props.cqItems
-      "
-    >
+    <template v-if="!isEmpty">
       <div
         v-for="(key, index) of props.cqItemsOrder"
-        :id="`accordion-${props.cqItems[key]['id']}`"
+        :id="`accordion-${props.cqItems![key]['id']}`"
         :key="`accordion-index-${index}`"
         :class="`${props.baseCssClass}__item`"
-        :data-cmp-expanded="isItemExpanded(key) ? true : undefined"
+        :data-cmp-expanded="
+          props.expandedItems.includes(key) ? true : undefined
+        "
+        data-cmp-hook-accordion="item"
       >
         <component
           :is="props.headingElement"
           :class="`${props.baseCssClass}__heading`"
         >
           <button
-            :id="`accordion-${props.cqItems[key]['id']}-button`"
-            :aria-controls="`accordion-${props.cqItems[key]['id']}-panel`"
+            :id="`accordion-${props.cqItems![key]['id']}-button`"
+            :aria-controls="`accordion-${props.cqItems![key]['id']}-panel`"
+            :aria-expanded="
+              props.expandedItems.includes(key) ? 'true' : undefined
+            "
             :class="[
               `${props.baseCssClass}__button`,
               {
                 [`${props.baseCssClass}__button--expanded`]:
-                  isItemExpanded(key),
+                  props.expandedItems.includes(key),
               },
             ]"
-            :data-cmp-button-id="index"
-            @click="handleAccordionNavClick(key, $event)"
-            @keydown="handleAccordionNavKeyDown(key, $event, index)"
+            data-cmp-hook-accordion="button"
+            type="button"
+            @click="
+              (event) => {
+                toggle(index);
+                (event.currentTarget! as HTMLButtonElement).focus();
+              }
+            "
           >
-            <span :class="`${props.baseCssClass}__title`">
-              {{ props.cqItems[key]['cq:panelTitle'] }}
-            </span>
-            <span :class="`${props.baseCssClass}__icon`"
-              ><svg
+            <span :class="`${props.baseCssClass}__title`">{{
+              props.cqItems![key]['cq:panelTitle']
+            }}</span>
+            <span :class="`${props.baseCssClass}__icon`">
+              <svg
                 fill="var(--accordion-heading-color)"
                 height="18"
                 viewBox="0 0 24 24"
                 width="18"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <path d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z" /></svg
-            ></span>
+                <path d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z" />
+              </svg>
+            </span>
           </button>
         </component>
         <div
-          v-if="isInEditor || isItemExpanded(key)"
-          :id="`accordion-${props.cqItems[key]['id']}-panel`"
-          :aria-labelledby="`accordion-${props.cqItems[key]['id']}-button`"
-          :class="`${props.baseCssClass}__panel ${
-            isItemExpanded(key)
-              ? ' ' + props.baseCssClass + '__panel--expanded'
-              : ' ' + props.baseCssClass + '__panel--hidden'
-          }`"
+          :id="`accordion-${props.cqItems![key]['id']}-panel`"
+          :aria-hidden="props.expandedItems.includes(key) ? undefined : 'true'"
+          :aria-labelledby="`accordion-${props.cqItems![key]['id']}-button`"
+          :class="[
+            `${props.baseCssClass}__panel`,
+            {
+              [`${props.baseCssClass}__panel--expanded`]:
+                props.expandedItems.includes(key),
+            },
+            {
+              [`${props.baseCssClass}__panel--hidden`]:
+                !props.expandedItems.includes(key),
+            },
+          ]"
+          data-cmp-hook-accordion="panel"
           role="region"
         >
           <component
             :is="childComponents[cqItemsOrder!.indexOf(key)]"
-            v-if="props.cqItemsOrder"
+            v-bind="{ isInEditor: false }"
           />
         </div>
       </div>

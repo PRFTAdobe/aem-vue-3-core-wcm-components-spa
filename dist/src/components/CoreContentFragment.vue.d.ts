@@ -135,12 +135,12 @@ declare const _default: import("vue").DefineComponent<{
     };
     cqItemsOrder: string[];
     cqPath: string;
+    isInEditor: boolean;
     aemNoDecoration: boolean;
     baseCssClass: string;
     containerProps: {
         [key: string]: string;
     };
-    isInEditor: boolean;
     elements: {
         [key: string]: ContentFragmentElement;
     };
